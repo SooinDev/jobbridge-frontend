@@ -1,0 +1,78 @@
+/* 전체 컨테이너 */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    padding: 2rem;
+}
+
+/* 폼 스타일 */
+.signup-form {
+    background-color: #ffffff;
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 420px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+}
+
+.signup-form:hover {
+    transform: translateY(-3px);
+}
+
+/* 제목 */
+.signup-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* 인풋 */
+.signup-form input {
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background-color: #f9fbfc;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+.signup-form input:focus {
+    border-color: #4a90e2;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    outline: none;
+}
+
+/* 버튼 */
+.signup-form button {
+    padding: 1rem;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+    background: #3b78c2;
+}
+
+/* placeholder 스타일 */
+.signup-form input::placeholder {
+    color: #aaa;
+    font-size: 0.95rem;
+}
