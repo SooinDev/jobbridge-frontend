@@ -76,3 +76,23 @@
     color: #aaa;
     font-size: 0.95rem;
 }
+
+/* 기업/개인 선택 (가로 배치) */
+.user-type-container {
+    display: flex;
+    justify-content: flex-start; /* 버튼들을 왼쪽으로 정렬 */
+    gap: 1rem; /* 라디오 버튼 사이 간격 */
+    margin-top: 1rem;
+}
+
+.user-type-container label {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.user-type-container input[type="radio"] {
+    margin-right: 0.5rem; /* 라디오 버튼과 텍스트 사이 간격 */
+    transform: scale(1.2); /* 라디오 버튼 크기 조정 */
+}
