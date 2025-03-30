@@ -6,45 +6,68 @@
     min-height: 100vh;
     background: linear-gradient(135deg, #e3f2fd, #ffffff);
     padding: 2rem;
+    width: 100%;
 }
 
 /* 폼 스타일 */
 .signup-form {
     background-color: #ffffff;
-    padding: 3rem 2.5rem;
-    border-radius: 16px;
+    padding: 3rem 4rem;
+    border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    max-width: 420px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.4rem;
+    gap: 1.2rem;
     box-sizing: border-box;
     transition: transform 0.2s ease;
-}
-
-.signup-form:hover {
-    transform: translateY(-3px);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* 제목 */
 .signup-title {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #2c3e50;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 1.5rem;
+}
+
+/* 폼 그룹 - 레이블과 입력 필드를 그룹화 */
+.form-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 0.5rem;
 }
 
-/* 인풋 */
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+/* 인풋 컨테이너 - 특히 이메일 인증 버튼을 위함 */
+.input-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+}
+
+/* 기본 인풋 스타일 */
 .signup-form input {
-    padding: 1rem;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
     font-size: 1rem;
-    background-color: #f9fbfc;
-    transition: all 0.25s ease;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
     box-sizing: border-box;
+    width: 100%;
 }
 
 .signup-form input:focus {
@@ -54,45 +77,116 @@
     outline: none;
 }
 
-/* 버튼 */
-.signup-form button {
-    padding: 1rem;
+/* 이메일 인증 버튼 */
+.verify-button {
+    padding: 1rem 1.2rem;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.verify-button:hover {
+    background: #3b78c2;
+}
+
+/* 제출 버튼 스타일 */
+.submit-button {
+    padding: 1.2rem;
     background: #4a90e2;
     color: #fff;
     border: none;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.signup-form button:hover {
-    background: #3b78c2;
-}
-
-/* placeholder 스타일 */
-.signup-form input::placeholder {
-    color: #aaa;
-    font-size: 0.95rem;
-}
-
-/* 기업/개인 선택 (가로 배치) */
-.user-type-container {
-    display: flex;
-    justify-content: flex-start; /* 버튼들을 왼쪽으로 정렬 */
-    gap: 1rem; /* 라디오 버튼 사이 간격 */
+    transition: all 0.3s ease;
     margin-top: 1rem;
 }
 
-.user-type-container label {
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    color: #2c3e50;
+.submit-button:hover {
+    background: #3b78c2;
+    transform: translateY(-2px);
 }
 
-.user-type-container input[type="radio"] {
-    margin-right: 0.5rem; /* 라디오 버튼과 텍스트 사이 간격 */
-    transform: scale(1.2); /* 라디오 버튼 크기 조정 */
+.submit-button:focus {
+    outline: 3px solid rgba(74, 144, 226, 0.4);
+}
+
+/* 기업/개인 선택 영역 */
+.user-type-container {
+    display: flex;
+    gap: 2.5rem;
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.user-type-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-type-option input[type="radio"] {
+    margin-right: 0.5rem;
+    width: auto;
+    transform: scale(1.2);
+}
+
+.user-type-option label {
+    font-size: 1rem;
+    color: #2c3e50;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 2열 레이아웃 */
+.form-row {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.form-col {
+    flex: 1;
+}
+
+/* 반응형 대응 */
+@media (max-width: 768px) {
+    .signup-form {
+        padding: 2rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .input-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .verify-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-form {
+        padding: 1.5rem;
+    }
+
+    .signup-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
 }
