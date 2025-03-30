@@ -38,8 +38,18 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--bg-color);
-  padding: 20px;
+  padding: 0; /* 패딩 제거 */
   color: var(--text-color);
+  width: 100%; /* 전체 폭 설정 */
+}
+
+/* #root 스타일 수정 */
+#root {
+  max-width: 100%; /* max-width를 100%로 변경 */
+  width: 100%; /* 폭 100% 추가 */
+  margin: 0;
+  padding: 0; /* 패딩 제거 */
+  text-align: center;
 }
 
 /* 제목 스타일 */
@@ -62,8 +72,7 @@ form {
   padding: 2.5rem 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  max-width: 420px;
-  width: 100%;
+  width: 100%; /* 폭 100%로 설정 */
   box-sizing: border-box;
 }
 
