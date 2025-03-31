@@ -1,29 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import SignupForm from './components/SignupForm';
+import LoginForm from './components/LoginForm';
+import Home from './components/Home';
 import './App.css';
 
 function App() {
-    const [showForm, setShowForm] = useState(false);
-
-    const handleToggleForm = () => {
-        setShowForm(!showForm);
-    };
-
     return (
-        <div className="app-container">
-            <header className="app-header">
-                <h1>Welcome to JobBridge</h1>
-                <p>AI 기반 구인구직 플랫폼에 오신 걸 환영합니다!</p>
-                <button
-                    className="toggle-button"
-                    onClick={handleToggleForm}
-                >
-                    {showForm ? '가입 폼 닫기' : '회원가입'}
-                </button>
-            </header>
-
-            {showForm && <SignupForm />}
-        </div>
+        <Router>
+            <div className="app-container">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/signup" element={<SignupForm />} />
+                    <Route path="/login" element={<LoginForm />} />
+                </Routes>
+            </div>
+        </Router>
     );
 }
 
