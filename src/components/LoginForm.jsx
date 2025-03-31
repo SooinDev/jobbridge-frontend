@@ -29,15 +29,24 @@ const LoginForm = () => {
         setError('');
 
         try {
-            // 실제 구현 시 서버 API와 연동
             const response = await axios.post('http://localhost:8080/api/user/login', form);
 
             // 로그인 성공 시 홈으로 리디렉션
             localStorage.setItem('token', response.data.token);
             navigate('/');
         } catch (err) {
-            setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
             console.error('Login error:', err);
+
+            if (err.response && err.response.status === 401) {
+                const message = err.response.data;
+                if (typeof message === 'string' && message.includes('이메일 인증')) {
+                    setError('이메일 인증이 필요합니다. 메일함에서 인증을 완료해주세요.');
+                } else {
+                    setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+                }
+            } else {
+                setError('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            }
         } finally {
             setLoading(false);
         }
