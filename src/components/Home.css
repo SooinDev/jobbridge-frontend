@@ -166,7 +166,8 @@
     color: #7c5cff;
     border: 1px solid #7c5cff;
     width: 160px;
-    transform: translateY(12px);
+    margin-bottom: 0px;
+    /*transform: translateY(12px);*/
 }
 
 .login-button:hover {
@@ -175,7 +176,7 @@
 }
 
 .signup-button:hover, .login-button:hover {
-    transform: translateY(-2px);
+    transform: translateY(0px);
     box-shadow: 0 4px 12px rgba(124, 92, 255, 0.25);
 }
 
