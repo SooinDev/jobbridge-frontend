@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    background: linear-gradient(120deg, #f5f7fa 0%, #e8f0fe 100%);
     padding: 2rem;
     width: 100%;
 }
@@ -12,28 +12,36 @@
 /* 폼 스타일 */
 .signup-form {
     background-color: #ffffff;
-    padding: 3rem 4rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.5rem;
     box-sizing: border-box;
-    transition: transform 0.2s ease;
-    max-width: 1200px;
+    transition: all 0.3s ease;
+    max-width: 800px;
     margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* 제목 */
 .signup-title {
     text-align: center;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #202123;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.signup-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #6b7280;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 1.5rem;
+    font-weight: 400;
 }
 
 /* 폼 그룹 - 레이블과 입력 필드를 그룹화 */
@@ -41,92 +49,120 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
+    position: relative;
 }
 
 .form-group label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
+    color: #555;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
 }
 
 /* 인풋 컨테이너 - 특히 이메일 인증 버튼을 위함 */
 .input-container {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     align-items: center;
     width: 100%;
 }
 
 /* 기본 인풋 스타일 */
 .signup-form input {
-    padding: 1rem 1.2rem;
+    padding: 0.9rem 1rem;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    font-size: 1rem;
-    background-color: #f8fafc;
+    border: 1px solid #dcdfe4;
+    font-size: 0.95rem;
+    background-color: #f9fafb;
     transition: all 0.2s ease;
     box-sizing: border-box;
     width: 100%;
+    color: #333;
 }
 
 .signup-form input:focus {
-    border-color: #4a90e2;
+    border-color: #6e79d6;
     background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    box-shadow: 0 0 0 3px rgba(110, 121, 214, 0.15);
     outline: none;
+}
+
+.signup-form input::placeholder {
+    color: #adb5bd;
+}
+
+/* 비밀번호 불일치 에러 스타일 */
+.input-error {
+    border-color: #e11d48 !important;
+    background-color: #fff5f7 !important;
+}
+
+.error-message {
+    color: #e11d48;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
 }
 
 /* 이메일 인증 버튼 */
 .verify-button {
-    padding: 1rem 1.2rem;
-    background: #4a90e2;
+    padding: 0.9rem 1.2rem;
+    background: #6e79d6;
     color: #fff;
     border: none;
     border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     white-space: nowrap;
     min-width: 120px;
+    letter-spacing: 0.01em;
 }
 
 .verify-button:hover {
-    background: #3b78c2;
+    background: #5a66c9;
+    transform: translateY(-1px);
+}
+
+.verify-button:disabled {
+    background: #a3b1ff;
+    cursor: not-allowed;
 }
 
 /* 제출 버튼 스타일 */
 .submit-button {
-    padding: 1.2rem;
-    background: #4a90e2;
+    padding: 1rem;
+    background: #6e79d6;
     color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    letter-spacing: 0.01em;
 }
 
 .submit-button:hover {
-    background: #3b78c2;
-    transform: translateY(-2px);
+    background: #5a66c9;
+    transform: translateY(-1px);
 }
 
 .submit-button:focus {
-    outline: 3px solid rgba(74, 144, 226, 0.4);
+    outline: 3px solid rgba(110, 121, 214, 0.3);
 }
 
 /* 기업/개인 선택 영역 */
 .user-type-container {
     display: flex;
-    gap: 2.5rem;
-    margin: 1.5rem 0;
+    gap: 2rem;
+    margin: 1rem 0;
     padding: 1rem 0;
-    border-top: 1px solid #f1f5f9;
-    border-bottom: 1px solid #f1f5f9;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .user-type-option {
@@ -138,20 +174,35 @@
 .user-type-option input[type="radio"] {
     margin-right: 0.5rem;
     width: auto;
-    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .user-type-option label {
-    font-size: 1rem;
-    color: #2c3e50;
+    font-size: 0.95rem;
+    color: #333;
     font-weight: 500;
     cursor: pointer;
+}
+
+/* 기업 정보 추가 필드 영역 */
+.company-fields {
+    background-color: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e7ebf0;
+    margin-top: 0.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* 2열 레이아웃 */
 .form-row {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.2rem;
     width: 100%;
 }
 
@@ -186,7 +237,7 @@
     }
 
     .signup-title {
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
     }
 }
