@@ -1,62 +1,56 @@
 .app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(135deg, #f6f9fc, #ffffff);
 }
 
-.app-header {
-  text-align: center;
-  padding: 4rem 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+/* 공통 스타일 리셋 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.app-header h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-weight: 700;
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.app-header p {
-  font-size: 1.2rem;
-  color: #546e7a;
-  margin-bottom: 2rem;
-}
-
-.toggle-button {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 8px;
+/* 버튼 공통 스타일 */
+button {
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+  transition: all 0.2s ease;
 }
 
-.toggle-button:hover {
-  background-color: #3b78c2;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(74, 144, 226, 0.25);
+button:disabled {
+  cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
-  .app-header {
-    padding: 3rem 1.5rem;
-  }
-
-  .app-header h1 {
-    font-size: 2rem;
-  }
-
-  .app-header p {
-    font-size: 1.1rem;
-  }
+/* 링크 공통 스타일 */
+a {
+  color: #7c5cff;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
+a:hover {
+  color: #6a4cec;
+}
+
+/* 에러 메시지 공통 스타일 */
+.error-message {
+  background-color: #fff2f2;
+  border: 1px solid #ffcbcb;
+  color: #d63031;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
