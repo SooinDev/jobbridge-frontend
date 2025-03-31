@@ -51,7 +51,8 @@ const SignupForm = () => {
         try {
             // 전송 데이터에서 pwConfirm 제외
             const { pwConfirm: _, ...submitData } = form;
-
+            // ✅ userType을 대문자로 변환 (INDIVIDUAL, COMPANY)
+            submitData.userType = submitData.userType.toUpperCase();
             await axios.post('http://localhost:8080/api/user/signup', submitData);
             alert('회원가입 성공! 로그인 페이지로 이동합니다.');
 
