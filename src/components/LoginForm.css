@@ -103,6 +103,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    width: 100%; /* 폭 100%로 설정 */
 }
 
 .remember-me {
@@ -111,6 +112,7 @@
     font-size: 0.85rem;
     color: #555;
     cursor: pointer;
+    white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
 }
 
 .remember-me input[type="checkbox"] {
@@ -122,6 +124,8 @@
     font-size: 0.85rem;
     color: #7c5cff;
     text-decoration: none;
+    white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+    margin-left: auto; /* 오른쪽으로 밀어내기 */
 }
 
 .forgot-password:hover {
@@ -170,15 +174,23 @@
     text-decoration: underline;
 }
 
-/* 반응형 대응 */
+/* 반응형 대응 조정 */
 @media (max-width: 480px) {
     .login-form {
         padding: 2rem 1.5rem;
     }
 
-    .remember-forgot {
+    /* 이 부분을 주석 처리하거나 수정하면 모바일에서도 한 줄로 유지됨 */
+    /*.remember-forgot {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.75rem;
+    }*/
+
+    /* 대신 모바일에서도 한 줄로 유지하되 간격 조정 */
+    .remember-forgot {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        font-size: 0.8rem; /* 모바일에서 폰트 크기 약간 줄임 */
     }
 }

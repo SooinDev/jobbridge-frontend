@@ -52,6 +52,7 @@ const SignupForm = () => {
 
         try {
             const { pwConfirm: _, ...submitData } = form;
+
             submitData.userType = submitData.userType.toUpperCase();
             await axios.post('http://localhost:8080/api/user/signup', submitData);
             alert('회원가입 성공! 로그인 페이지로 이동합니다.');
