@@ -17,8 +17,10 @@ const SignupForm = () => {
         userType: 'individual'
     });
 
+    const [codeSent, setCodeSent] = useState(false);
+    const [verifyingCode, setVerifyingCode] = useState(false);
+    const [verificationCode, setVerificationCode] = useState('');
     const [emailVerified, setEmailVerified] = useState(false);
-    const [verifying, setVerifying] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -28,6 +30,7 @@ const SignupForm = () => {
 
         if (name === 'email') {
             setEmailVerified(false);
+            setCodeSent(false);
         }
     };
 
@@ -39,7 +42,6 @@ const SignupForm = () => {
             return;
         }
 
-        // 비밀번호 일치 확인
         if (form.pw !== form.pwConfirm) {
             setError('비밀번호가 일치하지 않습니다.');
             return;
@@ -49,15 +51,11 @@ const SignupForm = () => {
         setError('');
 
         try {
-            // 전송 데이터에서 pwConfirm 제외
             const { pwConfirm: _, ...submitData } = form;
-            // userType을 대문자로 변환 (INDIVIDUAL, COMPANY)
+
             submitData.userType = submitData.userType.toUpperCase();
-            console.log("전송 직전 userType:", submitData.userType);
             await axios.post('http://localhost:8080/api/user/signup', submitData);
             alert('회원가입 성공! 로그인 페이지로 이동합니다.');
-
-            // 회원가입 성공 시 로그인 페이지로 이동
             navigate('/login');
         } catch (err) {
             setError(`회원가입 실패: ${err.response?.data || '서버 오류'}`);
@@ -67,7 +65,7 @@ const SignupForm = () => {
         }
     };
 
-    const handleVerifyEmail = async () => {
+    const handleSendVerificationCode = async () => {
         if (!form.email) {
             setError('이메일을 입력해주세요.');
             return;
@@ -79,15 +77,36 @@ const SignupForm = () => {
             return;
         }
 
-        setVerifying(true);
+        setError('');
+        try {
+            await axios.post('http://localhost:8080/api/user/send-code', { email: form.email });
+
+            setCodeSent(true);
+            alert('인증번호가 이메일로 전송되었습니다.');
+        } catch (err) {
+            setError('인증번호 전송에 실패했습니다.');
+            console.error(err);
+        }
+    };
+
+    const handleVerifyCode = async () => {
+        setVerifyingCode(true);
         setError('');
 
-        // 실제 서버 인증 로직 대신 타이머로 시뮬레이션
-        setTimeout(() => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/user/verify', {
+                email: form.email,           // ✅ 서버에서 기대하는 key
+                code: verificationCode       // ✅ 서버에서 기대하는 key
+            });
+
+            alert(response.data); // "이메일 인증이 완료되었습니다!"
             setEmailVerified(true);
-            setVerifying(false);
-            alert('이메일 인증이 완료되었습니다.');
-        }, 1500);
+        } catch (err) {
+            console.error('인증 실패:', err);
+            setError(err.response?.data || '인증 중 오류가 발생했습니다.');
+        } finally {
+            setVerifyingCode(false);
+        }
     };
 
     return (
@@ -114,13 +133,35 @@ const SignupForm = () => {
                             <button
                                 type="button"
                                 className="verify-button"
-                                onClick={handleVerifyEmail}
-                                disabled={verifying || emailVerified}
+                                onClick={handleSendVerificationCode}
+                                disabled={codeSent || !form.email}
                             >
-                                {verifying ? '인증 중...' : emailVerified ? '인증됨' : '인증'}
+                                {codeSent ? '발송됨' : '인증번호 발송'}
                             </button>
                         </div>
                     </div>
+
+                    {codeSent && !emailVerified && (
+                        <div className="form-group">
+                            <label htmlFor="verificationCode">인증번호 입력</label>
+                            <input
+                                id="verificationCode"
+                                name="verificationCode"
+                                type="text"
+                                placeholder="6자리 숫자 입력"
+                                value={verificationCode}
+                                onChange={(e) => setVerificationCode(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className="verify-button"
+                                onClick={handleVerifyCode}
+                                disabled={verifyingCode || verificationCode.length !== 6}
+                            >
+                                {verifyingCode ? '확인 중...' : '인증 확인'}
+                            </button>
+                        </div>
+                    )}
 
                     <div className="form-group">
                         <label htmlFor="pw">비밀번호</label>
