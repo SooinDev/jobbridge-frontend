@@ -50,6 +50,22 @@ const MyPage = () => {
         navigate('/');
     };
 
+    const navigateToResumes = () => {
+        navigate('/my-resumes');
+    };
+
+    const navigateToJobPostings = () => {
+        navigate('/my-job-postings');
+    };
+
+    const navigateToCreateResume = () => {
+        navigate('/resume/create');
+    };
+
+    const navigateToCreateJobPosting = () => {
+        navigate('/job-posting/create');
+    };
+
     if (loading) {
         return <div className="loading-container">정보를 불러오는 중...</div>;
     }
@@ -115,8 +131,8 @@ const MyPage = () => {
                                     </div>
                                 </div>
                                 <div className="action-buttons">
-                                    <button className="action-button">이력서 관리</button>
-                                    <button className="action-button">지원 현황</button>
+                                    <button className="action-button" onClick={navigateToResumes}>이력서 관리</button>
+                                    <button className="action-button" onClick={navigateToCreateResume}>새 이력서 작성</button>
                                 </div>
                             </div>
                         ) : (
@@ -133,8 +149,8 @@ const MyPage = () => {
                                     </div>
                                 </div>
                                 <div className="action-buttons">
-                                    <button className="action-button">공고 관리</button>
-                                    <button className="action-button">지원자 관리</button>
+                                    <button className="action-button" onClick={navigateToJobPostings}>공고 관리</button>
+                                    <button className="action-button" onClick={navigateToCreateJobPosting}>새 채용공고 등록</button>
                                 </div>
                             </div>
                         )}
@@ -143,9 +159,25 @@ const MyPage = () => {
 
                 <div className="recent-activity-section">
                     <h3>최근 활동</h3>
-                    <div className="empty-activity">
-                        최근 활동 내역이 없습니다.
-                    </div>
+                    {user?.userType === 'INDIVIDUAL' ? (
+                        <div className="activity-list">
+                            <div className="empty-activity">
+                                최근 이력서 활동 내역이 없습니다.
+                                <button className="activity-button" onClick={navigateToCreateResume}>
+                                    새 이력서 작성하기
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="activity-list">
+                            <div className="empty-activity">
+                                최근 채용공고 활동 내역이 없습니다.
+                                <button className="activity-button" onClick={navigateToCreateJobPosting}>
+                                    새 채용공고 등록하기
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* 계정 설정 섹션 */}

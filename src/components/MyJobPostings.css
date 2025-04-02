@@ -1,0 +1,238 @@
+.my-jobs-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.my-jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.my-jobs-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.add-job-button {
+    padding: 0.75rem 1.5rem;
+    background-color: #7c5cff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-job-button:hover {
+    background-color: #6a4cec;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+}
+
+.empty-jobs {
+    text-align: center;
+    background-color: white;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.empty-jobs p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.job-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.job-card-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.job-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.job-position {
+    display: inline-block;
+    background-color: #f5f0ff;
+    color: #7c5cff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.job-deadline {
+    display: inline-block;
+    background-color: #fff5f0;
+    color: #ff8c5c;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.job-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.job-detail-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.detail-label {
+    color: #666;
+    margin-right: 0.5rem;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #333;
+}
+
+.job-description-preview {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    white-space: pre-line;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5rem;
+}
+
+.job-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.view-button,
+.edit-button,
+.delete-button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.view-button:hover {
+    background-color: #f1f3f5;
+}
+
+.edit-button {
+    background-color: #7c5cff;
+    color: white;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #6a4cec;
+}
+
+.delete-button {
+    background-color: white;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #fee;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.2rem;
+    color: #7c5cff;
+}
+
+.error-message {
+    background-color: #fff2f2;
+    border: 1px solid #ffcbcb;
+    color: #d63031;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .my-jobs-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .add-job-button {
+        width: 100%;
+    }
+
+    .job-details {
+        grid-template-columns: 1fr;
+    }
+
+    .job-actions {
+        flex-wrap: wrap;
+    }
+
+    .view-button,
+    .edit-button,
+    .delete-button {
+        flex-grow: 1;
+        text-align: center;
+    }
+}

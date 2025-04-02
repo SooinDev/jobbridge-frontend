@@ -1,0 +1,136 @@
+.resume-detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.resume-detail-header {
+    background-color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.resume-detail-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.resume-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.back-button,
+.edit-button,
+.delete-button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.back-button:hover {
+    background-color: #f1f3f5;
+}
+
+.edit-button {
+    background-color: #7c5cff;
+    color: white;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #6a4cec;
+}
+
+.delete-button {
+    background-color: white;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #fee;
+}
+
+.resume-detail-content {
+    background-color: white;
+    border-radius: 0 0 12px 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-top: 1px;
+}
+
+.content-section {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-line;
+}
+
+.content-section p {
+    margin-bottom: 1rem;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.2rem;
+    color: #7c5cff;
+}
+
+.error-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #fff0f0;
+    border-radius: 12px;
+    text-align: center;
+    color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+    .resume-detail-header {
+        padding: 1.5rem;
+    }
+
+    .resume-detail-content {
+        padding: 1.5rem;
+    }
+
+    .resume-actions {
+        flex-wrap: wrap;
+    }
+
+    .back-button,
+    .edit-button,
+    .delete-button {
+        flex-grow: 1;
+        text-align: center;
+    }
+}

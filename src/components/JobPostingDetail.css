@@ -1,0 +1,218 @@
+.job-detail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.job-detail-header {
+    background-color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.job-detail-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.company-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.company-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.post-date {
+    color: #888;
+    font-size: 0.9rem;
+    align-self: center;
+}
+
+.job-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.back-button,
+.edit-button,
+.delete-button,
+.apply-button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.back-button:hover {
+    background-color: #f1f3f5;
+}
+
+.edit-button {
+    background-color: #7c5cff;
+    color: white;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #6a4cec;
+}
+
+.delete-button {
+    background-color: white;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #fee;
+}
+
+.apply-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    margin-left: auto;
+}
+
+.apply-button:hover {
+    background-color: #27ae60;
+}
+
+.job-detail-content {
+    background-color: white;
+    border-radius: 0 0 12px 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-top: 1px;
+}
+
+.job-overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.overview-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.overview-label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.overview-value {
+    font-size: 1.05rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.description-section {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+.description-section p {
+    margin-bottom: 1rem;
+}
+
+.apply-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+.apply-button-large {
+    padding: 0.85rem 2rem;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.apply-button-large:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.25);
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 1.2rem;
+    color: #7c5cff;
+}
+
+.error-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #fff0f0;
+    border-radius: 12px;
+    text-align: center;
+    color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+    .job-detail-header,
+    .job-detail-content {
+        padding: 1.5rem;
+    }
+
+    .job-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .job-actions {
+        flex-wrap: wrap;
+    }
+
+    .back-button,
+    .edit-button,
+    .delete-button,
+    .apply-button {
+        flex-grow: 1;
+        text-align: center;
+    }
+}
