@@ -141,25 +141,33 @@ const SignupForm = () => {
                         </div>
                     </div>
 
-                    {codeSent && !emailVerified && (
+                    {codeSent && (
                         <div className="form-group">
                             <label htmlFor="verificationCode">인증번호 입력</label>
-                            <input
-                                id="verificationCode"
-                                name="verificationCode"
-                                type="text"
-                                placeholder="6자리 숫자 입력"
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                            />
-                            <button
-                                type="button"
-                                className="verify-button"
-                                onClick={handleVerifyCode}
-                                disabled={verifyingCode || verificationCode.length !== 6}
-                            >
-                                {verifyingCode ? '확인 중...' : '인증 확인'}
-                            </button>
+                            <div className="input-container">
+                                <input
+                                    id="verificationCode"
+                                    name="verificationCode"
+                                    type="text"
+                                    placeholder="6자리 숫자 입력"
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    disabled={emailVerified}
+                                />
+                                <button
+                                    type="button"
+                                    className="verify-button"
+                                    onClick={handleVerifyCode}
+                                    disabled={verifyingCode || verificationCode.length !== 6 || emailVerified}
+                                >
+                                    {verifyingCode ? '확인 중...' : emailVerified ? '인증됨' : '인증 확인'}
+                                </button>
+                            </div>
+                            {emailVerified && (
+                                <div className="email-verified-message">
+                                    ✓ 인증된 이메일입니다
+                                </div>
+                            )}
                         </div>
                     )}
 
