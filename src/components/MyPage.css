@@ -1,0 +1,364 @@
+.mypage-container {
+    min-height: 100vh;
+    background-color: #f8faff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.2rem;
+    color: #7c5cff;
+}
+
+/* 헤더 영역 */
+.mypage-header {
+    background-color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.home-link, .logout-button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: white;
+    border: 1px solid #7c5cff;
+    color: #7c5cff;
+    width: auto;
+}
+
+.home-link:hover, .logout-button:hover {
+    background-color: #f5f0ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+}
+
+/* 본문 영역 */
+.mypage-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* 사용자 프로필 섹션 */
+.user-profile-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.profile-header {
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #7c5cff;
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.user-email {
+    color: #666;
+    margin: 0 0 0.5rem 0;
+}
+
+.user-type {
+    display: inline-block;
+    background-color: #f5f0ff;
+    color: #7c5cff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-details {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.detail-card {
+    background-color: #fafafa;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.detail-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.detail-label {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #333;
+}
+
+.edit-button {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background-color: #7c5cff;
+    color: white;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.edit-button:hover {
+    background-color: #6a4cec;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.25);
+}
+
+/* 활동 통계 */
+.activity-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #7c5cff;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background-color: white;
+    color: #7c5cff;
+    border: 1px solid #7c5cff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-button:hover {
+    background-color: #f5f0ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+}
+
+/* 최근 활동 섹션 */
+.recent-activity-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+.recent-activity-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+.empty-activity {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-size: 0.95rem;
+}
+
+/* 설정 섹션 */
+.settings-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+.settings-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+.settings-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.settings-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fafafa;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.settings-option:hover {
+    background-color: #f5f0ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+}
+
+.option-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.option-name {
+    font-weight: 500;
+    color: #333;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .mypage-header {
+        padding: 1rem;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
+
+    .profile-image {
+        margin: 0 auto 1rem;
+    }
+
+    .profile-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .mypage-content {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .home-link, .logout-button {
+        flex: 1;
+        text-align: center;
+    }
+
+    .activity-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}
