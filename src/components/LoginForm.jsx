@@ -31,6 +31,8 @@ const LoginForm = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/user/login', form);
 
+            localStorage.setItem('token', response.data.token); // ✅ JWT 토큰 저장
+
             localStorage.setItem('user', JSON.stringify({
                 email: form.email,
                 name: response.data.name, // 백엔드에서 제공하는 이름
