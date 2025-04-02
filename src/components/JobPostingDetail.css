@@ -216,3 +216,32 @@
         text-align: center;
     }
 }
+
+.deadline-passed {
+    color: #e74c3c !important;
+    font-weight: 600;
+}
+
+.apply-button-closed {
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: not-allowed;
+    margin-left: auto;
+}
+
+.deadline-notice {
+    text-align: center;
+    color: #e74c3c;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 1rem;
+    border: 1px dashed #e74c3c;
+    border-radius: 8px;
+    background-color: #fff0f0;
+    margin: 2rem 0;
+}

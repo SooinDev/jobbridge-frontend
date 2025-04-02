@@ -32,6 +32,9 @@ const JobPostingDetail = () => {
                 });
 
                 setJob(response.data);
+
+                // 회사 이메일 확인은 이미 JobPostingDto.Response에 포함되었다면 추가 API 호출 필요 없음
+                // 만약 companyEmail이 없다면 명시적인 권한 검사 대신 회사명과 현재 사용자 이름 비교로 기본 처리
             } catch (err) {
                 console.error('Failed to fetch job posting details:', err);
                 setError('채용공고를 불러오는데 실패했습니다.');
@@ -85,9 +88,17 @@ const JobPostingDetail = () => {
         return <div className="error-container">채용공고를 찾을 수 없습니다.</div>;
     }
 
-    // 로그인한 사용자의 회사 여부 확인하여 수정/삭제 권한 부여
-    const isCompanyOwner = user && user.userType === 'COMPANY' && user.email === job.companyEmail;
+    // 로그인한 사용자가 채용공고 작성자인지 확인 (companyEmail이 있으면 그걸로, 없으면 이름으로)
+    const isCompanyOwner = user &&
+        user.userType === 'COMPANY' &&
+        (job.companyEmail ?
+            user.email === job.companyEmail :
+            user.name === job.companyName);
+
     const isIndividual = user && user.userType === 'INDIVIDUAL';
+
+    // 채용 마감 여부 확인
+    const isDeadlinePassed = job.deadline && new Date(job.deadline) < new Date();
 
     return (
         <div className="job-detail-container">
@@ -123,12 +134,21 @@ const JobPostingDetail = () => {
                         </>
                     )}
 
-                    {isIndividual && (
+                    {isIndividual && !isDeadlinePassed && (
                         <button
                             className="apply-button"
                             onClick={handleApply}
                         >
                             지원하기
+                        </button>
+                    )}
+
+                    {isIndividual && isDeadlinePassed && (
+                        <button
+                            className="apply-button-closed"
+                            disabled
+                        >
+                            마감된 공고
                         </button>
                     )}
                 </div>
@@ -161,7 +181,9 @@ const JobPostingDetail = () => {
                     {job.deadline && (
                         <div className="overview-item">
                             <div className="overview-label">마감일</div>
-                            <div className="overview-value">{job.deadline}</div>
+                            <div className={`overview-value ${isDeadlinePassed ? 'deadline-passed' : ''}`}>
+                                {job.deadline} {isDeadlinePassed && '(마감됨)'}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -173,7 +195,7 @@ const JobPostingDetail = () => {
                     ))}
                 </div>
 
-                {isIndividual && (
+                {isIndividual && !isDeadlinePassed && (
                     <div className="apply-section">
                         <button
                             className="apply-button-large"
@@ -181,6 +203,14 @@ const JobPostingDetail = () => {
                         >
                             이 공고에 지원하기
                         </button>
+                    </div>
+                )}
+
+                {isIndividual && isDeadlinePassed && (
+                    <div className="apply-section">
+                        <div className="deadline-notice">
+                            이 채용공고는 마감되었습니다.
+                        </div>
                     </div>
                 )}
             </div>

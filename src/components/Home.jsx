@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import JobRecommendations from './JobRecommendations';
 import './Home.css';
 
 const Home = () => {
@@ -21,6 +22,7 @@ const Home = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setUser(null);
         navigate('/');
     };
@@ -90,9 +92,9 @@ const Home = () => {
                         <div className="home-buttons">
                             <Link to="/jobs" className="home-button signup-button">일자리 검색</Link>
                             {user.userType === 'INDIVIDUAL' ? (
-                                <Link to="/resume" className="home-button login-button">이력서 작성</Link>
+                                <Link to="/my-resumes" className="home-button login-button">이력서 관리</Link>
                             ) : (
-                                <Link to="/post-job" className="home-button login-button">채용공고 등록</Link>
+                                <Link to="/my-job-postings" className="home-button login-button">채용공고 관리</Link>
                             )}
                         </div>
                     )}
@@ -118,6 +120,15 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Job Recommendations Section for logged in users */}
+            {user && (
+                <div className="home-recommendations">
+                    <div className="recommendations-wrapper">
+                        <JobRecommendations user={user} />
+                    </div>
+                </div>
+            )}
 
             <div className="trusted-by">
                 <p className="trusted-text">2,000+ 기업들이 JobBridge를 통해 인재를 채용하고 있습니다</p>
