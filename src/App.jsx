@@ -10,6 +10,7 @@ import ResumeDetail from './components/ResumeDetail';
 import JobPostingForm from './components/JobPostingForm';
 import MyJobPostings from './components/MyJobPostings';
 import JobPostingDetail from './components/JobPostingDetail';
+import Jobs from './components/Jobs'; // Import the new Job Search component
 import './App.css';
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
                     <Route path="/signup" element={<SignupForm />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/mypage" element={<MyPage />} />
+
+                    {/* Job Search Routes */}
+                    <Route path="/jobs" element={<Jobs />} />
+                    <Route path="/jobs/search" element={<Jobs />} />
 
                     {/* Resume Routes */}
                     <Route path="/resume/create" element={<ResumeForm />} />

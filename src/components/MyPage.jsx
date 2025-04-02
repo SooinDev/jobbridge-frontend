@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 import './MyPage.css';
 
 const MyPage = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState('');
+    const [error, setError] = useState('');
+    const [activeJobCount, setActiveJobCount] = useState(0);
+    const [applicantsCount, setApplicantsCount] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,6 +21,11 @@ const MyPage = () => {
 
                 // 사용자 정보 조회 API 호출 (Backend API 구현 필요)
                 // fetchUserDetails(parsedUser.email);
+
+                // 기업 회원인 경우 채용공고 데이터 가져오기
+                if (parsedUser.userType === 'COMPANY') {
+                    fetchJobPostings();
+                }
 
                 setLoading(false);
             } catch (error) {
@@ -45,8 +52,43 @@ const MyPage = () => {
     //     }
     // };
 
+    // 기업 회원의 채용공고 정보 가져오기
+    const fetchJobPostings = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/login');
+                return;
+            }
+
+            const response = await axios.get('http://localhost:8080/api/job-posting/my', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // 현재 날짜 기준으로 마감되지 않은 채용공고 필터링
+            const currentDate = new Date();
+            const activeJobs = response.data.filter(job => {
+                // 마감일이 없거나 현재 날짜보다 이후인 경우 활성 채용공고로 간주
+                return !job.deadline || new Date(job.deadline) > currentDate;
+            });
+
+            setActiveJobCount(activeJobs.length);
+
+            // 지원자 수는 현재 API에서 제공하지 않으므로 0으로 설정
+            // 실제 지원자 API가 구현되면 해당 정보를 가져와 설정
+            setApplicantsCount(0);
+
+        } catch (err) {
+            console.error('채용공고 정보 조회 실패:', err);
+            setError('채용공고 정보를 불러오는데 실패했습니다.');
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         navigate('/');
     };
 
@@ -66,6 +108,10 @@ const MyPage = () => {
         navigate('/job-posting/create');
     };
 
+    const navigateToJobs = () => {
+        navigate('/jobs');
+    };
+
     if (loading) {
         return <div className="loading-container">정보를 불러오는 중...</div>;
     }
@@ -81,6 +127,8 @@ const MyPage = () => {
                     </div>
                 </div>
             </div>
+
+            {error && <div className="error-message">{error}</div>}
 
             <div className="mypage-content">
                 <div className="user-profile-section">
@@ -132,7 +180,7 @@ const MyPage = () => {
                                 </div>
                                 <div className="action-buttons">
                                     <button className="action-button" onClick={navigateToResumes}>이력서 관리</button>
-                                    <button className="action-button" onClick={navigateToCreateResume}>새 이력서 작성</button>
+                                    <button className="action-button" onClick={navigateToJobs}>일자리 검색</button>
                                 </div>
                             </div>
                         ) : (
@@ -140,11 +188,11 @@ const MyPage = () => {
                                 <h3>채용 관리</h3>
                                 <div className="activity-stats">
                                     <div className="stat-item">
-                                        <span className="stat-number">0</span>
+                                        <span className="stat-number">{activeJobCount}</span>
                                         <span className="stat-label">진행 중인 공고</span>
                                     </div>
                                     <div className="stat-item">
-                                        <span className="stat-number">0</span>
+                                        <span className="stat-number">{applicantsCount}</span>
                                         <span className="stat-label">지원자</span>
                                     </div>
                                 </div>
@@ -163,18 +211,28 @@ const MyPage = () => {
                         <div className="activity-list">
                             <div className="empty-activity">
                                 최근 이력서 활동 내역이 없습니다.
-                                <button className="activity-button" onClick={navigateToCreateResume}>
-                                    새 이력서 작성하기
-                                </button>
+                                <div className="activity-buttons">
+                                    <button className="activity-button" onClick={navigateToCreateResume}>
+                                        새 이력서 작성하기
+                                    </button>
+                                    <button className="activity-button" onClick={navigateToJobs}>
+                                        일자리 찾아보기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ) : (
                         <div className="activity-list">
                             <div className="empty-activity">
                                 최근 채용공고 활동 내역이 없습니다.
-                                <button className="activity-button" onClick={navigateToCreateJobPosting}>
-                                    새 채용공고 등록하기
-                                </button>
+                                <div className="activity-buttons">
+                                    <button className="activity-button" onClick={navigateToCreateJobPosting}>
+                                        새 채용공고 등록하기
+                                    </button>
+                                    <button className="activity-button" onClick={navigateToJobPostings}>
+                                        내 채용공고 관리하기
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}
