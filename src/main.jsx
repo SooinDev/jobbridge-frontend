@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-// ✅ Axios 전역 설정 추가
+// Axios 전역 설정 추가
 import axios from 'axios'
 
 const token = localStorage.getItem('token');

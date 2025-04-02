@@ -31,13 +31,18 @@ const LoginForm = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/user/login', form);
 
-            localStorage.setItem('token', response.data.token); // ✅ JWT 토큰 저장
+            // 토큰 저장
+            localStorage.setItem('token', response.data.token);
 
+            // 사용자 정보 저장
             localStorage.setItem('user', JSON.stringify({
-                email: form.email,
-                name: response.data.name, // 백엔드에서 제공하는 이름
-                userType: response.data.userType // 백엔드에서 제공하는 사용자 유형
+                email: response.data.email,
+                name: response.data.name,
+                userType: response.data.userType
             }));
+
+            // axios 기본 헤더에 토큰 설정
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
             navigate('/');
         } catch (err) {
