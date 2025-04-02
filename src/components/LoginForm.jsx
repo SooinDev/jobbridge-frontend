@@ -31,8 +31,12 @@ const LoginForm = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/user/login', form);
 
-            // 로그인 성공 시 홈으로 리디렉션
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify({
+                email: form.email,
+                name: response.data.name, // 백엔드에서 제공하는 이름
+                userType: response.data.userType // 백엔드에서 제공하는 사용자 유형
+            }));
+
             navigate('/');
         } catch (err) {
             console.error('Login error:', err);

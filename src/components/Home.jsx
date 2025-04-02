@@ -1,8 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // 로컬 스토리지에서 사용자 정보 가져오기
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("사용자 정보 파싱 오류:", error);
+                localStorage.removeItem('user'); // 잘못된 데이터인 경우 제거
+            }
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        setUser(null);
+        navigate('/');
+    };
+
     return (
         <div className="home-container">
             <div className="home-background">
@@ -10,6 +32,26 @@ const Home = () => {
                 <div className="bg-circle bg-circle-2"></div>
                 <div className="bg-circle bg-circle-3"></div>
             </div>
+
+            {/* 상단 네비게이션 바 추가 */}
+            <nav className="home-nav">
+                <div className="nav-logo">JobBridge</div>
+                <div className="nav-links">
+                    {user ? (
+                        <div className="user-menu">
+                            <div className="welcome-message">
+                                환영합니다, <span className="user-name" onClick={() => navigate('/mypage')}>{user.name}</span>님
+                            </div>
+                            <button className="logout-button" onClick={handleLogout}>로그아웃</button>
+                        </div>
+                    ) : (
+                        <div className="auth-buttons">
+                            <Link to="/login" className="nav-button login">로그인</Link>
+                            <Link to="/signup" className="nav-button signup">회원가입</Link>
+                        </div>
+                    )}
+                </div>
+            </nav>
 
             <div className="home-content">
                 <div className="home-left">
@@ -37,10 +79,23 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className="home-buttons">
-                        <Link to="/signup" className="home-button signup-button">회원가입</Link>
-                        <Link to="/login" className="home-button login-button">로그인</Link>
-                    </div>
+                    {!user && (
+                        <div className="home-buttons">
+                            <Link to="/signup" className="home-button signup-button">회원가입</Link>
+                            <Link to="/login" className="home-button login-button">로그인</Link>
+                        </div>
+                    )}
+
+                    {user && (
+                        <div className="home-buttons">
+                            <Link to="/jobs" className="home-button signup-button">일자리 검색</Link>
+                            {user.userType === 'INDIVIDUAL' ? (
+                                <Link to="/resume" className="home-button login-button">이력서 작성</Link>
+                            ) : (
+                                <Link to="/post-job" className="home-button login-button">채용공고 등록</Link>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="home-right">
