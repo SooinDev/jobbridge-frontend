@@ -1,179 +1,382 @@
+/* 현대적인 이력서 관리 페이지 스타일 */
 .my-resumes-container {
-    max-width: 900px;
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem;
 }
 
-.my-resumes-header {
+.resumes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
-.my-resumes-header h1 {
-    font-size: 1.8rem;
+.resumes-header h1 {
+    font-size: 2rem;
     font-weight: 700;
-    color: #333;
+    color: var(--neutral-900);
     margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.resumes-header h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.75rem;
+    width: 50%;
+    height: 0.25rem;
+    background-color: var(--primary);
+    border-radius: 2rem;
 }
 
 .add-resume-button {
     padding: 0.75rem 1.5rem;
-    background-color: #7c5cff;
+    background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius-md);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .add-resume-button:hover {
-    background-color: #6a4cec;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
 }
 
 .empty-resumes {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: white;
-    border-radius: 12px;
-    padding: 3rem 2rem;
+    border-radius: var(--border-radius-lg);
+    padding: 4rem 2rem;
     margin: 2rem 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+}
+
+.empty-resumes svg {
+    width: 150px;
+    height: 150px;
+    color: var(--neutral-300);
+    margin-bottom: 2rem;
+}
+
+.empty-resumes h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 1rem;
 }
 
 .empty-resumes p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--neutral-600);
+    margin-bottom: 2rem;
+    max-width: 500px;
 }
 
 .resume-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.75rem;
 }
 
 .resume-card {
     background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    padding: 1.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.resume-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.25rem;
+    background: linear-gradient(90deg, var(--primary), var(--info));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
 }
 
 .resume-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.resume-card:hover::before {
+    transform: scaleX(1);
 }
 
 .resume-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f0f0f0;
+    align-items: flex-start;
+    padding: 1.75rem 1.75rem 1.25rem;
+    border-bottom: 1px solid var(--neutral-200);
 }
 
 .resume-title {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: #333;
+    color: var(--neutral-900);
     margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .resume-date {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.85rem;
+    color: var(--neutral-500);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+
+.date-icon {
+    font-size: 1rem;
 }
 
 .resume-content-preview {
     font-size: 0.95rem;
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
+    color: var(--neutral-600);
+    line-height: 1.6;
+    padding: 1.25rem 1.75rem;
+    flex-grow: 1;
     white-space: pre-line;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 4.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    position: relative;
+}
+
+.resume-content-preview::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    background: linear-gradient(to top, white, transparent);
 }
 
 .resume-actions {
     display: flex;
     gap: 0.75rem;
-    justify-content: flex-end;
+    padding: 1.25rem 1.75rem;
+    background-color: var(--neutral-50);
+    border-top: 1px solid var(--neutral-200);
 }
 
 .view-button,
 .edit-button,
 .delete-button {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    border-radius: var(--border-radius-md);
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: var(--transition);
 }
 
 .view-button {
-    background-color: #f8f9fa;
-    color: #333;
-    border: 1px solid #ddd;
+    background-color: var(--neutral-100);
+    color: var(--neutral-700);
+    border: 1px solid var(--neutral-200);
 }
 
 .view-button:hover {
-    background-color: #f1f3f5;
+    background-color: var(--neutral-200);
+    color: var(--neutral-800);
 }
 
 .edit-button {
-    background-color: #7c5cff;
+    background-color: var(--primary);
     color: white;
     border: none;
 }
 
 .edit-button:hover {
-    background-color: #6a4cec;
+    background-color: var(--primary-hover);
 }
 
 .delete-button {
     background-color: white;
-    color: #e74c3c;
-    border: 1px solid #e74c3c;
+    color: var(--danger);
+    border: 1px solid var(--danger);
 }
 
 .delete-button:hover {
-    background-color: #fee;
+    background-color: var(--danger);
+    color: white;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    gap: 1.5rem;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* 스켈레톤 로딩 효과 */
+.resume-card-skeleton {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    height: 280px;
+}
+
+.skeleton-header {
+    padding: 1.75rem 1.75rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.skeleton-title {
+    width: 60%;
+    height: 1.25rem;
+    background-color: var(--neutral-200);
+    border-radius: 0.25rem;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-date {
+    width: 30%;
+    height: 1rem;
+    background-color: var(--neutral-200);
+    border-radius: 0.25rem;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-content {
+    padding: 1.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skeleton-line {
+    height: 0.85rem;
+    background-color: var(--neutral-200);
+    border-radius: 0.25rem;
+    animation: pulse 1.5s infinite;
+}
+
+.skeleton-line-1 { width: 100%; }
+.skeleton-line-2 { width: 90%; }
+.skeleton-line-3 { width: 85%; }
+
+.skeleton-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.25rem 1.75rem;
+    background-color: var(--neutral-50);
+    border-top: 1px solid var(--neutral-200);
+}
+
+.skeleton-button {
+    flex: 1;
+    height: 2.5rem;
+    background-color: var(--neutral-200);
+    border-radius: var(--border-radius-md);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 0.3;
+    }
 }
 
 @media (max-width: 768px) {
-    .my-resumes-header {
+    .my-resumes-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .resumes-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
     }
 
     .add-resume-button {
         width: 100%;
+        justify-content: center;
     }
 
-    .resume-card-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+    .resume-list {
+        grid-template-columns: 1fr;
     }
 
-    .resume-actions {
-        flex-wrap: wrap;
-    }
-
-    .view-button,
-    .edit-button,
-    .delete-button {
-        flex-grow: 1;
-        text-align: center;
+    .resume-content-preview {
+        -webkit-line-clamp: 3;
     }
 }
+
+/* 추가 애니메이션 효과 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.resume-list {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.resume-card {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.resume-card:nth-child(1) { animation-delay: 0.1s; }
+.resume-card:nth-child(2) { animation-delay: 0.2s; }
+.resume-card:nth-child(3) { animation-delay: 0.3s; }
+.resume-card:nth-child(4) { animation-delay: 0.4s; }
+.resume-card:nth-child(5) { animation-delay: 0.5s; }
+.resume-card:nth-child(6) { animation-delay: 0.6s; }
