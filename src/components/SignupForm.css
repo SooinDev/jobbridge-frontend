@@ -235,3 +235,36 @@
         gap: 1rem;
     }
 }
+
+/* 인증번호 타이머 스타일 */
+.verification-timer {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.verification-expired {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resend-button {
+    background: none;
+    border: none;
+    color: #7c5cff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    text-decoration: underline;
+    width: auto;
+}
+
+.resend-button:hover {
+    color: #6a4cec;
+}

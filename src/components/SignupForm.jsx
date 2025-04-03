@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SignupForm.css';
@@ -13,7 +13,7 @@ const SignupForm = () => {
         name: '',
         age: '',
         address: '',
-        phone: '',
+        phonenumber: '',
         userType: 'individual'
     });
 
@@ -24,6 +24,36 @@ const SignupForm = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // 타이머 관련 상태 추가
+    const [timeLeft, setTimeLeft] = useState(0);
+    const [timerActive, setTimerActive] = useState(false);
+
+    // 타이머 설정 - 인증번호 발송 시 시작
+    useEffect(() => {
+        let intervalId;
+
+        if (timerActive && timeLeft > 0) {
+            intervalId = setInterval(() => {
+                setTimeLeft(prevTime => prevTime - 1);
+            }, 1000);
+        } else if (timeLeft === 0 && timerActive) {
+            setTimerActive(false);
+            // 시간이 다 되면 인증번호 재발송 필요
+            if (!emailVerified) {
+                setCodeSent(false);
+            }
+        }
+
+        return () => clearInterval(intervalId);
+    }, [timerActive, timeLeft, emailVerified]);
+
+    // 시간 형식 변환 함수 (초 -> 분:초)
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
@@ -31,6 +61,7 @@ const SignupForm = () => {
         if (name === 'email') {
             setEmailVerified(false);
             setCodeSent(false);
+            setTimerActive(false);
         }
     };
 
@@ -82,6 +113,11 @@ const SignupForm = () => {
             await axios.post('http://localhost:8080/api/user/send-code', { email: form.email });
 
             setCodeSent(true);
+
+            // 타이머 설정 (5분 = 300초)
+            setTimeLeft(300);
+            setTimerActive(true);
+
             alert('인증번호가 이메일로 전송되었습니다.');
         } catch (err) {
             setError('인증번호 전송에 실패했습니다.');
@@ -95,12 +131,13 @@ const SignupForm = () => {
 
         try {
             const response = await axios.post('http://localhost:8080/api/user/verify', {
-                email: form.email,           // ✅ 서버에서 기대하는 key
-                code: verificationCode       // ✅ 서버에서 기대하는 key
+                email: form.email,
+                code: verificationCode
             });
 
             alert(response.data); // "이메일 인증이 완료되었습니다!"
             setEmailVerified(true);
+            setTimerActive(false); // 인증 성공 시 타이머 중지
         } catch (err) {
             console.error('인증 실패:', err);
             setError(err.response?.data || '인증 중 오류가 발생했습니다.');
@@ -143,7 +180,14 @@ const SignupForm = () => {
 
                     {codeSent && (
                         <div className="form-group">
-                            <label htmlFor="verificationCode">인증번호 입력</label>
+                            <label htmlFor="verificationCode">
+                                인증번호 입력
+                                {timerActive && !emailVerified && (
+                                    <span className="verification-timer">
+                                        {` (남은 시간: ${formatTime(timeLeft)})`}
+                                    </span>
+                                )}
+                            </label>
                             <div className="input-container">
                                 <input
                                     id="verificationCode"
@@ -158,11 +202,23 @@ const SignupForm = () => {
                                     type="button"
                                     className="verify-button"
                                     onClick={handleVerifyCode}
-                                    disabled={verifyingCode || verificationCode.length !== 6 || emailVerified}
+                                    disabled={verifyingCode || verificationCode.length !== 6 || emailVerified || timeLeft === 0}
                                 >
                                     {verifyingCode ? '확인 중...' : emailVerified ? '인증됨' : '인증 확인'}
                                 </button>
                             </div>
+                            {timeLeft === 0 && !emailVerified && codeSent && (
+                                <div className="verification-expired">
+                                    인증 시간이 만료되었습니다. 인증번호를 재발송 해주세요.
+                                    <button
+                                        type="button"
+                                        className="resend-button"
+                                        onClick={handleSendVerificationCode}
+                                    >
+                                        재발송
+                                    </button>
+                                </div>
+                            )}
                             {emailVerified && (
                                 <div className="email-verified-message">
                                     ✓ 인증된 이메일입니다
@@ -240,12 +296,12 @@ const SignupForm = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="phone">전화번호</label>
+                        <label htmlFor="phonenumber">전화번호</label>
                         <input
-                            id="phone"
-                            name="phone"
+                            id="phonenumber"
+                            name="phonenumber"
                             placeholder="전화번호를 입력하세요"
-                            value={form.phone}
+                            value={form.phonenumber}
                             onChange={handleChange}
                         />
                     </div>
