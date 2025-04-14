@@ -93,6 +93,18 @@ const IconHash = () => (
     </svg>
 );
 
+const IconChevronDown = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+);
+
+const IconChevronUp = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+);
+
 const EmptySearchIllustration = () => (
     <svg className="no-jobs-illustration" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="300" cy="300" r="200" fill="#F3F4F6" />
@@ -125,6 +137,12 @@ const Jobs = () => {
     const [error, setError] = useState('');
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
     const [user, setUser] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('전체');
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+
+    // 카테고리 목록
+    const categories = ['전체', '개발', '마케팅', '디자인', '기획', '경영', '영업', 'HR', '금융', 'IT'];
 
     // localStorage에서 사용자 정보 가져오기
     useEffect(() => {
@@ -139,7 +157,7 @@ const Jobs = () => {
 
     // 입력 변경 처리
     const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const {name, value, type, checked} = e.target;
         setSearchParams({
             ...searchParams,
             [name]: type === 'checkbox' ? checked : value
@@ -149,6 +167,8 @@ const Jobs = () => {
     // 검색 제출 처리
     const handleSearch = (e) => {
         e.preventDefault();
+        setPage(1); // 검색 시 페이지 초기화
+        setHasMore(true);
         searchJobs();
 
         // 공유 가능한 링크를 위해 URL 업데이트
@@ -158,7 +178,7 @@ const Jobs = () => {
         if (searchParams.experienceLevel) params.append('experienceLevel', searchParams.experienceLevel);
         if (searchParams.activeOnly) params.append('activeOnly', searchParams.activeOnly);
 
-        navigate({ search: params.toString() });
+        navigate({search: params.toString()});
     };
 
     // 검색 파라미터 초기화
@@ -169,13 +189,49 @@ const Jobs = () => {
             experienceLevel: '',
             activeOnly: false
         });
+        setSelectedCategory('전체');
+        setPage(1);
+        setHasMore(true);
         navigate('/jobs');
         searchJobs(true); // 최근 일자리 가져오기
     };
 
+    // 카테고리 선택 처리
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+        if (category !== '전체') {
+            setSearchParams({
+                ...searchParams,
+                keyword: category
+            });
+            searchJobs();
+        } else if (searchParams.keyword) {
+            // 전체 카테고리 선택 시 키워드 초기화
+            const newParams = {...searchParams, keyword: ''};
+            setSearchParams(newParams);
+
+            // URL 파라미터 업데이트
+            const urlParams = new URLSearchParams();
+            if (newParams.location) urlParams.append('location', newParams.location);
+            if (newParams.experienceLevel) urlParams.append('experienceLevel', newParams.experienceLevel);
+            if (newParams.activeOnly) urlParams.append('activeOnly', newParams.activeOnly);
+
+            navigate({search: urlParams.toString()});
+            searchJobs();
+        }
+    };
+
+    // 더 보기 버튼 처리
+    const handleLoadMore = () => {
+        setPage(prevPage => prevPage + 1);
+        searchJobs(false, true);
+    };
+
     // 일자리 검색 함수
-    const searchJobs = async (getRecent = false) => {
-        setLoading(true);
+    const searchJobs = async (getRecent = false, isLoadMore = false) => {
+        if (!isLoadMore) {
+            setLoading(true);
+        }
         setError('');
 
         try {
@@ -195,11 +251,28 @@ const Jobs = () => {
                 if (searchParams.location) params.append('location', searchParams.location);
                 if (searchParams.experienceLevel) params.append('experienceLevel', searchParams.experienceLevel);
                 if (searchParams.activeOnly) params.append('activeOnly', searchParams.activeOnly);
+                params.append('page', page); // 페이지 정보 추가
 
                 response = await axios.get(`http://localhost:8080/api/jobs/search?${params.toString()}`);
             }
 
-            setJobs(response.data);
+            const newJobs = response.data;
+
+            if (isLoadMore) {
+                // 더 보기 시 기존 목록에 추가
+                if (newJobs.length === 0) {
+                    setHasMore(false);
+                } else {
+                    setJobs(prevJobs => [...prevJobs, ...newJobs]);
+                }
+            } else {
+                // 새 검색 시 목록 교체
+                setJobs(newJobs);
+                // 검색 결과가 적으면 더 보기 비활성화
+                if (newJobs.length < 10) {
+                    setHasMore(false);
+                }
+            }
         } catch (err) {
             console.error('Failed to fetch jobs:', err);
             setError('일자리 정보를 불러오는데 실패했습니다.');
@@ -215,12 +288,31 @@ const Jobs = () => {
 
     // 날짜 형식화
     const formatDate = (dateString) => {
+        if (!dateString) return '';
+
         const date = new Date(dateString);
-        return date.toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        // 오늘 등록된 경우
+        if (date.toDateString() === today.toDateString()) {
+            return '오늘';
+        }
+        // 어제 등록된 경우
+        else if (date.toDateString() === yesterday.toDateString()) {
+            return '어제';
+        }
+        // 그 외의 경우
+        else {
+            return date.toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
     };
 
     // 회사 이니셜 가져오기
@@ -244,6 +336,43 @@ const Jobs = () => {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         return diffDays;
+    };
+
+    // 마감일 텍스트 포맷팅
+    const formatDeadline = (dateString) => {
+        if (!dateString) return '상시 채용';
+
+        const daysRemaining = getDaysRemaining(dateString);
+
+        if (daysRemaining < 0) {
+            return '마감됨';
+        } else if (daysRemaining === 0) {
+            return '오늘 마감';
+        } else if (daysRemaining <= 3) {
+            return `D-${daysRemaining}`;
+        } else {
+            const date = new Date(dateString);
+            return `${date.getMonth() + 1}월 ${date.getDate()}일 마감`;
+        }
+    };
+
+    // 마감 임박 여부
+    const isUrgent = (dateString) => {
+        if (!dateString) return false;
+        const daysRemaining = getDaysRemaining(dateString);
+        return daysRemaining !== null && daysRemaining <= 3 && daysRemaining >= 0;
+    };
+
+    // 신규 여부 (일주일 이내 등록)
+    const isNewJob = (dateString) => {
+        if (!dateString) return false;
+
+        const postedDate = new Date(dateString);
+        const today = new Date();
+        const diffTime = today - postedDate;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays <= 7;
     };
 
     // 스켈레톤 로딩 UI
@@ -287,19 +416,23 @@ const Jobs = () => {
 
     return (
         <div className="jobs-container">
+            {/* 상단 헤더 */}
             <div className="jobs-header">
                 <div className="header-content">
-                    <h1>일자리 찾기</h1>
+                    <div className="header-title-group">
+                        <h1>일자리 찾기</h1>
+                        <p className="header-subtitle">나에게 딱 맞는 채용정보를 찾아보세요</p>
+                    </div>
                     <div className="header-actions">
                         <button className="home-link" onClick={() => navigate('/')}>
-                            <IconHome /> 홈으로
+                            <IconHome/> 홈으로
                         </button>
                         {user && user.userType === 'COMPANY' && (
                             <button
                                 className="post-job-button"
                                 onClick={() => navigate('/job-posting/create')}
                             >
-                                <IconPlus /> 새 채용공고 등록
+                                <IconPlus/> 새 채용공고 등록
                             </button>
                         )}
                     </div>
@@ -307,6 +440,7 @@ const Jobs = () => {
             </div>
 
             <div className="jobs-content">
+                {/* 검색 섹션 - 향상된 디자인 */}
                 <div className="search-section">
                     <form onSubmit={handleSearch} className="search-form">
                         <div className="search-bar">
@@ -319,7 +453,7 @@ const Jobs = () => {
                                 className="search-input"
                             />
                             <button type="submit" className="search-button">
-                                <IconSearch /> 검색
+                                <IconSearch/> 검색
                             </button>
                         </div>
 
@@ -329,7 +463,9 @@ const Jobs = () => {
                                 className="advanced-search-toggle"
                                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                             >
-                                <IconFilter /> {showAdvancedSearch ? '기본 검색' : '상세 검색'}
+                                <IconFilter/>
+                                {showAdvancedSearch ? '기본 검색' : '상세 검색'}
+                                {showAdvancedSearch ? <IconChevronUp/> : <IconChevronDown/>}
                             </button>
                             {(searchParams.keyword || searchParams.location ||
                                 searchParams.experienceLevel || searchParams.activeOnly) && (
@@ -338,7 +474,7 @@ const Jobs = () => {
                                     className="clear-search"
                                     onClick={handleClearSearch}
                                 >
-                                    <IconClear /> 검색 초기화
+                                    <IconClear/> 검색 초기화
                                 </button>
                             )}
                         </div>
@@ -385,8 +521,21 @@ const Jobs = () => {
                     </form>
                 </div>
 
+                {/* 카테고리 필터 */}
+                <div className="category-filter">
+                    {categories.map(category => (
+                        <button
+                            key={category}
+                            className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+                            onClick={() => handleCategorySelect(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="jobs-results">
-                    {loading ? (
+                    {loading && !jobs.length ? (
                         <div>
                             <div className="loading-container">
                                 <div className="spinner"></div>
@@ -396,7 +545,9 @@ const Jobs = () => {
                         </div>
                     ) : error ? (
                         <div className="error-message">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                 strokeLinejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="12" y1="8" x2="12" y2="12"></line>
                                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -405,7 +556,7 @@ const Jobs = () => {
                         </div>
                     ) : jobs.length === 0 ? (
                         <div className="no-jobs">
-                            <EmptySearchIllustration />
+                            <EmptySearchIllustration/>
                             <h3>검색 결과가 없습니다</h3>
                             <p>다른 검색어를 입력하시거나 상세 검색 조건을 변경해 보세요.</p>
                             <button className="btn btn-primary" onClick={handleClearSearch}>검색 초기화하기</button>
@@ -413,12 +564,13 @@ const Jobs = () => {
                     ) : (
                         <div className="jobs-list">
                             <div className="results-count">
-                                총 <span style={{ color: 'var(--primary)', fontWeight: '600' }}>{jobs.length}</span>개의 일자리를 찾았습니다
+                                총 <span className="highlight-count">{jobs.length}</span>개의 일자리를 찾았습니다
                             </div>
 
                             {jobs.map(job => {
                                 const daysRemaining = job.deadline ? getDaysRemaining(job.deadline) : null;
-                                const isUrgent = daysRemaining !== null && daysRemaining <= 3 && daysRemaining >= 0;
+                                const jobIsUrgent = isUrgent(job.deadline);
+                                const jobIsNew = isNewJob(job.createdAt);
 
                                 return (
                                     <div
@@ -428,10 +580,30 @@ const Jobs = () => {
                                     >
                                         <div className="job-header">
                                             <div className="job-title-container">
-                                                <h3 className="job-title">{job.title}</h3>
-                                                <div className="company-name">
-                                                    <div className="company-badge">{getCompanyInitials(job.companyName)}</div>
-                                                    {job.companyName}
+                                                <div
+                                                    className="company-badge">{getCompanyInitials(job.companyName)}</div>
+                                                <div className="job-title-group">
+                                                    <h3 className="job-title">
+                                                        {job.title}
+                                                        {jobIsNew && <span className="tag tag-new">신규</span>}
+                                                        {jobIsUrgent && <span className="tag tag-urgent">마감임박</span>}
+                                                    </h3>
+                                                    <div className="company-name">
+                                                        {job.companyName}
+                                                    </div>
+                                                </div>
+                                                <div className="deadline-badge">
+                                                    {job.deadline && (
+                                                        <span className={`deadline-text ${
+                                                            daysRemaining !== null && daysRemaining < 0
+                                                                ? 'closed'
+                                                                : daysRemaining !== null && daysRemaining <= 3
+                                                                    ? 'urgent'
+                                                                    : 'active'
+                                                        }`}>
+                                                        {formatDeadline(job.deadline)}
+                                                    </span>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -439,25 +611,25 @@ const Jobs = () => {
                                         <div className="job-details">
                                             <div className="detail-item">
                                                 <div className="detail-icon">
-                                                    <IconLocation />
+                                                    <IconLocation/>
                                                 </div>
                                                 <span className="detail-text">{job.location || '미정'}</span>
                                             </div>
                                             <div className="detail-item">
                                                 <div className="detail-icon">
-                                                    <IconPosition />
+                                                    <IconPosition/>
                                                 </div>
                                                 <span className="detail-text">{job.position}</span>
                                             </div>
                                             <div className="detail-item">
                                                 <div className="detail-icon">
-                                                    <IconExperience />
+                                                    <IconExperience/>
                                                 </div>
                                                 <span className="detail-text">{job.experienceLevel || '무관'}</span>
                                             </div>
                                             <div className="detail-item">
                                                 <div className="detail-icon">
-                                                    <IconSalary />
+                                                    <IconSalary/>
                                                 </div>
                                                 <span className="detail-text">{job.salary || '회사 내규에 따름'}</span>
                                             </div>
@@ -467,33 +639,59 @@ const Jobs = () => {
                                             <div className="job-skills">
                                                 {job.requiredSkills.split(',').map((skill, index) => (
                                                     <span className="skill-tag" key={index}>
-                                                        <IconHash /> {skill.trim()}
-                                                    </span>
+                                                    <IconHash/> {skill.trim()}
+                                                </span>
                                                 ))}
                                             </div>
                                         )}
 
                                         <div className="job-footer">
                                             <div className="posted-date">
-                                                <IconClock /> 등록일: {formatDate(job.createdAt)}
+                                                <IconClock/> 등록일: {formatDate(job.createdAt)}
                                             </div>
-                                            {job.deadline && (
-                                                <div className={`deadline ${isUrgent ? 'urgent' : ''}`}>
-                                                    <IconCalendar /> 마감일: {formatDate(job.deadline)}
-                                                    {isUrgent && daysRemaining >= 0 && ` (${daysRemaining === 0 ? '오늘 마감' : `${daysRemaining}일 남음`})`}
-                                                    {daysRemaining !== null && daysRemaining < 0 && ' (마감됨)'}
-                                                </div>
-                                            )}
+                                            <div className="view-details">
+                                                자세히 보기
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
                                 );
                             })}
+
+                            {hasMore && (
+                                <div className="load-more-container">
+                                    <button
+                                        className="load-more-button"
+                                        onClick={handleLoadMore}
+                                        disabled={loading}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <div className="spinner-sm"></div>
+                                                불러오는 중...
+                                            </>
+                                        ) : (
+                                            <>
+                                                더 많은 채용공고 보기
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 ml-2">
+                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                                                </svg>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
             </div>
         </div>
     );
-};
-
+}
 export default Jobs;
