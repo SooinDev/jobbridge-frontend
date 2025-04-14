@@ -123,69 +123,97 @@
 .search-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .search-bar {
     display: flex;
     width: 100%;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
+    border-radius: 50px; /* 더 둥근 모서리 */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); /* 더 부드러운 그림자 */
     overflow: hidden;
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    position: relative;
+    height: 56px; /* 약간 더 높은 높이 */
+    border: 1px solid var(--neutral-100);
+}
+
+.search-bar:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
 .search-bar:focus-within {
-    box-shadow: var(--shadow-outline);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2); /* 포커스 시 더 확실한 하이라이트 */
+    border-color: var(--primary);
 }
 
 .search-input {
     flex: 1;
-    padding: 0.95rem 1.2rem;
-    border: 1px solid var(--neutral-300);
-    border-right: none;
-    border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
-    font-size: 1.05rem;
+    padding: 0 1.5rem; /* 더 넓은 패딩 */
+    border: none; /* 테두리 제거 */
+    border-radius: 50px 0 0 50px;
+    font-size: 1rem;
+    font-weight: 500; /* 약간 더 굵은 폰트 */
     transition: var(--transition);
-    background-color: var(--neutral-50);
+    background-color: #fff;
+    height: 100%;
+    color: var(--neutral-800);
 }
 
 .search-input:focus {
-    border-color: var(--primary);
-    background-color: white;
     outline: none;
 }
 
 .search-input::placeholder {
-    color: #999;
+    color: var(--neutral-400); /* 약간 더 밝은 플레이스홀더 */
     font-size: 0.95rem;
+    font-weight: 400;
 }
 
 .search-button {
-    padding: 0 1.5rem;
-    background-color: var(--primary);
+    padding: 0 1.5rem; /* 더 넓은 패딩 */
+    background: linear-gradient(45deg, var(--primary), #8667ff); /* 그라디언트 배경 */
     color: white;
     border: none;
-    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-    font-size: 1rem;
+    border-radius: 0 50px 50px 0;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    min-width: 120px;
+    min-width: 110px;
+    max-width: 130px;
+    height: 100%;
     justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15); /* 내부 상단 하이라이트 */
 }
 
 .search-button:hover {
-    background-color: var(--primary-hover);
+    background: linear-gradient(45deg, var(--primary-hover), var(--primary)); /* 호버 시 그라디언트 반전 */
+    transform: translateY(-1px);
+}
+
+.search-button:active {
+    transform: translateY(1px); /* 클릭 효과 */
+}
+
+.search-button svg {
+    transition: transform 0.3s ease;
+}
+
+.search-button:hover svg {
+    transform: scale(1.1); /* 아이콘 확대 효과 */
 }
 
 .search-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 0.75rem;
 }
 
 .advanced-search-toggle, .clear-search {
@@ -198,20 +226,21 @@
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    padding: 0.5rem;
-    transition: var(--transition);
-    border-radius: var(--border-radius-sm);
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+    border-radius: 20px; /* 둥근 모서리 */
 }
 
 .advanced-search-toggle:hover, .clear-search:hover {
     color: var(--primary-hover);
     background-color: var(--primary-light);
+    transform: translateY(-1px);
 }
 
 .advanced-search {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--neutral-200);
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--neutral-100);
     animation: slideDown 0.3s ease-out;
 }
 
@@ -232,7 +261,7 @@
 
 .form-group label {
     display: block;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--neutral-700);
     margin-bottom: 0.5rem;
@@ -242,17 +271,16 @@
     width: 100%;
     padding: 0.75rem 1rem;
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--neutral-300);
+    border: 1px solid var(--neutral-200);
     font-size: 0.95rem;
-    background-color: var(--neutral-50);
+    background-color: #fff;
     transition: var(--transition);
 }
 
 .form-group input:focus {
     border-color: var(--primary);
-    background-color: white;
     outline: none;
-    box-shadow: var(--shadow-outline);
+    box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.1);
 }
 
 .checkbox-label {
@@ -754,6 +782,21 @@
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+
+    .search-bar {
+        height: 50px; /* 모바일에서 약간 작게 */
+        border-radius: 25px; /* 모바일에서 약간 작은 radius */
+    }
+
+    .search-input {
+        padding: 0 1.2rem;
+    }
+
+    .search-button {
+        min-width: 100px;
+        padding: 0 1.2rem;
+    }
+
     .jobs-header {
         padding: 1.25rem 1rem;
     }
@@ -763,8 +806,13 @@
     }
 
     .search-section {
-        padding: 1.5rem;
+        background-color: white;
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        transition: var(--transition);
     }
+
 
     .form-row {
         flex-direction: column;

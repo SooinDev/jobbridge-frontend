@@ -451,6 +451,7 @@ const Jobs = () => {
                                 onChange={handleInputChange}
                                 placeholder="직무, 기술, 회사명으로 검색"
                                 className="search-input"
+                                aria-label="검색어 입력"
                             />
                             <button type="submit" className="search-button">
                                 <IconSearch/> 검색
@@ -464,7 +465,7 @@ const Jobs = () => {
                                 onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
                             >
                                 <IconFilter/>
-                                {showAdvancedSearch ? '기본 검색' : '상세 검색'}
+                                {showAdvancedSearch ? '기본 검색으로 돌아가기' : '상세 검색 열기'}
                                 {showAdvancedSearch ? <IconChevronUp/> : <IconChevronDown/>}
                             </button>
                             {(searchParams.keyword || searchParams.location ||
