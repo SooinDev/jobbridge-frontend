@@ -1,382 +1,618 @@
-/* 현대적인 이력서 관리 페이지 스타일 */
+/* 메인 페이지와 일관된 이력서 관리 페이지 스타일 */
 .my-resumes-container {
-    max-width: 1200px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     width: 100%;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.resumes-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2.5rem;
-}
-
-.resumes-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--neutral-900);
-    margin: 0;
-    position: relative;
-    display: inline-block;
-}
-
-.resumes-header h1::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -0.75rem;
-    width: 50%;
-    height: 0.25rem;
-    background-color: var(--primary);
-    border-radius: 2rem;
-}
-
-.add-resume-button {
-    padding: 0.75rem 1.5rem;
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-md);
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.add-resume-button:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-}
-
-.empty-resumes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    padding: 4rem 2rem;
-    margin: 2rem 0;
-    box-shadow: var(--shadow-md);
-    text-align: center;
-}
-
-.empty-resumes svg {
-    width: 150px;
-    height: 150px;
-    color: var(--neutral-300);
-    margin-bottom: 2rem;
-}
-
-.empty-resumes h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--neutral-800);
-    margin-bottom: 1rem;
-}
-
-.empty-resumes p {
-    font-size: 1.1rem;
-    color: var(--neutral-600);
-    margin-bottom: 2rem;
-    max-width: 500px;
-}
-
-.resume-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.75rem;
-}
-
-.resume-card {
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
     overflow: hidden;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
+    background-color: #f8faff;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.resume-card::before {
-    content: '';
+/* 배경 효과 */
+.resumes-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 0.25rem;
-    background: linear-gradient(90deg, var(--primary), var(--info));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
 }
 
-.resume-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+.bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
 }
 
-.resume-card:hover::before {
-    transform: scaleX(1);
+.bg-circle-1 {
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(157, 128, 255, 0.1) 0%, rgba(157, 128, 255, 0) 70%);
 }
 
-.resume-card-header {
+.bg-circle-2 {
+    bottom: -200px;
+    left: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(125, 110, 255, 0.1) 0%, rgba(125, 110, 255, 0) 70%);
+}
+
+.bg-circle-3 {
+    top: 40%;
+    left: 45%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(180, 145, 255, 0.05) 0%, rgba(180, 145, 255, 0) 70%);
+}
+
+/* 네비게이션 바 스타일 */
+.resumes-nav {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 1.75rem 1.75rem 1.25rem;
-    border-bottom: 1px solid var(--neutral-200);
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 10;
 }
 
-.resume-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--neutral-900);
-    margin: 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #7c5cff;
+    cursor: pointer;
 }
 
-.resume-date {
-    font-size: 0.85rem;
-    color: var(--neutral-500);
+.nav-links {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    white-space: nowrap;
-    margin-left: 1rem;
 }
 
-.date-icon {
-    font-size: 1rem;
+.nav-button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
 }
 
-.resume-content-preview {
-    font-size: 0.95rem;
-    color: var(--neutral-600);
-    line-height: 1.6;
-    padding: 1.25rem 1.75rem;
-    flex-grow: 1;
-    white-space: pre-line;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+.nav-button.home {
+    color: #7c5cff;
+    background-color: white;
+    border: 1px solid #7c5cff;
+}
+
+.nav-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.15);
+}
+
+/* 메인 콘텐츠 */
+.resumes-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.resumes-header {
+    margin-bottom: 2rem;
+}
+
+.resumes-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: #7c5cff;
     position: relative;
 }
 
-.resume-content-preview::after {
+.highlight::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
     left: 0;
     width: 100%;
-    height: 2rem;
-    background: linear-gradient(to top, white, transparent);
+    height: 8px;
+    background-color: rgba(124, 92, 255, 0.15);
+    z-index: -1;
+    border-radius: 4px;
+}
+
+.resumes-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+/* 액션 영역 */
+.resumes-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.search-area {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.9rem 1rem 0.9rem 3rem;
+    border-radius: 50px;
+    border: 1px solid #e0e0e0;
+    font-size: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #7c5cff;
+    box-shadow: 0 2px 15px rgba(124, 92, 255, 0.15);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.filter-sort {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.sort-select {
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    font-size: 0.95rem;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    padding-right: 2.5rem;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #7c5cff;
+}
+
+.add-resume-button {
+    padding: 0.9rem 1.5rem;
+    border-radius: 8px;
+    background-color: #7c5cff;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 180px;
+}
+
+.add-resume-button:hover {
+    background-color: #6a4cec;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(124, 92, 255, 0.25);
+}
+
+/* 이력서 그리드 */
+.resumes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+/* 이력서 카드 */
+.resume-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.resume-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(124, 92, 255, 0.15);
+}
+
+.resume-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.resume-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+}
+
+.resume-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.resume-date {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.resume-content {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.resume-excerpt {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .resume-actions {
     display: flex;
+    padding: 1.25rem 1.5rem;
+    background-color: #f8f9ff;
     gap: 0.75rem;
-    padding: 1.25rem 1.75rem;
-    background-color: var(--neutral-50);
-    border-top: 1px solid var(--neutral-200);
 }
 
 .view-button,
 .edit-button,
 .delete-button {
     flex: 1;
+    padding: 0.8rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.6rem;
-    border-radius: var(--border-radius-md);
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
+    min-width: 0;
 }
 
 .view-button {
-    background-color: var(--neutral-100);
-    color: var(--neutral-700);
-    border: 1px solid var(--neutral-200);
+    background-color: white;
+    color: #555;
+    border: 1px solid #e0e0e0;
 }
 
 .view-button:hover {
-    background-color: var(--neutral-200);
-    color: var(--neutral-800);
+    background-color: #f9f9f9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .edit-button {
-    background-color: var(--primary);
+    background-color: #7c5cff;
     color: white;
     border: none;
 }
 
 .edit-button:hover {
-    background-color: var(--primary-hover);
+    background-color: #6a4cec;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.25);
 }
 
 .delete-button {
     background-color: white;
-    color: var(--danger);
-    border: 1px solid var(--danger);
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
 }
 
 .delete-button:hover {
-    background-color: var(--danger);
-    color: white;
+    background-color: #fff0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 77, 77, 0.15);
 }
 
+/* 빈 상태 */
+.empty-resumes {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    padding: 4rem 2rem;
+    text-align: center;
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-resumes h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1.5rem 0 1rem;
+}
+
+.empty-resumes p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.create-first-button {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    background-color: #7c5cff;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 220px;
+    justify-content: center;
+}
+
+.create-first-button:hover {
+    background-color: #6a4cec;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(124, 92, 255, 0.25);
+}
+
+/* 로딩 상태 */
 .loading-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
     gap: 1.5rem;
+    padding: 3rem 0;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(124, 92, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #7c5cff;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .loading-text {
-    font-size: 1.2rem;
-    color: var(--primary);
+    font-size: 1.1rem;
+    color: #7c5cff;
     font-weight: 500;
 }
 
-/* 스켈레톤 로딩 효과 */
-.resume-card-skeleton {
+/* 스켈레톤 로딩 */
+.resume-skeleton {
     background-color: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     overflow: hidden;
-    height: 280px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .skeleton-header {
-    padding: 1.75rem 1.75rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--neutral-200);
+    padding: 1.5rem;
+    border-bottom: 1px solid #f5f5f5;
 }
 
 .skeleton-title {
-    width: 60%;
-    height: 1.25rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
+    width: 70%;
+    height: 1.3rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
     animation: pulse 1.5s infinite;
+    margin-bottom: 0.75rem;
 }
 
-.skeleton-date {
-    width: 30%;
-    height: 1rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
+.skeleton-meta {
+    width: 50%;
+    height: 0.85rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
     animation: pulse 1.5s infinite;
 }
 
 .skeleton-content {
-    padding: 1.25rem 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    padding: 1.5rem;
+    flex: 1;
 }
 
 .skeleton-line {
-    height: 0.85rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
+    height: 0.95rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
     animation: pulse 1.5s infinite;
+    margin-bottom: 0.75rem;
 }
 
-.skeleton-line-1 { width: 100%; }
-.skeleton-line-2 { width: 90%; }
-.skeleton-line-3 { width: 85%; }
+.skeleton-line-1 {
+    width: 100%;
+}
+
+.skeleton-line-2 {
+    width: 90%;
+}
+
+.skeleton-line-3 {
+    width: 85%;
+}
 
 .skeleton-actions {
     display: flex;
+    padding: 1.25rem 1.5rem;
+    background-color: #f8f9ff;
     gap: 0.75rem;
-    padding: 1.25rem 1.75rem;
-    background-color: var(--neutral-50);
-    border-top: 1px solid var(--neutral-200);
 }
 
 .skeleton-button {
     flex: 1;
-    height: 2.5rem;
-    background-color: var(--neutral-200);
-    border-radius: var(--border-radius-md);
+    height: 2.6rem;
+    background-color: #f0f0f0;
+    border-radius: 8px;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0%, 100% {
-        opacity: 0.6;
+        opacity: 0.5;
     }
     50% {
-        opacity: 0.3;
+        opacity: 0.2;
+    }
+}
+
+/* 알림 메시지 */
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.alert-danger {
+    background-color: #fff1f1;
+    color: #ff4d4d;
+    border: 1px solid #ffd6d6;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+    .resumes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
-    .my-resumes-container {
-        padding: 1.5rem 1rem;
+    .resumes-nav {
+        padding: 1rem;
     }
 
-    .resumes-header {
+    .resumes-content {
+        padding: 1.5rem;
+    }
+
+    .resumes-title {
+        font-size: 2rem;
+    }
+
+    .resumes-subtitle {
+        font-size: 1rem;
+    }
+
+    .resumes-actions {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1.25rem;
-        margin-bottom: 2rem;
+        align-items: stretch;
+    }
+
+    .search-area {
+        max-width: 100%;
+    }
+
+    .filter-sort {
+        justify-content: space-between;
     }
 
     .add-resume-button {
         width: 100%;
-        justify-content: center;
     }
 
-    .resume-list {
+    .resumes-grid {
         grid-template-columns: 1fr;
     }
 
-    .resume-content-preview {
-        -webkit-line-clamp: 3;
+    .resume-actions {
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
 
-/* 추가 애니메이션 효과 */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@media (max-width: 480px) {
+    .resumes-title {
+        font-size: 1.8rem;
+    }
 
-.resume-list {
-    animation: fadeIn 0.5s ease-out;
-}
+    .filter-sort {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
 
-.resume-card {
-    animation: fadeIn 0.5s ease-out;
-    animation-fill-mode: both;
-}
+    .sort-select {
+        width: 100%;
+    }
 
-.resume-card:nth-child(1) { animation-delay: 0.1s; }
-.resume-card:nth-child(2) { animation-delay: 0.2s; }
-.resume-card:nth-child(3) { animation-delay: 0.3s; }
-.resume-card:nth-child(4) { animation-delay: 0.4s; }
-.resume-card:nth-child(5) { animation-delay: 0.5s; }
-.resume-card:nth-child(6) { animation-delay: 0.6s; }
+    .empty-resumes {
+        padding: 3rem 1.5rem;
+    }
+}
