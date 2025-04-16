@@ -175,9 +175,29 @@ const JobPostingDetail = () => {
         }
     };
 
-    const handleApply = () => {
-        alert('지원 기능은 아직 개발 중입니다. 곧 서비스할 예정입니다.');
-        // 추후 이력서 선택 및 지원 기능 개발
+    const handleApply = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            await axios.post(
+                `http://localhost:8080/api/apply/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            alert("지원이 완료되었습니다.");
+        } catch (error) {
+            console.error("지원 오류:", error);
+            alert("지원에 실패했습니다. 나중에 다시 시도해주세요.");
+        }
     };
 
     // 회사 이니셜 가져오기
