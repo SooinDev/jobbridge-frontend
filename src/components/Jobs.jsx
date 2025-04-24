@@ -132,7 +132,7 @@ const Jobs = () => {
     });
 
     // 리스트와 UI 상태
-    const [jobs, setJobs] = useState([]);
+    const [jobs, setJobs] = useState([]); // 채용공고 데이터 상태
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -151,8 +151,8 @@ const Jobs = () => {
             setUser(JSON.parse(storedUser));
         }
 
-        // 초기 검색 (URL 파라미터 기반 또는 최근 일자리)
-        searchJobs();
+        // 사람인 API에서 채용공고 가져오기
+        fetchJobPostings();  // 사람인 채용공고 데이터 가져오기
     }, []);
 
     // 입력 변경 처리
@@ -169,7 +169,7 @@ const Jobs = () => {
         e.preventDefault();
         setPage(1); // 검색 시 페이지 초기화
         setHasMore(true);
-        searchJobs();
+        fetchJobPostings();  // 검색한 파라미터에 맞춰서 다시 사람인 채용공고를 가져옴
 
         // 공유 가능한 링크를 위해 URL 업데이트
         const params = new URLSearchParams();
@@ -193,7 +193,7 @@ const Jobs = () => {
         setPage(1);
         setHasMore(true);
         navigate('/jobs');
-        searchJobs(true); // 최근 일자리 가져오기
+        fetchJobPostings(true); // 초기화 후 사람인 채용공고를 다시 가져오기
     };
 
     // 카테고리 선택 처리
@@ -204,82 +204,80 @@ const Jobs = () => {
                 ...searchParams,
                 keyword: category
             });
-            searchJobs();
+            fetchJobPostings(); // 카테고리 변경 시 채용공고 다시 가져오기
         } else if (searchParams.keyword) {
-            // 전체 카테고리 선택 시 키워드 초기화
             const newParams = {...searchParams, keyword: ''};
             setSearchParams(newParams);
-
-            // URL 파라미터 업데이트
             const urlParams = new URLSearchParams();
             if (newParams.location) urlParams.append('location', newParams.location);
             if (newParams.experienceLevel) urlParams.append('experienceLevel', newParams.experienceLevel);
             if (newParams.activeOnly) urlParams.append('activeOnly', newParams.activeOnly);
-
             navigate({search: urlParams.toString()});
-            searchJobs();
+            fetchJobPostings();
         }
     };
 
     // 더 보기 버튼 처리
     const handleLoadMore = () => {
         setPage(prevPage => prevPage + 1);
-        searchJobs(false, true);
+        fetchJobPostings(false, true); // 더 보기 시 사람인 채용공고 가져오기
     };
 
-    // 일자리 검색 함수
-    const searchJobs = async (getRecent = false, isLoadMore = false) => {
-        if (!isLoadMore) {
-            setLoading(true);
-        }
-        setError('');
+    // 사람인 API에서 채용공고 데이터를 가져오는 함수
+    const fetchJobPostings = async (getRecent = false, isLoadMore = false) => {
+         if (!isLoadMore) {
+                     setLoading(true);
+                 }
+                 setError('');
 
-        try {
-            let response;
+                 try {
+                     let response;
 
-            if (getRecent) {
-                // 최근 일자리 가져오기
-                response = await axios.get('http://localhost:8080/api/jobs/recent');
-            } else if (!searchParams.keyword && !searchParams.location &&
-                !searchParams.experienceLevel && !searchParams.activeOnly) {
-                // 검색 파라미터가 없으면 최근 일자리 가져오기
-                response = await axios.get('http://localhost:8080/api/jobs/recent');
-            } else {
-                // 파라미터로 검색
-                const params = new URLSearchParams();
-                if (searchParams.keyword) params.append('keyword', searchParams.keyword);
-                if (searchParams.location) params.append('location', searchParams.location);
-                if (searchParams.experienceLevel) params.append('experienceLevel', searchParams.experienceLevel);
-                if (searchParams.activeOnly) params.append('activeOnly', searchParams.activeOnly);
-                params.append('page', page); // 페이지 정보 추가
+                     if (getRecent) {
+                         // 최근 일자리 가져오기
+                         response = await axios.get('http://localhost:8080/api/jobs/recent');
+                     } else if (!searchParams.keyword && !searchParams.location &&
+                         !searchParams.experienceLevel && !searchParams.activeOnly) {
+                         // 검색 파라미터가 없으면 최근 일자리 가져오기
+                         response = await axios.get('http://localhost:8080/api/jobs/recent');
+                     } else {
+                         // 파라미터로 검색
+                         const params = new URLSearchParams();
+                         if (searchParams.keyword) params.append('keyword', searchParams.keyword);
+                         if (searchParams.location) params.append('location', searchParams.location);
+                         if (searchParams.experienceLevel) params.append('experienceLevel', searchParams.experienceLevel);
+                         if (searchParams.activeOnly) params.append('activeOnly', searchParams.activeOnly);
+                         params.append('page', page); // 페이지 정보 추가
 
-                response = await axios.get(`http://localhost:8080/api/jobs/search?${params.toString()}`);
-            }
+                         response = await axios.get(`http://localhost:8080/api/jobs/search?${params.toString()}`);
+                     }
 
-            const newJobs = response.data;
+                     const newJobs = response.data;
 
-            if (isLoadMore) {
-                // 더 보기 시 기존 목록에 추가
-                if (newJobs.length === 0) {
-                    setHasMore(false);
-                } else {
-                    setJobs(prevJobs => [...prevJobs, ...newJobs]);
-                }
-            } else {
-                // 새 검색 시 목록 교체
-                setJobs(newJobs);
-                // 검색 결과가 적으면 더 보기 비활성화
-                if (newJobs.length < 10) {
-                    setHasMore(false);
-                }
-            }
-        } catch (err) {
-            console.error('Failed to fetch jobs:', err);
-            setError('일자리 정보를 불러오는데 실패했습니다.');
-        } finally {
-            setLoading(false);
-        }
-    };
+                     if (isLoadMore) {
+                         // 더 보기 시 기존 목록에 추가
+                         if (newJobs.length === 0) {
+                             setHasMore(false);
+                         } else {
+                             setJobs(prevJobs => [...prevJobs, ...newJobs]);
+                         }
+                     } else {
+                         // 새 검색 시 목록 교체
+                         setJobs(newJobs);
+                         // 검색 결과가 적으면 더 보기 비활성화
+                         if (newJobs.length < 10) {
+                             setHasMore(false);
+                         }
+                     }
+                 } catch (err) {
+                     console.error('Failed to fetch jobs:', err);
+                     setError('일자리 정보를 불러오는데 실패했습니다.');
+                 } finally {
+                     setLoading(false);
+                 }
+     };
+
+
 
     // 일자리 상세 페이지로 이동
     const navigateToJobDetail = (jobId) => {
@@ -297,16 +295,12 @@ const Jobs = () => {
         const yesterday = new Date(today);
         yesterday.setDate(yesterday.getDate() - 1);
 
-        // 오늘 등록된 경우
         if (date.toDateString() === today.toDateString()) {
             return '오늘';
         }
-        // 어제 등록된 경우
         else if (date.toDateString() === yesterday.toDateString()) {
             return '어제';
-        }
-        // 그 외의 경우
-        else {
+        } else {
             return date.toLocaleDateString('ko-KR', {
                 year: 'numeric',
                 month: 'long',
@@ -328,7 +322,6 @@ const Jobs = () => {
         const deadline = new Date(dateString);
         const today = new Date();
 
-        // 시간 제거하고 날짜만 비교
         today.setHours(0, 0, 0, 0);
         deadline.setHours(0, 0, 0, 0);
 
@@ -356,14 +349,12 @@ const Jobs = () => {
         }
     };
 
-    // 마감 임박 여부
     const isUrgent = (dateString) => {
         if (!dateString) return false;
         const daysRemaining = getDaysRemaining(dateString);
         return daysRemaining !== null && daysRemaining <= 3 && daysRemaining >= 0;
     };
 
-    // 신규 여부 (일주일 이내 등록)
     const isNewJob = (dateString) => {
         if (!dateString) return false;
 
@@ -428,112 +419,116 @@ const Jobs = () => {
                             <IconHome/> 홈으로
                         </button>
                         {user && user.userType === 'COMPANY' && (
-                            <button
-                                className="post-job-button"
-                                onClick={() => navigate('/job-posting/create')}
-                            >
+                            <button className="post-job-button" onClick={() => navigate('/job-posting/create')}>
                                 <IconPlus/> 새 채용공고 등록
                             </button>
                         )}
+                        {user?.userType === 'INDIVIDUAL' && (
+                                      <button
+                                        className="resume-compare-button"
+                                        onClick={() => navigate('/jobs/recommend')}
+                                      >
+                                        <IconHash /> 이력서 비교
+                                      </button>
+                                    )}
                     </div>
                 </div>
             </div>
 
             <div className="jobs-content">
-                {/* 검색 섹션 - 향상된 디자인 */}
                 <div className="search-section">
-                    <form onSubmit={handleSearch} className="search-form">
-                        <div className="search-bar">
-                            <input
-                                type="text"
-                                name="keyword"
-                                value={searchParams.keyword}
-                                onChange={handleInputChange}
-                                placeholder="직무, 기술, 회사명으로 검색"
-                                className="search-input"
-                                aria-label="검색어 입력"
-                            />
-                            <button type="submit" className="search-button">
-                                <IconSearch/> 검색
-                            </button>
-                        </div>
+                                    <form onSubmit={handleSearch} className="search-form">
+                                        <div className="search-bar">
+                                            <input
+                                                type="text"
+                                                name="keyword"
+                                                value={searchParams.keyword}
+                                                onChange={handleInputChange}
+                                                placeholder="직무, 기술, 회사명으로 검색"
+                                                className="search-input"
+                                                aria-label="검색어 입력"
+                                            />
+                                            <button type="submit" className="search-button">
+                                                <IconSearch/> 검색
+                                            </button>
+                                        </div>
 
-                        <div className="search-actions">
-                            <button
-                                type="button"
-                                className="advanced-search-toggle"
-                                onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-                            >
-                                <IconFilter/>
-                                {showAdvancedSearch ? '기본 검색으로 돌아가기' : '상세 검색 열기'}
-                                {showAdvancedSearch ? <IconChevronUp/> : <IconChevronDown/>}
-                            </button>
-                            {(searchParams.keyword || searchParams.location ||
-                                searchParams.experienceLevel || searchParams.activeOnly) && (
-                                <button
-                                    type="button"
-                                    className="clear-search"
-                                    onClick={handleClearSearch}
-                                >
-                                    <IconClear/> 검색 초기화
-                                </button>
-                            )}
-                        </div>
+                                        <div className="search-actions">
+                                            <button
+                                                type="button"
+                                                className="advanced-search-toggle"
+                                                onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                                            >
+                                                <IconFilter/>
+                                                {showAdvancedSearch ? '기본 검색으로 돌아가기' : '상세 검색 열기'}
+                                                {showAdvancedSearch ? <IconChevronUp/> : <IconChevronDown/>}
+                                            </button>
+                                            {(searchParams.keyword || searchParams.location ||
+                                                searchParams.experienceLevel || searchParams.activeOnly) && (
+                                                <button
+                                                    type="button"
+                                                    className="clear-search"
+                                                    onClick={handleClearSearch}
+                                                >
+                                                    <IconClear/> 검색 초기화
+                                                </button>
+                                            )}
+                                        </div>
 
-                        {showAdvancedSearch && (
-                            <div className="advanced-search">
-                                <div className="form-row">
-                                    <div className="form-group">
-                                        <label htmlFor="location">근무지</label>
-                                        <input
-                                            type="text"
-                                            id="location"
-                                            name="location"
-                                            value={searchParams.location}
-                                            onChange={handleInputChange}
-                                            placeholder="서울, 경기, 재택근무 등"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="experienceLevel">경력</label>
-                                        <input
-                                            type="text"
-                                            id="experienceLevel"
-                                            name="experienceLevel"
-                                            value={searchParams.experienceLevel}
-                                            onChange={handleInputChange}
-                                            placeholder="신입, 경력 3년 이상 등"
-                                        />
-                                    </div>
+                                        {showAdvancedSearch && (
+                                            <div className="advanced-search">
+                                                <div className="form-row">
+                                                    <div className="form-group">
+                                                        <label htmlFor="location">근무지</label>
+                                                        <input
+                                                            type="text"
+                                                            id="location"
+                                                            name="location"
+                                                            value={searchParams.location}
+                                                            onChange={handleInputChange}
+                                                            placeholder="서울, 경기, 재택근무 등"
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="experienceLevel">경력</label>
+                                                        <input
+                                                            type="text"
+                                                            id="experienceLevel"
+                                                            name="experienceLevel"
+                                                            value={searchParams.experienceLevel}
+                                                            onChange={handleInputChange}
+                                                            placeholder="신입, 경력 3년 이상 등"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label className="checkbox-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="activeOnly"
+                                                            checked={searchParams.activeOnly}
+                                                            onChange={handleInputChange}
+                                                        />
+                                                        <span>진행 중인 공고만 보기</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </form>
                                 </div>
-                                <div className="form-group">
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            name="activeOnly"
-                                            checked={searchParams.activeOnly}
-                                            onChange={handleInputChange}
-                                        />
-                                        <span>진행 중인 공고만 보기</span>
-                                    </label>
-                                </div>
-                            </div>
-                        )}
-                    </form>
-                </div>
 
                 {/* 카테고리 필터 */}
-                <div className="category-filter">
-                    {categories.map(category => (
-                        <button
-                            key={category}
-                            className={`category-button ${selectedCategory === category ? 'active' : ''}`}
-                            onClick={() => handleCategorySelect(category)}
-                        >
-                            {category}
-                        </button>
-                    ))}
-                </div>
+                                <div className="category-filter">
+                                    {categories.map(category => (
+                                        <button
+                                            key={category}
+                                            className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+                                            onClick={() => handleCategorySelect(category)}
+                                        >
+                                            {category}
+                                        </button>
+                                    ))}
+                                </div>
 
                 <div className="jobs-results">
                     {loading && !jobs.length ? (
@@ -602,8 +597,8 @@ const Jobs = () => {
                                                                     ? 'urgent'
                                                                     : 'active'
                                                         }`}>
-                                                        {formatDeadline(job.deadline)}
-                                                    </span>
+                                                            {formatDeadline(job.deadline)}
+                                                        </span>
                                                     )}
                                                 </div>
                                             </div>
@@ -695,4 +690,5 @@ const Jobs = () => {
         </div>
     );
 }
+
 export default Jobs;
