@@ -1,0 +1,8 @@
+.recommendations { padding: 1rem; }
+.recommendations h2 { margin-bottom: .5rem; }
+.recommendations ul { list-style: none; padding: 0; }
+.recommendations li { display: flex; gap: 1rem; margin-bottom: .5rem; }
+.rank { width: 2rem; font-weight: bold; }
+.title { flex: 2; }
+.company { flex: 1; color: #666; }
+.rate { width: 3rem; text-align: right; color: #0070f3; }
