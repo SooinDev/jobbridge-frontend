@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ResumeForm from './ResumeForm';
+import Recommendations from './Recommendations';
 import './MyResumes.css';
 
 const MyResumes = () => {
@@ -13,6 +14,11 @@ const MyResumes = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('newest');
     const navigate = useNavigate();
+
+    const [visibleResumeId, setVisibleResumeId] = useState(null);
+    const toggleRecommendations = (id) => {
+                setVisibleResumeId(prev => (prev === id ? null : id));
+            };
 
     useEffect(() => {
         const fetchResumes = async () => {
@@ -316,7 +322,24 @@ const MyResumes = () => {
                                                         </svg>
                                                         삭제
                                                     </button>
+                                                    <button
+                                                        className="resume-compare-button"
+                                                        onClick={() => toggleRecommendations(resume.id)}>
+                                                        이력서 비교
+                                                    </button>
+                                                    <button
+                                                        className="recommend-career-button"
+                                                        onClick={() => {
+                                                            navigate('/jobs', { state: { resumeId: resume.id } });}}
+                                                            >
+                                                            추천 경로 제안받기
+                                                            </button>
                                                 </div>
+                                                {visibleResumeId === resume.id && (
+                                                    <div className="recommendation-section">
+                                                        <Recommendations  resumeId={resume.id} />
+                                                        </div>
+                                                        )}
                                             </div>
                                         ))}
                                     </div>

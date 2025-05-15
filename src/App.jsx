@@ -11,6 +11,7 @@ import JobPostingForm from './components/JobPostingForm';
 import MyJobPostings from './components/MyJobPostings';
 import JobPostingDetail from './components/JobPostingDetail';
 import Recommendations from './components/Recommendations';
+import ResumeRecommendations from './components/ResumeRecommendation';
 import Jobs from './components/Jobs'; // Import the new Job Search component
 import './App.css';
 
@@ -27,9 +28,6 @@ function App() {
                     {/* Job Search Routes */}
                     <Route path="/jobs" element={<Jobs />} />
                     <Route path="/jobs/search" element={<Jobs />} />
-
-                    {/* Job Recommendation*/}
-                    <Route path="/jobs/recommend" element={<Recommendations />} />
 
                     {/* Resume Routes */}
                     <Route path="/resume/create" element={<ResumeForm />} />

@@ -123,6 +123,9 @@ const Jobs = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
+    // 1) MyResumes에서 전달된 이력서ID 받기
+    const resumeId = location.state?.resumeId;
+
     // 검색 파라미터 상태
     const [searchParams, setSearchParams] = useState({
         keyword: queryParams.get('keyword') || '',
@@ -132,6 +135,9 @@ const Jobs = () => {
     });
 
     // 리스트와 UI 상태
+    // 2) 추천경로용 상태 추가
+    const [selectedJobId, setSelectedJobId] = useState(null);
+    const [recommendations, setRecommendations] = useState([]);
     const [jobs, setJobs] = useState([]); // 채용공고 데이터 상태
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -143,6 +149,20 @@ const Jobs = () => {
 
     // 카테고리 목록
     const categories = ['전체', '개발', '마케팅', '디자인', '기획', '경영', '영업', 'HR', '금융', 'IT'];
+
+    // 3) 경력 추천 API 호출 함수 추가
+    const handleRecommendCareer = async (jobId) => {
+    try {
+    const token = localStorage.getItem('token');
+    const res = await axios.get(`http://localhost:8080/api/match/career?resumeId=${resumeId}&jobPostingId=${jobId}`, { headers: { Authorization: `Bearer ${token}` } });
+    setSelectedJobId(jobId);
+    setRecommendations(res.data);  // FastAPI에서 받은 추천 경로 리스트
+    }
+    catch (err) {
+        console.error('추천 경로 호출 실패:', err);
+        alert('경력 추천경로를 가져오는 중 오류가 발생했습니다.');
+        }
+    };
 
     // localStorage에서 사용자 정보 가져오기
     useEffect(() => {
@@ -407,6 +427,7 @@ const Jobs = () => {
 
     return (
         <div className="jobs-container">
+            {resumeId && <p>선택된 이력서 ID: {resumeId}</p>}
             {/* 상단 헤더 */}
             <div className="jobs-header">
                 <div className="header-content">
@@ -423,14 +444,6 @@ const Jobs = () => {
                                 <IconPlus/> 새 채용공고 등록
                             </button>
                         )}
-                        {user?.userType === 'INDIVIDUAL' && (
-                                      <button
-                                        className="resume-compare-button"
-                                        onClick={() => navigate('/jobs/recommend')}
-                                      >
-                                        <IconHash /> 이력서 비교
-                                      </button>
-                                    )}
                     </div>
                 </div>
             </div>
@@ -654,6 +667,32 @@ const Jobs = () => {
                                                 </svg>
                                             </div>
                                         </div>
+                                        {/* 4) 이력서가 선택된 경우에만 버튼 노출 */}
+                                        {resumeId && (
+                                            <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleRecommendCareer(job.id);
+                                                }}
+                                            className="career-btn">
+                                            이 공고로 경로 추천 받기
+                                            </button>
+                                            )}
+                                        {/* 5) 추천 경로 결과 영역 추가 */}
+                                        {selectedJobId === job.id && recommendations.length > 0 && (
+                                            <div
+                                                className="career-recommendations"
+                                                onClick={(e) => e.stopPropagation()}
+                                                >
+                                                <h2>경력 추천 경로</h2>
+                                                <p>이력서 #{resumeId}, 공고 #{selectedJobId} 기준</p>
+                                                <ol>
+                                                    {recommendations.map((step, idx) => (
+                                                        <li key={idx}>{step}</li>
+                                                        ))}
+                                                    </ol>
+                                                    </div>
+                                                    )}
                                     </div>
                                 );
                             })}
