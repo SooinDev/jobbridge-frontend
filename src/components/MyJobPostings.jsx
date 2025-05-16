@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import JobPostingForm from './JobPostingForm';
+import ResumeRecommendations from './ResumeRecommendation';
 import './MyJobPostings.css';
 
 const MyJobPostings = () => {
@@ -10,6 +11,7 @@ const MyJobPostings = () => {
     const [error, setError] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [jobToEdit, setJobToEdit] = useState(null);
+    const [visibleJobId, setVisibleJobId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,6 +77,10 @@ const MyJobPostings = () => {
     const handleFormClose = () => {
         setShowForm(false);
         setJobToEdit(null);
+    };
+
+    const toggleRecommendations = (id) => {
+        setVisibleJobId(prev => (prev === id ? null : id));
     };
 
     if (loading) {
@@ -159,7 +165,18 @@ const MyJobPostings = () => {
                                         >
                                             삭제
                                         </button>
+                                        <button
+                                            className="find-candidate-button"
+                                            onClick={() => toggleRecommendations(job.id)}
+                                        >
+                                            구직자 찾기
+                                        </button>
                                     </div>
+                                    {visibleJobId === job.id && (
+                                        <div className="recommendation-section">
+                                            <ResumeRecommendations jobPostingId={job.id} />
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
