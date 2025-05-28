@@ -1,533 +1,1417 @@
-/* 채용공고 상세 페이지 현대적인 스타일 */
-.job-detail-container {
+/* ==================== MODERN JOB POSTING DETAIL STYLES - LIGHT MODE ==================== */
+
+/* 전역 설정 */
+* {
+    box-sizing: border-box;
+}
+
+.job-detail-page {
+    min-height: 100vh;
+    background: #fafafa;
+    color: #2d3748;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    padding: 24px 0;
+}
+
+.container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 0 20px;
 }
 
-.job-detail-header {
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 2.5rem;
+/* ==================== 브레드크럼 네비게이션 ==================== */
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    color: #718096;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.breadcrumb-link {
+    background: none;
+    border: none;
+    color: #4299e1;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
     position: relative;
     overflow: hidden;
+    min-width: auto;
+    max-width: 150px;
+    white-space: nowrap;
 }
 
-.job-detail-header::before {
+.breadcrumb-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.breadcrumb-link:hover::before {
+    left: 100%;
+}
+
+.breadcrumb-link:hover {
+    background: #eff6ff;
+    color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+}
+
+.breadcrumb-separator {
+    color: #cbd5e0;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.breadcrumb-current {
+    color: #1a202c;
+    font-weight: 700;
+}
+
+/* ==================== 메인 컨텐츠 ==================== */
+
+.job-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== 헤더 섹션 ==================== */
+
+.job-header-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.job-header-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.job-header-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary), var(--info));
+    height: 4px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
 }
 
-.job-detail-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--neutral-900);
-    margin: 0 0 1.25rem 0;
-    line-height: 1.3;
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
-.company-info {
+.job-header-main {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 32px;
 }
 
-.company-name-container {
+.company-avatar-large {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 16px;
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.company-badge {
-    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    background-color: var(--primary-light);
-    color: var(--primary);
-    font-weight: 600;
-    font-size: 1.4rem;
-    border-radius: var(--border-radius-md);
+    font-weight: 700;
+    font-size: 28px;
     flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+    transition: all 0.3s ease;
+}
+
+.company-avatar-large:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+}
+
+.job-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.job-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
 
 .company-name {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--neutral-800);
+    font-size: 18px;
+    font-weight: 700;
+    color: #4a5568;
+}
+
+.job-badges {
+    display: flex;
+    gap: 12px;
+}
+
+.job-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.job-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    border-radius: 2px;
+    animation: expand 0.8s ease-out 0.3s both;
+}
+
+@keyframes expand {
+    from { width: 0; }
+    to { width: 60px; }
+}
+
+.job-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #718096;
+    font-size: 15px;
 }
 
 .post-date {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--neutral-500);
-    font-size: 0.95rem;
+    gap: 8px;
+    font-weight: 600;
+    padding: 8px 16px;
+    background: #f7fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
 }
+
+.post-date:hover {
+    background: #eff6ff;
+    border-color: #4299e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+}
+
+/* ==================== 배지 스타일 ==================== */
+
+.badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.badge-urgent {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 2px solid #fecaca;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.badge-closed {
+    background: #f8fafc;
+    color: #6b7280;
+    border: 2px solid #d1d5db;
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.1);
+}
+
+/* ==================== 액션 버튼 ==================== */
 
 .job-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--neutral-200);
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 2px solid #f1f5f9;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-.back-button,
-.edit-button,
-.delete-button,
-.apply-button,
-.apply-button-closed {
+.company-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--border-radius-md);
-    font-size: 0.95rem;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 8px;
     font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
     cursor: pointer;
-    transition: var(--transition);
-}
-
-.back-button {
-    background-color: var(--neutral-100);
-    color: var(--neutral-700);
-    border: 1px solid var(--neutral-300);
-}
-
-.back-button:hover {
-    background-color: var(--neutral-200);
-    color: var(--neutral-800);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.edit-button {
-    background-color: var(--primary);
-    color: white;
     border: none;
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    min-width: auto;
+    max-width: 200px;
 }
 
-.edit-button:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.delete-button {
-    background-color: white;
-    color: var(--danger);
-    border: 1px solid var(--danger);
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
-.delete-button:hover {
-    background-color: var(--danger);
+.btn-primary {
+    background: #4299e1;
     color: white;
+    box-shadow: 0 4px 16px rgba(66, 153, 225, 0.3);
+}
+
+.btn-primary:hover {
+    background: #3182ce;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 24px rgba(66, 153, 225, 0.4);
 }
 
-.apply-button {
-    background-color: var(--success);
-    color: white;
-    border: none;
-    margin-left: auto;
+.btn-secondary {
+    background: white;
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.apply-button:hover {
-    background-color: var(--success-hover);
+.btn-secondary:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    color: #2d3748;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(53, 199, 89, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.apply-button-closed {
-    background-color: var(--neutral-400);
+.btn-danger {
+    background: white;
+    color: #e53e3e;
+    border: 2px solid #fed7d7;
+    box-shadow: 0 2px 8px rgba(229, 62, 62, 0.1);
+}
+
+.btn-danger:hover {
+    background: #e53e3e;
     color: white;
-    border: none;
+    border-color: #e53e3e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(229, 62, 62, 0.4);
+}
+
+.btn-disabled {
+    background: #f7fafc;
+    color: #a0aec0;
+    border: 2px solid #e2e8f0;
     cursor: not-allowed;
-    margin-left: auto;
+    opacity: 0.6;
 }
 
-.job-detail-content {
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    padding: 2.5rem;
-    box-shadow: var(--shadow-md);
-    margin-top: 1.5rem;
+.btn-xl {
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    min-width: 140px;
+    max-width: 200px;
 }
 
-.job-overview {
+/* ==================== 상세 정보 그리드 ==================== */
+
+.job-details-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--neutral-200);
+    grid-template-columns: 1fr;
+    gap: 32px;
 }
 
-.overview-item {
+/* ==================== 탭 네비게이션 ==================== */
+
+.job-tabs {
+    background: white;
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 32px;
+}
+
+.tab-navigation {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 4px;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 4px;
 }
 
-.overview-label {
-    font-size: 0.9rem;
-    color: var(--neutral-500);
-    font-weight: 500;
+.tab-button {
+    flex: 1;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    color: #4299e1;
+    background: rgba(66, 153, 225, 0.05);
+}
+
+.tab-button.active {
+    background: white;
+    color: #4299e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    border-radius: 2px;
+}
+
+/* ==================== 탭 컨텐츠 ==================== */
+
+.tab-content {
+    display: none;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInTab {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-content.active {
+    animation: fadeInTab 0.3s ease-out;
+}
+
+/* ==================== 탭 별 컨텐츠 스타일 ==================== */
+
+/* 기본 정보 탭 */
+.basic-info-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.info-section {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.info-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 20px 0;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
-.overview-icon {
+.info-section-title svg {
+    width: 20px;
+    height: 20px;
+    color: #4299e1;
+}
+
+/* 요구 기술 탭 */
+.skills-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.skills-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.skills-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.skills-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 8px 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    background-color: var(--primary-light);
-    color: var(--primary);
-    border-radius: var(--border-radius-sm);
+    gap: 12px;
+}
+
+.skills-subtitle {
+    color: #64748b;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.skill-item:hover {
+    background: #eff6ff;
+    border-color: #4299e1;
+    color: #1e40af;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+.skill-item svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+/* 상세 내용 탭 개선 */
+.description-content-tab {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.description-content-tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.description-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.description-tab-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.description-tab-subtitle {
+    color: #64748b;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.description-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.description-text p {
+    margin-bottom: 20px;
+}
+
+.description-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== 정보 카드 ==================== */
+
+.info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.info-card-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 24px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.info-card-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    border-radius: 2px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #fafbfc;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.05), transparent);
+    transition: left 0.5s ease;
+}
+
+.info-item:hover::before {
+    left: 100%;
+}
+
+.info-item:hover {
+    background: #eff6ff;
+    border-color: #4299e1;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: #4a5568;
+    font-weight: 700;
+}
+
+.info-label svg {
+    width: 18px;
+    height: 18px;
+    color: #4299e1;
     flex-shrink: 0;
 }
 
-.overview-value {
-    font-size: 1.1rem;
-    color: var(--neutral-900);
-    font-weight: 600;
+.info-value {
+    font-size: 15px;
+    color: #1a202c;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.overview-value.deadline-passed {
-    color: var(--danger) !important;
+.info-value.deadline-passed {
+    color: #e53e3e;
+}
+
+.deadline-badge {
+    padding: 6px 12px;
+    background: #fef2f2;
+    color: #dc2626;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+    animation: pulse 2s infinite;
+}
+
+/* ==================== 스킬 컨테이너 ==================== */
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f5f9;
+    color: #374151;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
     position: relative;
+    overflow: hidden;
 }
 
-.overview-value.deadline-passed::after {
-    content: '마감됨';
+.skill-tag::before {
+    content: '';
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #fdeeee;
-    color: var(--danger);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(67, 56, 202, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-tag:hover::before {
+    left: 100%;
+}
+
+.skill-tag:hover {
+    background: #e0e7ff;
+    color: #3730a3;
+    border-color: #a5b4fc;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(67, 56, 202, 0.2);
+}
+
+.skill-tag svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+}
+
+/* ==================== 상세 설명 ==================== */
+
+.description-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.description-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 24px 0;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #f7fafc;
+}
+
+.description-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #4a5568;
     font-weight: 500;
 }
 
-.section-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--neutral-900);
-    margin: 2.5rem 0 1.5rem 0;
-    position: relative;
-    display: inline-block;
+.description-content p {
+    margin-bottom: 20px;
 }
 
-.section-title::after {
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== 하단 액션 ==================== */
+
+.bottom-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.bottom-action::before {
     content: '';
     position: absolute;
+    top: 0;
     left: 0;
-    bottom: -0.75rem;
-    width: 50%;
-    height: 0.25rem;
-    background-color: var(--primary);
-    border-radius: 2rem;
-}
-
-.description-section {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--neutral-800);
-}
-
-.description-section p {
-    margin-bottom: 1.25rem;
-}
-
-.apply-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--neutral-200);
-    text-align: center;
-}
-
-.apply-button-large {
-    padding: 1rem 2.5rem;
-    background-color: var(--success);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius-md);
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.apply-button-large:hover {
-    background-color: var(--success-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(53, 199, 89, 0.25);
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
 }
 
 .deadline-notice {
-    text-align: center;
-    color: var(--danger);
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 1.5rem;
-    border: 1px dashed var(--danger);
-    border-radius: var(--border-radius-lg);
-    background-color: #fff8f8;
-    margin: 2rem 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
+    gap: 16px;
+    color: #e53e3e;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 20px 32px;
+    border: 3px dashed #fed7d7;
+    border-radius: 16px;
+    background: #fef5f5;
+    position: relative;
+    overflow: hidden;
+    animation: warning-pulse 2s infinite;
 }
+
+@keyframes warning-pulse {
+    0%, 100% {
+        background: #fef5f5;
+        transform: scale(1);
+    }
+    50% {
+        background: #fed7d7;
+        transform: scale(1.02);
+    }
+}
+
+.deadline-notice svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* ==================== 로딩 및 에러 상태 ==================== */
 
 .loading-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
-    gap: 1.5rem;
+    min-height: 400px;
+    gap: 24px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #4299e1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .loading-text {
-    font-size: 1.2rem;
-    color: var(--primary);
-    font-weight: 500;
+    font-size: 18px;
+    color: #4299e1;
+    font-weight: 700;
+    margin: 0;
 }
 
 .error-container {
-    max-width: 900px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    background-color: #fff0f0;
-    border-radius: var(--border-radius-lg);
-    text-align: center;
-    color: var(--danger);
-    font-size: 1.1rem;
-    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    min-height: 400px;
+    gap: 24px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.error-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #e53e3e, #dc2626);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
 }
 
 .error-icon {
-    width: 4rem;
-    height: 4rem;
-    color: var(--danger);
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
 }
 
-/* 스킬 태그 스타일 */
-.skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.skill-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background-color: var(--primary-light);
-    color: var(--primary);
-    padding: 0.4rem 0.9rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.skill-tag:hover {
-    background-color: var(--primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(124, 92, 255, 0.25);
-}
-
-/* 스켈레톤 로딩 효과 */
-.job-detail-skeleton {
-    background-color: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-}
-
-.skeleton-title {
-    width: 70%;
-    height: 2.2rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-    margin-bottom: 1.25rem;
-}
-
-.skeleton-company {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-}
-
-.skeleton-badge {
-    width: 3rem;
-    height: 3rem;
-    background-color: var(--neutral-200);
-    border-radius: var(--border-radius-md);
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-name {
-    width: 150px;
-    height: 1.25rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--neutral-200);
-}
-
-.skeleton-button {
-    height: 2.5rem;
-    background-color: var(--neutral-200);
-    border-radius: var(--border-radius-md);
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-button-1 {
-    width: 120px;
-}
-
-.skeleton-button-2 {
-    flex: 1;
-    max-width: 200px;
-    margin-left: auto;
-}
-
-.skeleton-overview {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--neutral-200);
-}
-
-.skeleton-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.skeleton-label {
-    width: 100px;
-    height: 0.9rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-value {
-    width: 150px;
-    height: 1.1rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-section-title {
-    width: 150px;
-    height: 1.4rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-    margin: 2.5rem 0 1.5rem 0;
-}
-
-.skeleton-text {
-    width: 100%;
-    height: 1rem;
-    background-color: var(--neutral-200);
-    border-radius: 0.25rem;
-    animation: pulse 1.5s infinite;
-    margin-bottom: 0.75rem;
-}
-
-.skeleton-text:last-child {
-    width: 70%;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.6;
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
     }
-    50% {
-        opacity: 0.3;
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.error-container h3 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 12px 0;
+}
+
+.error-container p {
+    color: #718096;
+    margin: 0 0 32px 0;
+    line-height: 1.6;
+    font-size: 16px;
+    font-weight: 500;
+    max-width: 400px;
+}
+
+.error-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ==================== 반응형 디자인 ==================== */
+
+/* ==================== 반응형 탭 디자인 ==================== */
+
+@media (max-width: 1024px) {
+    .job-details-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .basic-info-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
     }
 }
 
 @media (max-width: 768px) {
-    .job-detail-header,
-    .job-detail-content {
-        padding: 1.5rem;
+    .tab-navigation {
+        flex-direction: column;
+        gap: 2px;
     }
 
-    .job-detail-title {
-        font-size: 1.8rem;
+    .tab-button {
+        padding: 14px 20px;
+        text-align: center;
     }
 
-    .job-overview {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .tab-button.active::after {
+        display: none;
+    }
+
+    .info-section {
+        padding: 24px 20px;
+    }
+
+    .skills-content,
+    .description-content-tab {
+        padding: 28px 24px;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+    }
+
+    .skill-item {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .description-text p {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .job-tabs {
+        padding: 6px;
+        margin-bottom: 24px;
+    }
+
+    .tab-navigation {
+        padding: 3px;
+    }
+
+    .tab-button {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .info-section {
+        padding: 20px 16px;
+    }
+
+    .info-section-title {
+        font-size: 16px;
+    }
+
+    .skills-content,
+    .description-content-tab {
+        padding: 24px 20px;
+    }
+
+    .skills-title,
+    .description-tab-title {
+        font-size: 20px;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 6px;
+    }
+
+    .skill-item {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .description-text {
+        font-size: 15px;
+    }
+
+    .description-text p {
+        margin-bottom: 16px;
+    }
+}
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .job-detail-page {
+        padding: 20px 0;
+    }
+
+    .breadcrumb {
+        margin-bottom: 24px;
+        padding: 12px 16px;
+        border-radius: 10px;
+    }
+
+    .job-header-section {
+        padding: 28px 24px;
+        border-radius: 16px;
+    }
+
+    .job-header-main {
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+    }
+
+    .company-avatar-large {
+        width: 72px;
+        height: 72px;
+        font-size: 24px;
+        border-radius: 14px;
+    }
+
+    .job-title {
+        font-size: 28px;
+    }
+
+    .job-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     .job-actions {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 
-    .back-button,
-    .edit-button,
-    .delete-button,
-    .apply-button,
-    .apply-button-closed {
-        flex-grow: 1;
+    .company-actions {
         justify-content: center;
+        width: auto;
+        gap: 12px;
     }
 
-    .apply-button,
-    .apply-button-closed {
-        margin-left: 0;
-        order: -1;
+    .company-actions .btn {
+        flex: 0 1 auto;
+        min-width: 100px;
+        max-width: 140px;
+    }
+
+    .info-card {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .info-item {
+        padding: 14px 16px;
+        border-radius: 10px;
+    }
+
+    .description-card {
+        padding: 28px 24px;
+        border-radius: 16px;
+    }
+
+    .bottom-action {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .deadline-notice {
+        font-size: 16px;
+        padding: 16px 20px;
+        border-radius: 12px;
+    }
+
+    .error-container {
+        padding: 40px 24px;
+        border-radius: 16px;
+    }
+
+    .error-actions {
+        flex-direction: column;
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .job-header-section {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .job-header-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .company-avatar-large {
+        width: 64px;
+        height: 64px;
+        font-size: 20px;
+        border-radius: 12px;
+    }
+
+    .job-title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .job-meta {
+        align-items: center;
+    }
+
+    .info-card {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .info-card-title {
+        font-size: 18px;
+    }
+
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 14px;
+        border-radius: 8px;
+    }
+
+    .info-label {
+        font-size: 14px;
+    }
+
+    .info-value {
+        font-size: 14px;
+        align-self: flex-end;
+    }
+
+    .description-card {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .description-title {
+        font-size: 20px;
+    }
+
+    .description-content {
+        font-size: 15px;
+    }
+
+    .skills-container {
+        gap: 8px;
+    }
+
+    .skill-tag {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 16px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        border-radius: 8px;
+        min-width: auto;
+        max-width: 180px;
+    }
+
+    .btn-xl {
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 8px;
+        min-width: 120px;
+        max-width: 180px;
+    }
+
+    .bottom-action {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .deadline-notice {
+        font-size: 14px;
+        padding: 14px 16px;
+        border-radius: 10px;
+    }
+
+    .error-container {
+        padding: 32px 20px;
+        border-radius: 14px;
+    }
+
+    .error-icon {
+        font-size: 48px;
+    }
+
+    .error-container h3 {
+        font-size: 20px;
+    }
+
+    .error-container h3 {
+        font-size: 20px;
+    }
+
+    .error-container p {
+        font-size: 14px;
+    }
+
+    .error-icon {
+        font-size: 48px;
     }
 }
