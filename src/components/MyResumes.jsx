@@ -5,6 +5,84 @@ import ResumeForm from './ResumeForm';
 import Recommendations from './Recommendations';
 import './MyResumes.css';
 
+// 아이콘 컴포넌트들
+const HomeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+    </svg>
+);
+
+const SearchIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+);
+
+const PlusIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+);
+
+const AlertIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+);
+
+const ClockIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+);
+
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+);
+
+const EditIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+    </svg>
+);
+
+const TrashIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+    </svg>
+);
+
+const CompareIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="6" height="6"></rect>
+        <rect x="15" y="3" width="6" height="6"></rect>
+        <rect x="9" y="15" width="6" height="6"></rect>
+        <line x1="9" y1="6" x2="15" y2="6"></line>
+        <line x1="12" y1="9" x2="12" y2="15"></line>
+    </svg>
+);
+
+const TargetIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="12" r="6"></circle>
+        <circle cx="12" cy="12" r="2"></circle>
+    </svg>
+);
+
 const MyResumes = () => {
     const [resumes, setResumes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,12 +91,12 @@ const MyResumes = () => {
     const [resumeToEdit, setResumeToEdit] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('newest');
+    const [visibleResumeId, setVisibleResumeId] = useState(null);
     const navigate = useNavigate();
 
-    const [visibleResumeId, setVisibleResumeId] = useState(null);
     const toggleRecommendations = (id) => {
-                setVisibleResumeId(prev => (prev === id ? null : id));
-            };
+        setVisibleResumeId(prev => (prev === id ? null : id));
+    };
 
     useEffect(() => {
         const fetchResumes = async () => {
@@ -38,11 +116,17 @@ const MyResumes = () => {
                 setResumes(response.data);
             } catch (err) {
                 console.error('Failed to fetch resumes:', err);
-                setError('이력서를 불러오는데 실패했습니다.');
+                if (err.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    navigate('/login');
+                } else {
+                    setError('이력서를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.');
+                }
             } finally {
                 setTimeout(() => {
                     setLoading(false);
-                }, 500); // 약간의 지연으로 부드러운 로딩 효과
+                }, 500);
             }
         };
 
@@ -56,7 +140,11 @@ const MyResumes = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('정말로 이 이력서를 삭제하시겠습니까?')) {
+        const confirmDelete = window.confirm(
+            '정말로 이 이력서를 삭제하시겠습니까?\n삭제된 이력서는 복구할 수 없습니다.'
+        );
+
+        if (!confirmDelete) {
             return;
         }
 
@@ -69,10 +157,34 @@ const MyResumes = () => {
             });
 
             setResumes(resumes.filter(resume => resume.id !== id));
-            alert('이력서가 삭제되었습니다.');
+
+            // 성공 알림을 더 사용자 친화적으로 표시
+            const successAlert = document.createElement('div');
+            successAlert.className = 'alert alert-success';
+            successAlert.innerHTML = '✅ 이력서가 성공적으로 삭제되었습니다.';
+            successAlert.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                background: linear-gradient(135deg, #d4edda, #c3e6cb);
+                color: #155724;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                border: 1px solid #c3e6cb;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            document.body.appendChild(successAlert);
+
+            setTimeout(() => {
+                if (document.body.contains(successAlert)) {
+                    document.body.removeChild(successAlert);
+                }
+            }, 3000);
+
         } catch (err) {
             console.error('Failed to delete resume:', err);
-            alert('이력서 삭제에 실패했습니다.');
+            setError('이력서 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.');
         }
     };
 
@@ -88,12 +200,29 @@ const MyResumes = () => {
     };
 
     const formatDate = (dateString) => {
+        if (!dateString) return '';
+
         const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = now - date;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return '오늘';
+        if (diffDays === 1) return '어제';
+        if (diffDays < 7) return `${diffDays}일 전`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
+
         return date.toLocaleDateString('ko-KR', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         });
+    };
+
+    const truncateContent = (content, maxLength = 150) => {
+        if (!content) return '';
+        if (content.length <= maxLength) return content;
+        return content.substring(0, maxLength) + '...';
     };
 
     // 검색어에 따른 이력서 필터링
@@ -116,12 +245,10 @@ const MyResumes = () => {
         }
     });
 
-    // 검색어 입력 핸들러
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
-    // 정렬 순서 변경 핸들러
     const handleSortChange = (e) => {
         setSortOrder(e.target.value);
     };
@@ -148,6 +275,20 @@ const MyResumes = () => {
         ));
     };
 
+    // 빈 상태 SVG 아이콘
+    const EmptyStateIcon = () => (
+        <svg width="120" height="120" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="300" cy="300" r="200" fill="#f1f5f9" opacity="0.5"/>
+            <rect x="190" y="170" width="220" height="260" rx="20" fill="white" stroke="#e2e8f0" strokeWidth="8"/>
+            <line x1="230" y1="220" x2="370" y2="220" stroke="#cbd5e0" strokeWidth="8" strokeLinecap="round"/>
+            <line x1="230" y1="260" x2="370" y2="260" stroke="#cbd5e0" strokeWidth="8" strokeLinecap="round"/>
+            <line x1="230" y1="300" x2="370" y2="300" stroke="#cbd5e0" strokeWidth="8" strokeLinecap="round"/>
+            <line x1="230" y1="340" x2="290" y2="340" stroke="#cbd5e0" strokeWidth="8" strokeLinecap="round"/>
+            <circle cx="350" cy="350" r="30" fill="#4299e1" opacity="0.2"/>
+            <path d="M340 350h20M350 340v20" stroke="#4299e1" strokeWidth="4" strokeLinecap="round"/>
+        </svg>
+    );
+
     return (
         <div className="my-resumes-container">
             {/* 배경 효과 */}
@@ -159,14 +300,13 @@ const MyResumes = () => {
 
             {/* 네비게이션 바 */}
             <nav className="resumes-nav">
-                <div className="nav-logo" onClick={() => navigate('/')}>JobBridge</div>
+                <div className="nav-logo" onClick={() => navigate('/')}>
+                    JobBridge
+                </div>
                 <div className="nav-links">
-                    <button className="nav-button home" onClick={() => navigate('/')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                        &nbsp;홈으로
+                    <button className="nav-button" onClick={() => navigate('/')}>
+                        <HomeIcon />
+                        홈으로
                     </button>
                 </div>
             </nav>
@@ -176,20 +316,17 @@ const MyResumes = () => {
                 {/* 헤더 섹션 */}
                 <div className="resumes-header">
                     <h1 className="resumes-title">
-                        <span className="highlight">이력서</span> 관리
+                        나의 <span className="highlight">이력서</span> 관리
                     </h1>
                     <p className="resumes-subtitle">
-                        작성한 이력서를 관리하고 구직 활동에 활용하세요. 맞춤형 이력서로 새로운 기회를 얻을 수 있습니다.
+                        작성한 이력서를 체계적으로 관리하고, AI 추천을 통해 더 나은 기회를 찾아보세요.
                     </p>
                 </div>
 
+                {/* 에러 메시지 */}
                 {error && (
                     <div className="alert alert-danger">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
+                        <AlertIcon />
                         {error}
                     </div>
                 )}
@@ -204,14 +341,11 @@ const MyResumes = () => {
                         {/* 액션 영역 - 검색 및 정렬 */}
                         <div className="resumes-actions">
                             <div className="search-area">
-                                <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
+                                <SearchIcon className="search-icon" />
                                 <input
                                     type="text"
                                     className="search-input"
-                                    placeholder="이력서 검색..."
+                                    placeholder="이력서 제목이나 내용으로 검색..."
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                 />
@@ -228,10 +362,7 @@ const MyResumes = () => {
                                 </select>
 
                                 <button className="add-resume-button" onClick={handleAddNew}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
+                                    <PlusIcon />
                                     새 이력서 작성
                                 </button>
                             </div>
@@ -252,22 +383,22 @@ const MyResumes = () => {
                             <>
                                 {sortedResumes.length === 0 ? (
                                     <div className="empty-resumes">
-                                        <svg width="120" height="120" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M300 500C411.046 500 500 411.046 500 300C500 188.954 411.046 100 300 100C188.954 100 100 188.954 100 300C100 411.046 188.954 500 300 500Z" fill="#F3F4F6" />
-                                            <path d="M410 170H190C184.477 170 180 174.477 180 180V420C180 425.523 184.477 430 190 430H410C415.523 430 420 425.523 420 420V180C420 174.477 415.523 170 410 170Z" fill="white" stroke="#E5E7EB" strokeWidth="8" />
-                                            <path d="M230 220H370" stroke="#D1D5DB" strokeWidth="8" strokeLinecap="round" />
-                                            <path d="M230 260H370" stroke="#D1D5DB" strokeWidth="8" strokeLinecap="round" />
-                                            <path d="M230 300H370" stroke="#D1D5DB" strokeWidth="8" strokeLinecap="round" />
-                                            <path d="M230 340H290" stroke="#D1D5DB" strokeWidth="8" strokeLinecap="round" />
-                                        </svg>
-                                        <h3>등록된 이력서가 없습니다</h3>
-                                        <p>새 이력서를 작성해 취업 활동을 시작해보세요!</p>
+                                        <EmptyStateIcon />
+                                        <h3>
+                                            {searchTerm
+                                                ? `"${searchTerm}"에 대한 검색 결과가 없습니다`
+                                                : '등록된 이력서가 없습니다'
+                                            }
+                                        </h3>
+                                        <p>
+                                            {searchTerm
+                                                ? '다른 검색어로 시도해보거나 새 이력서를 작성해보세요.'
+                                                : '첫 번째 이력서를 작성하여 구직 활동을 시작해보세요!'
+                                            }
+                                        </p>
                                         <button className="create-first-button" onClick={handleAddNew}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            </svg>
-                                            첫 이력서 작성하기
+                                            <PlusIcon />
+                                            {searchTerm ? '새 이력서 작성' : '첫 이력서 작성하기'}
                                         </button>
                                     </div>
                                 ) : (
@@ -278,68 +409,98 @@ const MyResumes = () => {
                                                     <h3 className="resume-title">{resume.title}</h3>
                                                     <div className="resume-meta">
                                                         <span className="resume-date">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                                <circle cx="12" cy="12" r="10"></circle>
-                                                                <polyline points="12 6 12 12 16 14"></polyline>
-                                                            </svg>
+                                                            <ClockIcon />
                                                             {formatDate(resume.updatedAt)}
                                                         </span>
+                                                        <span className="resume-status">활성</span>
                                                     </div>
                                                 </div>
+
                                                 <div className="resume-content">
-                                                    <p className="resume-excerpt">{resume.content}</p>
+                                                    <p className="resume-excerpt">
+                                                        {truncateContent(resume.content)}
+                                                    </p>
                                                 </div>
+
+                                                <div className="resume-stats">
+                                                    <div className="resume-stat">
+                                                        <span className="resume-stat-number">0</span>
+                                                        <span className="resume-stat-label">조회수</span>
+                                                    </div>
+                                                    <div className="resume-stat">
+                                                        <span className="resume-stat-number">0</span>
+                                                        <span className="resume-stat-label">지원수</span>
+                                                    </div>
+                                                    <div className="resume-stat">
+                                                        <span className="resume-stat-number">0</span>
+                                                        <span className="resume-stat-label">관심</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="resume-skills">
+                                                    <h4 className="resume-skills-title">주요 키워드</h4>
+                                                    <div className="skills-list">
+                                                        <span className="skill-tag">이력서</span>
+                                                        <span className="skill-tag">경력</span>
+                                                        <span className="skill-tag">채용</span>
+                                                        <span className="skill-tag">취업</span>
+                                                    </div>
+                                                </div>
+
                                                 <div className="resume-actions">
                                                     <button
                                                         className="view-button"
                                                         onClick={() => navigate(`/resume/${resume.id}`)}
+                                                        title="이력서 상세보기"
                                                     >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                            <circle cx="12" cy="12" r="3"></circle>
-                                                        </svg>
+                                                        <EyeIcon />
                                                         상세보기
                                                     </button>
+
                                                     <button
                                                         className="edit-button"
                                                         onClick={() => handleEdit(resume)}
+                                                        title="이력서 수정"
                                                     >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                                        </svg>
-                                                        수정
+                                                        <EditIcon />
+                                                        수정하기
                                                     </button>
+
                                                     <button
                                                         className="delete-button"
                                                         onClick={() => handleDelete(resume.id)}
+                                                        title="이력서 삭제"
                                                     >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                        </svg>
-                                                        삭제
+                                                        <TrashIcon />
+                                                        삭제하기
                                                     </button>
+
                                                     <button
                                                         className="resume-compare-button"
-                                                        onClick={() => toggleRecommendations(resume.id)}>
+                                                        onClick={() => toggleRecommendations(resume.id)}
+                                                        title="이력서 비교 분석"
+                                                    >
+                                                        <CompareIcon />
                                                         이력서 비교
                                                     </button>
+
                                                     <button
                                                         className="recommend-career-button"
                                                         onClick={() => {
-                                                            navigate('/jobs', { state: { resumeId: resume.id } });}}
-                                                            >
-                                                            추천 경로 제안받기
-                                                            </button>
+                                                            navigate('/jobs', { state: { resumeId: resume.id } });
+                                                        }}
+                                                        title="맞춤 경력 경로 추천받기"
+                                                    >
+                                                        <TargetIcon />
+                                                        경력 추천받기
+                                                    </button>
                                                 </div>
+
                                                 {visibleResumeId === resume.id && (
                                                     <div className="recommendation-section">
-                                                        <Recommendations  resumeId={resume.id} />
-                                                        </div>
-                                                        )}
+                                                        <Recommendations resumeId={resume.id} />
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
