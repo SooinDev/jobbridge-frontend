@@ -1,115 +1,544 @@
-.resume-form-container {
-    width: 100%;
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+/* ==================== MODERN RESUME FORM STYLES - LIGHT MODE ==================== */
+
+.resume-form-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+    #fafafa 0%,
+    #f5f5f5 50%,
+    #eeeeee 100%);
+    padding: 2rem 0 4rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #2d3748;
 }
 
-.resume-form {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
+.resume-form-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ==================== 헤더 섹션 ==================== */
+
+.form-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.form-header::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 2px;
 }
 
 .form-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.5px;
 }
 
+.form-subtitle {
+    font-size: 1.125rem;
+    color: #718096;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* ==================== 메인 폼 컨테이너 ==================== */
+
+.resume-form {
+    background: white;
+    border-radius: 24px;
+    box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06),
+            0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.resume-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(135deg, #4299e1, #9f7aea, #38b2ac);
+    border-radius: 24px 24px 0 0;
+}
+
+/* ==================== 폼 그룹 스타일 ==================== */
+
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
 }
 
 .form-group label {
     display: block;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1rem;
 }
+
+.form-group label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(135deg, #4299e1, #9f7aea);
+    border-radius: 2px;
+}
+
+/* ==================== 입력 필드 스타일 ==================== */
 
 .resume-form input,
 .resume-form textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 0.95rem;
-    background-color: #fff;
-    transition: border-color 0.2s;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    font-size: 1rem;
+    background: #fafbfc;
+    color: #2d3748;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
 }
 
 .resume-form input:focus,
 .resume-form textarea:focus {
-    border-color: #7c5cff;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.1);
+    border-color: #4299e1;
+    background: white;
+    box-shadow:
+            0 0 0 4px rgba(66, 153, 225, 0.1),
+            0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+.resume-form input::placeholder,
+.resume-form textarea::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
 }
 
 .resume-form textarea {
-    resize: vertical;
-    min-height: 300px;
-    font-family: inherit;
-    line-height: 1.5;
+    min-height: 400px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    background: #fafbfc;
+    border: 2px solid #e2e8f0;
+    position: relative;
 }
+
+.resume-form textarea:focus {
+    background: white;
+}
+
+/* ==================== 텍스트 에어리어 향상 ==================== */
+
+.textarea-container {
+    position: relative;
+}
+
+.textarea-container::after {
+    content: attr(data-counter);
+    position: absolute;
+    bottom: 0.75rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* ==================== 에러 메시지 ==================== */
+
+.error-message {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    color: #dc2626;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #fecaca;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.error-message::before {
+    content: '⚠️';
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.error-message::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #dc2626;
+    border-radius: 12px 0 0 12px;
+}
+
+/* ==================== 성공 메시지 ==================== */
+
+.success-message {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    color: #16a34a;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #bbf7d0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.success-message::before {
+    content: '✅';
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.success-message::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #16a34a;
+    border-radius: 12px 0 0 12px;
+}
+
+/* ==================== 폼 액션 버튼들 ==================== */
 
 .form-actions {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
 }
 
 .cancel-button,
 .submit-button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 500;
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .cancel-button {
-    background-color: white;
-    color: #666;
-    border: 1px solid #ddd;
+    background: white;
+    color: #718096;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .cancel-button:hover {
-    background-color: #f5f5f5;
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    color: #4a5568;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .submit-button {
-    background-color: #7c5cff;
+    background: linear-gradient(135deg, #4299e1, #3182ce);
     color: white;
-    border: none;
+    box-shadow:
+            0 4px 6px -1px rgba(66, 153, 225, 0.3),
+            0 2px 4px -1px rgba(66, 153, 225, 0.2);
 }
 
-.submit-button:hover {
-    background-color: #6a4cec;
+.submit-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3182ce, #2c5282);
+    transform: translateY(-2px);
+    box-shadow:
+            0 8px 25px -5px rgba(66, 153, 225, 0.4),
+            0 8px 10px -6px rgba(66, 153, 225, 0.3);
 }
 
 .submit-button:disabled {
-    background-color: #b0a0ff;
+    background: linear-gradient(135deg, #9ca3af, #6b7280);
     cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
+/* ==================== 로딩 스피너 ==================== */
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================== 도움말 섹션 ==================== */
+
+.help-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+    border: 1px solid #81e6d9;
+    border-radius: 12px;
+    position: relative;
+}
+
+.help-section::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(135deg, #38b2ac, #319795);
+    border-radius: 12px 0 0 12px;
+}
+
+.help-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #234e52;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.help-title::before {
+    content: '💡';
+    font-size: 1.25rem;
+}
+
+.help-content {
+    color: #234e52;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.help-content ul {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+}
+
+.help-content li {
+    margin-bottom: 0.25rem;
+}
+
+/* ==================== 반응형 디자인 ==================== */
+
 @media (max-width: 768px) {
+    .resume-form-page {
+        padding: 1rem 0 2rem 0;
+    }
+
+    .resume-form-container {
+        padding: 0 1rem;
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+    }
+
+    .form-title {
+        font-size: 2rem;
+    }
+
+    .form-subtitle {
+        font-size: 1rem;
+    }
+
     .resume-form {
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .resume-form input,
+    .resume-form textarea {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    .resume-form textarea {
+        min-height: 300px;
     }
 
     .form-actions {
         flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
     }
 
     .cancel-button,
     .submit-button {
         width: 100%;
+        padding: 1rem;
+        order: 2;
+    }
+
+    .submit-button {
+        order: 1;
+    }
+
+    .help-section {
+        padding: 1rem;
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .resume-form-container {
+        padding: 0 0.75rem;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+    }
+
+    .resume-form {
+        padding: 1.5rem 1rem;
+    }
+
+    .resume-form input,
+    .resume-form textarea {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .cancel-button,
+    .submit-button {
+        padding: 0.875rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ==================== 다크모드 지원 제거 - 라이트모드 전용 ==================== */
+
+/* ==================== 프린트 스타일 ==================== */
+
+@media print {
+    .resume-form-page {
+        background: white;
+        padding: 0;
+    }
+
+    .form-header,
+    .form-actions,
+    .help-section {
+        display: none;
+    }
+
+    .resume-form {
+        box-shadow: none;
+        border: 1px solid #000;
+        padding: 1rem;
+    }
+
+    .resume-form::before {
+        display: none;
+    }
+}
+
+/* ==================== 접근성 향상 ==================== */
+
+.resume-form input:focus,
+.resume-form textarea:focus,
+.cancel-button:focus,
+.submit-button:focus {
+    outline: 2px solid #4299e1;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .resume-form input,
+    .resume-form textarea,
+    .cancel-button,
+    .submit-button {
+        transition: none;
+    }
+
+    .loading-spinner {
+        animation: none;
+    }
+
+    .submit-button:hover {
+        transform: none;
+    }
+}
+
+/* ==================== 고대비 모드 지원 ==================== */
+
+@media (prefers-contrast: high) {
+    .resume-form {
+        border: 3px solid #000;
+    }
+
+    .resume-form input,
+    .resume-form textarea {
+        border: 2px solid #000;
+    }
+
+    .cancel-button,
+    .submit-button {
+        border: 2px solid #000;
     }
 }
