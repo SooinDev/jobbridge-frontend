@@ -204,7 +204,7 @@ const MyPage = () => {
                             <h2>{user?.name || '사용자'}</h2>
                             <p className="user-email">{user?.email || ''}</p>
                             <div className={`user-type ${user?.userType === 'COMPANY' ? 'company-type' : 'individual-type'}`}>
-                                {user?.userType === 'INDIVIDUAL' ? '👤 개인 회원' : '🏢 기업 회원'}
+                                {user?.userType === 'INDIVIDUAL' ? '개인 회원' : '기업 회원'}
                             </div>
                         </div>
                     </div>
@@ -270,7 +270,7 @@ const MyPage = () => {
                             </div>
                         ) : (
                             <div className="detail-card company-card">
-                                <h3>🎯 채용 관리</h3>
+                                <h3>채용 관리</h3>
                                 <div className="activity-stats">
                                     <div className="stat-item">
                                         <span className="stat-number">{activeJobCount}</span>

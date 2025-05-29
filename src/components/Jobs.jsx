@@ -74,6 +74,18 @@ const ArrowRightIcon = () => (
     </svg>
 );
 
+const ChevronLeftIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="15,18 9,12 15,6"></polyline>
+    </svg>
+);
+
+const ChevronRightIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="9,18 15,12 9,6"></polyline>
+    </svg>
+);
+
 const Jobs = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -81,6 +93,12 @@ const Jobs = () => {
 
     // 이력서 ID (MyResumes에서 전달)
     const resumeId = location.state?.resumeId;
+
+    // 페이지네이션 상태
+    const [currentPage, setCurrentPage] = useState(parseInt(queryParams.get('page')) || 1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalJobs, setTotalJobs] = useState(0);
+    const itemsPerPage = 12; // 페이지당 아이템 수
 
     // 상태 관리
     const [searchParams, setSearchParams] = useState({
@@ -95,7 +113,7 @@ const Jobs = () => {
     const [error, setError] = useState('');
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
     const [user, setUser] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('전체');
+    const [selectedCategory, setSelectedCategory] = useState(queryParams.get('category') || '전체');
     const [selectedJobId, setSelectedJobId] = useState(null);
     const [recommendations, setRecommendations] = useState([]);
 
@@ -108,37 +126,111 @@ const Jobs = () => {
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        fetchJobPostings();
     }, []);
 
-    // 일자리 데이터 가져오기
-    const fetchJobPostings = async (params = searchParams) => {
+    // 페이지나 검색 조건이 변경될 때마다 데이터 다시 로드
+    useEffect(() => {
+        fetchJobPostings();
+    }, [currentPage, location.search]);
+
+    // URL 파라미터 변경 시 상태 업데이트
+    useEffect(() => {
+        const newPage = parseInt(queryParams.get('page')) || 1;
+        const newKeyword = queryParams.get('keyword') || '';
+        const newLocation = queryParams.get('location') || '';
+        const newExperienceLevel = queryParams.get('experienceLevel') || '';
+        const newActiveOnly = queryParams.get('activeOnly') === 'true';
+        const newCategory = queryParams.get('category') || '전체';
+
+        setCurrentPage(newPage);
+        setSelectedCategory(newCategory);
+        setSearchParams({
+            keyword: newKeyword,
+            location: newLocation,
+            experienceLevel: newExperienceLevel,
+            activeOnly: newActiveOnly
+        });
+    }, [location.search]);
+
+    // 일자리 데이터 가져오기 (페이지네이션 포함)
+    const fetchJobPostings = async () => {
         setLoading(true);
         setError('');
 
         try {
+            // URL에서 현재 검색 조건 가져오기
+            const currentKeyword = queryParams.get('keyword') || '';
+            const currentLocation = queryParams.get('location') || '';
+            const currentExperienceLevel = queryParams.get('experienceLevel') || '';
+            const currentActiveOnly = queryParams.get('activeOnly') === 'true';
+            const page = parseInt(queryParams.get('page')) || 1;
+
+            const urlParams = new URLSearchParams();
+
+            // 페이지 파라미터 추가 (백엔드가 0-based인지 1-based인지 확인 필요)
+            urlParams.append('page', (page - 1).toString()); // 대부분의 Spring Boot는 0-based
+            urlParams.append('size', itemsPerPage.toString());
+
+            // 검색 조건 추가
+            if (currentKeyword) urlParams.append('keyword', currentKeyword);
+            if (currentLocation) urlParams.append('location', currentLocation);
+            if (currentExperienceLevel) urlParams.append('experienceLevel', currentExperienceLevel);
+            if (currentActiveOnly) urlParams.append('activeOnly', currentActiveOnly.toString());
+
             let response;
 
-            // 검색 조건이 없으면 전체 일자리 가져오기
-            if (!params.keyword && !params.location && !params.experienceLevel && !params.activeOnly) {
-                response = await axios.get('http://localhost:8080/api/jobs/all-simple');
-            } else {
-                const urlParams = new URLSearchParams();
-                if (params.keyword) urlParams.append('keyword', params.keyword);
-                if (params.location) urlParams.append('location', params.location);
-                if (params.experienceLevel) urlParams.append('experienceLevel', params.experienceLevel);
-                if (params.activeOnly) urlParams.append('activeOnly', params.activeOnly);
-
+            // 검색 조건이 있으면 검색 API, 없으면 전체 목록 API 호출
+            if (currentKeyword || currentLocation || currentExperienceLevel || currentActiveOnly) {
                 response = await axios.get(`http://localhost:8080/api/jobs/search?${urlParams.toString()}`);
+            } else {
+                response = await axios.get(`http://localhost:8080/api/jobs/all-simple?${urlParams.toString()}`);
             }
 
-            setJobs(response.data);
+            console.log('API 응답:', response.data); // 디버깅용
+
+            // Spring Boot Page 응답 형식 처리
+            if (response.data.content) {
+                setJobs(response.data.content);
+                setTotalPages(response.data.totalPages);
+                setTotalJobs(response.data.totalElements);
+            } else if (Array.isArray(response.data)) {
+                // 페이지네이션이 적용되지 않은 배열 응답의 경우
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedJobs = response.data.slice(startIndex, endIndex);
+
+                setJobs(paginatedJobs);
+                setTotalPages(Math.ceil(response.data.length / itemsPerPage));
+                setTotalJobs(response.data.length);
+            } else {
+                // 예상하지 못한 응답 형식
+                console.error('예상하지 못한 API 응답 형식:', response.data);
+                setJobs([]);
+                setTotalPages(1);
+                setTotalJobs(0);
+            }
         } catch (err) {
             console.error('일자리 데이터 로드 실패:', err);
             setError('일자리 정보를 불러오는데 실패했습니다.');
+            setJobs([]);
+            setTotalPages(1);
+            setTotalJobs(0);
         } finally {
             setLoading(false);
         }
+    };
+
+    // 페이지 변경 함수
+    const handlePageChange = (newPage) => {
+        if (newPage < 1 || newPage > totalPages) return;
+
+        // URL 업데이트
+        const params = new URLSearchParams(location.search);
+        params.set('page', newPage.toString());
+        navigate({ search: params.toString() }, { replace: true });
+
+        // 페이지 상단으로 스크롤
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // 경력 추천 API 호출
@@ -169,50 +261,58 @@ const Jobs = () => {
     const handleSearch = (e) => {
         e.preventDefault();
 
-        // URL 업데이트
+        // URL 업데이트 (페이지를 1로 리셋)
         const params = new URLSearchParams();
-        if (searchParams.keyword) params.append('keyword', searchParams.keyword);
-        if (searchParams.location) params.append('location', searchParams.location);
-        if (searchParams.experienceLevel) params.append('experienceLevel', searchParams.experienceLevel);
-        if (searchParams.activeOnly) params.append('activeOnly', searchParams.activeOnly);
+        params.set('page', '1');
+
+        if (searchParams.keyword) params.set('keyword', searchParams.keyword);
+        if (searchParams.location) params.set('location', searchParams.location);
+        if (searchParams.experienceLevel) params.set('experienceLevel', searchParams.experienceLevel);
+        if (searchParams.activeOnly) params.set('activeOnly', searchParams.activeOnly.toString());
+        if (selectedCategory !== '전체') params.set('category', selectedCategory);
 
         navigate({ search: params.toString() });
-        fetchJobPostings(searchParams);
     };
 
     // 검색 초기화
     const handleClearSearch = () => {
-        const newParams = {
+        setSearchParams({
             keyword: '',
             location: '',
             experienceLevel: '',
             activeOnly: false
-        };
-        setSearchParams(newParams);
+        });
         setSelectedCategory('전체');
-        navigate('/jobs');
-        fetchJobPostings(newParams);
+
+        navigate('/jobs?page=1');
     };
 
     // 카테고리 선택
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
 
+        const params = new URLSearchParams();
+        params.set('page', '1');
+
         if (category === '전체') {
-            handleClearSearch();
+            setSearchParams({
+                keyword: '',
+                location: '',
+                experienceLevel: '',
+                activeOnly: false
+            });
         } else {
             const newParams = { ...searchParams, keyword: category };
             setSearchParams(newParams);
 
-            const urlParams = new URLSearchParams();
-            urlParams.append('keyword', category);
-            if (newParams.location) urlParams.append('location', newParams.location);
-            if (newParams.experienceLevel) urlParams.append('experienceLevel', newParams.experienceLevel);
-            if (newParams.activeOnly) urlParams.append('activeOnly', newParams.activeOnly);
-
-            navigate({ search: urlParams.toString() });
-            fetchJobPostings(newParams);
+            params.set('keyword', category);
+            params.set('category', category);
+            if (newParams.location) params.set('location', newParams.location);
+            if (newParams.experienceLevel) params.set('experienceLevel', newParams.experienceLevel);
+            if (newParams.activeOnly) params.set('activeOnly', newParams.activeOnly.toString());
         }
+
+        navigate({ search: params.toString() });
     };
 
     // 일자리 상세 페이지로 이동
@@ -280,6 +380,81 @@ const Jobs = () => {
         const now = new Date();
         const diffDays = Math.floor((now - posted) / (1000 * 60 * 60 * 24));
         return diffDays <= 3;
+    };
+
+    // 페이지네이션 컴포넌트
+    const Pagination = () => {
+        const pageNumbers = [];
+        const maxVisiblePages = 5;
+
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+
+        return (
+            <div className="pagination">
+                <button
+                    className="pagination-btn pagination-prev"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    <ChevronLeftIcon />
+                    이전
+                </button>
+
+                <div className="pagination-numbers">
+                    {startPage > 1 && (
+                        <>
+                            <button
+                                className="pagination-number"
+                                onClick={() => handlePageChange(1)}
+                            >
+                                1
+                            </button>
+                            {startPage > 2 && <span className="pagination-ellipsis">...</span>}
+                        </>
+                    )}
+
+                    {pageNumbers.map(number => (
+                        <button
+                            key={number}
+                            className={`pagination-number ${currentPage === number ? 'active' : ''}`}
+                            onClick={() => handlePageChange(number)}
+                        >
+                            {number}
+                        </button>
+                    ))}
+
+                    {endPage < totalPages && (
+                        <>
+                            {endPage < totalPages - 1 && <span className="pagination-ellipsis">...</span>}
+                            <button
+                                className="pagination-number"
+                                onClick={() => handlePageChange(totalPages)}
+                            >
+                                {totalPages}
+                            </button>
+                        </>
+                    )}
+                </div>
+
+                <button
+                    className="pagination-btn pagination-next"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                    <ChevronRightIcon />
+                </button>
+            </div>
+        );
     };
 
     // 로딩 스켈레톤
@@ -475,7 +650,7 @@ const Jobs = () => {
                             <>
                                 <div className="results-header">
                                     <span className="results-count">
-                                        총 <strong>{jobs.length}</strong>개의 일자리
+                                        총 <strong>{totalJobs}</strong>개의 일자리 (페이지 {currentPage}/{totalPages})
                                     </span>
                                 </div>
 
@@ -575,6 +750,9 @@ const Jobs = () => {
                                         </article>
                                     ))}
                                 </div>
+
+                                {/* 페이지네이션 */}
+                                {totalPages > 1 && <Pagination />}
                             </>
                         )}
                     </section>
