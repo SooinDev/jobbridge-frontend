@@ -242,7 +242,7 @@ const MyPage = () => {
                         {/* 활동 통계 카드 */}
                         {user?.userType === 'INDIVIDUAL' ? (
                             <div className="detail-card individual-card">
-                                <h3>💼 구직 활동</h3>
+                                <h3>구직 활동</h3>
                                 <div className="activity-stats">
                                     <div className="stat-item">
                                         <span className="stat-number">{applications.length}</span>

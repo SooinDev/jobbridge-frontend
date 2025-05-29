@@ -339,6 +339,10 @@
     border-bottom: 1px solid #f7fafc;
 }
 
+.detail-item:hover {
+    background: transparent;
+}
+
 .detail-item:last-child {
     border-bottom: none;
     margin-bottom: 0;
