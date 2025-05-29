@@ -4,7 +4,7 @@ import axios from 'axios';
 import './JobPostingDetail.css';
 import "../styles/common.css";
 
-// 아이콘 컴포넌트들
+// 아이콘 컴포넌트들 (기존과 동일)
 const IconBack = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -114,10 +114,19 @@ const IconRefresh = () => (
 const JobPostingDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    // 기존 상태들
     const [job, setJob] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [user, setUser] = useState(null);
+
+    // 이력서 선택 모달 관련 상태 추가
+    const [showResumeModal, setShowResumeModal] = useState(false);
+    const [resumes, setResumes] = useState([]);
+    const [selectedResumeId, setSelectedResumeId] = useState(null);
+    const [loadingResumes, setLoadingResumes] = useState(false);
+    const [applyingJob, setApplyingJob] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -154,6 +163,93 @@ const JobPostingDetail = () => {
         }
     };
 
+    // 이력서 목록 조회
+    const fetchUserResumes = async () => {
+        setLoadingResumes(true);
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8080/api/resume/my', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            console.log('이력서 목록:', response.data);
+            setResumes(response.data);
+
+            // 이력서가 1개면 자동 선택
+            if (response.data.length === 1) {
+                setSelectedResumeId(response.data[0].id);
+            }
+        } catch (err) {
+            console.error('이력서 조회 실패:', err);
+            alert('이력서를 불러오는데 실패했습니다.');
+        } finally {
+            setLoadingResumes(false);
+        }
+    };
+
+    // 지원하기 버튼 클릭 (모달 열기)
+    const handleApplyClick = async () => {
+        console.log('지원하기 버튼 클릭됨');
+        await fetchUserResumes();
+        setShowResumeModal(true);
+    };
+
+    // 실제 지원 처리
+    const handleApply = async () => {
+        if (!selectedResumeId) {
+            alert('지원할 이력서를 선택해주세요.');
+            return;
+        }
+
+        setApplyingJob(true);
+
+        try {
+            const token = localStorage.getItem("token");
+
+            console.log('지원 요청 데이터:', {
+                jobId: id,
+                resumeId: selectedResumeId,
+                token: token ? 'exists' : 'missing'
+            });
+
+            const response = await axios.post(
+                `http://localhost:8080/api/apply/${id}?resumeId=${selectedResumeId}`,
+                {}, // 빈 body
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                }
+            );
+
+            console.log('지원 성공:', response.data);
+            alert("지원이 완료되었습니다.");
+            setShowResumeModal(false);
+
+        } catch (error) {
+            console.error("지원 오류:", error);
+            console.error("에러 상세:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                headers: error.response?.headers
+            });
+
+            if (error.response?.status === 403) {
+                alert("권한이 없습니다. 개인 회원만 지원할 수 있습니다.");
+            } else if (error.response?.status === 409) {
+                alert("이미 지원한 채용공고입니다.");
+            } else if (error.response?.status === 401) {
+                alert("로그인이 필요합니다.");
+                navigate('/login');
+            } else {
+                alert(`지원에 실패했습니다: ${error.response?.data || error.message}`);
+            }
+        } finally {
+            setApplyingJob(false);
+        }
+    };
+
     const handleEdit = () => {
         navigate(`/job-posting/edit/${id}`, { state: { job } });
     };
@@ -179,33 +275,92 @@ const JobPostingDetail = () => {
         }
     };
 
-    const handleApply = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                alert("로그인이 필요합니다.");
-                return;
-            }
+    // 이력서 선택 모달 컴포넌트
+    const ResumeSelectionModal = () => {
+        if (!showResumeModal) return null;
 
-            await axios.post(
-                `http://localhost:8080/api/apply/${id}`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+        return (
+            <div className="modal-overlay" onClick={() => setShowResumeModal(false)}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h3>지원할 이력서 선택</h3>
+                        <button
+                            className="modal-close"
+                            onClick={() => setShowResumeModal(false)}
+                        >
+                            ×
+                        </button>
+                    </div>
 
-            alert("지원이 완료되었습니다.");
-        } catch (error) {
-            console.error("지원 오류:", error);
-            if (error.response?.status === 409) {
-                alert("이미 지원한 채용공고입니다.");
-            } else {
-                alert("지원에 실패했습니다. 나중에 다시 시도해주세요.");
-            }
-        }
+                    <div className="modal-body">
+                        {loadingResumes ? (
+                            <div className="loading-container">
+                                <div className="spinner"></div>
+                                <p>이력서를 불러오는 중...</p>
+                            </div>
+                        ) : resumes.length === 0 ? (
+                            <div className="empty-resumes">
+                                <p>등록된 이력서가 없습니다.</p>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                        setShowResumeModal(false);
+                                        navigate('/my-resumes');
+                                    }}
+                                >
+                                    이력서 작성하기
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="resume-list">
+                                {resumes.map(resume => (
+                                    <div
+                                        key={resume.id}
+                                        className={`resume-item ${selectedResumeId === resume.id ? 'selected' : ''}`}
+                                        onClick={() => setSelectedResumeId(resume.id)}
+                                    >
+                                        <div className="resume-radio">
+                                            <input
+                                                type="radio"
+                                                name="resume"
+                                                value={resume.id}
+                                                checked={selectedResumeId === resume.id}
+                                                onChange={() => setSelectedResumeId(resume.id)}
+                                            />
+                                        </div>
+                                        <div className="resume-info">
+                                            <h4>{resume.title}</h4>
+                                            <p>최종 수정: {new Date(resume.updatedAt).toLocaleDateString()}</p>
+                                            <p className="resume-preview">
+                                                {resume.content.substring(0, 100)}...
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {resumes.length > 0 && (
+                        <div className="modal-footer">
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => setShowResumeModal(false)}
+                            >
+                                취소
+                            </button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleApply}
+                                disabled={!selectedResumeId || applyingJob}
+                            >
+                                {applyingJob ? '지원 중...' : '지원하기'}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     };
 
     // 회사 이니셜 가져오기
@@ -388,7 +543,7 @@ const JobPostingDetail = () => {
                             {isIndividual && !isDeadlinePassed && (
                                 <button
                                     className="btn btn-primary"
-                                    onClick={handleApply}
+                                    onClick={handleApplyClick}  // ✅ 수정된 부분
                                     aria-label="이 채용공고에 지원하기"
                                 >
                                     <IconApply aria-hidden="true" />
@@ -510,7 +665,7 @@ const JobPostingDetail = () => {
                             {!isDeadlinePassed ? (
                                 <button
                                     className="btn btn-primary btn-xl"
-                                    onClick={handleApply}
+                                    onClick={handleApplyClick}  // ✅ 수정된 부분
                                     aria-label="이 채용공고에 지원하기"
                                 >
                                     <IconApply aria-hidden="true" />
@@ -525,6 +680,9 @@ const JobPostingDetail = () => {
                         </section>
                     )}
                 </main>
+
+                {/* 이력서 선택 모달 */}
+                <ResumeSelectionModal />
             </div>
         </div>
     );
