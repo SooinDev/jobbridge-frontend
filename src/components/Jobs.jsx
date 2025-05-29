@@ -404,9 +404,10 @@ const Jobs = () => {
                     className="pagination-btn pagination-prev"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
+                    aria-label="이전 페이지"
                 >
                     <ChevronLeftIcon />
-                    이전
+                    <span>이전</span>
                 </button>
 
                 <div className="pagination-numbers">
@@ -415,10 +416,11 @@ const Jobs = () => {
                             <button
                                 className="pagination-number"
                                 onClick={() => handlePageChange(1)}
+                                aria-label="1페이지로 이동"
                             >
-                                1
+                                <span>1</span>
                             </button>
-                            {startPage > 2 && <span className="pagination-ellipsis">...</span>}
+                            {startPage > 2 && <span className="pagination-ellipsis">•••</span>}
                         </>
                     )}
 
@@ -427,19 +429,22 @@ const Jobs = () => {
                             key={number}
                             className={`pagination-number ${currentPage === number ? 'active' : ''}`}
                             onClick={() => handlePageChange(number)}
+                            aria-label={`${number}페이지로 이동`}
+                            aria-current={currentPage === number ? 'page' : undefined}
                         >
-                            {number}
+                            <span>{number}</span>
                         </button>
                     ))}
 
                     {endPage < totalPages && (
                         <>
-                            {endPage < totalPages - 1 && <span className="pagination-ellipsis">...</span>}
+                            {endPage < totalPages - 1 && <span className="pagination-ellipsis">•••</span>}
                             <button
                                 className="pagination-number"
                                 onClick={() => handlePageChange(totalPages)}
+                                aria-label={`${totalPages}페이지로 이동`}
                             >
-                                {totalPages}
+                                <span>{totalPages}</span>
                             </button>
                         </>
                     )}
@@ -449,8 +454,9 @@ const Jobs = () => {
                     className="pagination-btn pagination-next"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
+                    aria-label="다음 페이지"
                 >
-                    다음
+                    <span>다음</span>
                     <ChevronRightIcon />
                 </button>
             </div>
