@@ -121,11 +121,10 @@ const Home = () => {
                             {user ? (
                                 <div className="user-menu">
                                     <div className="welcome-text">
-                                        안녕하세요,
-                                        <span
-                                            className="user-name"
-                                            onClick={() => navigate('/mypage')}
-                                        >
+                                        안녕하세요, <span
+                                        className="user-name"
+                                        onClick={() => navigate('/mypage')}
+                                    >
                                             {user.name}
                                         </span>님
                                     </div>
