@@ -102,6 +102,15 @@ const IconWarning = () => (
     </svg>
 );
 
+const IconRefresh = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M3 2v6h6"></path>
+        <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+        <path d="M21 22v-6h-6"></path>
+        <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+    </svg>
+);
+
 const JobPostingDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -116,31 +125,34 @@ const JobPostingDetail = () => {
             setUser(JSON.parse(storedUser));
         }
 
-        const fetchJobPosting = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    navigate('/login');
-                    return;
-                }
-
-                const response = await axios.get(`http://localhost:8080/api/job-posting/${id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                setJob(response.data);
-            } catch (err) {
-                console.error('Failed to fetch job posting details:', err);
-                setError('채용공고를 불러오는데 실패했습니다.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchJobPosting();
-    }, [id, navigate]);
+    }, [id]);
+
+    const fetchJobPosting = async () => {
+        setLoading(true);
+        setError('');
+
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/login');
+                return;
+            }
+
+            const response = await axios.get(`http://localhost:8080/api/job-posting/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setJob(response.data);
+        } catch (err) {
+            console.error('Failed to fetch job posting details:', err);
+            setError('채용공고를 불러오는데 실패했습니다.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleEdit = () => {
         navigate(`/job-posting/edit/${id}`, { state: { job } });
@@ -188,7 +200,11 @@ const JobPostingDetail = () => {
             alert("지원이 완료되었습니다.");
         } catch (error) {
             console.error("지원 오류:", error);
-            alert("지원에 실패했습니다. 나중에 다시 시도해주세요.");
+            if (error.response?.status === 409) {
+                alert("이미 지원한 채용공고입니다.");
+            } else {
+                alert("지원에 실패했습니다. 나중에 다시 시도해주세요.");
+            }
         }
     };
 
@@ -231,7 +247,7 @@ const JobPostingDetail = () => {
     // 스킬 태그 분리
     const getSkillTags = (skillsString) => {
         if (!skillsString) return [];
-        return skillsString.split(',').map(skill => skill.trim());
+        return skillsString.split(',').map(skill => skill.trim()).filter(skill => skill.length > 0);
     };
 
     if (loading) {
@@ -257,7 +273,12 @@ const JobPostingDetail = () => {
                         <p>{error || '요청하신 채용공고가 존재하지 않거나 삭제되었을 수 있습니다.'}</p>
                         <div className="error-actions">
                             <button className="btn btn-secondary" onClick={() => navigate(-1)}>
-                                <IconBack /> 이전
+                                <IconBack />
+                                이전
+                            </button>
+                            <button className="btn btn-secondary" onClick={fetchJobPosting}>
+                                <IconRefresh />
+                                다시 시도
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/jobs')}>
                                 일자리 목록
@@ -287,23 +308,27 @@ const JobPostingDetail = () => {
         <div className="job-detail-page">
             <div className="container">
                 {/* 상단 네비게이션 */}
-                <div className="breadcrumb">
+                <nav className="breadcrumb" aria-label="페이지 경로">
                     <button
                         className="breadcrumb-link"
                         onClick={() => navigate('/jobs')}
+                        aria-label="일자리 목록으로 이동"
                     >
                         일자리 목록
                     </button>
-                    <span className="breadcrumb-separator">›</span>
-                    <span className="breadcrumb-current">채용공고 상세</span>
-                </div>
+                    <span className="breadcrumb-separator" aria-hidden="true">›</span>
+                    <span className="breadcrumb-current" aria-current="page">채용공고 상세</span>
+                </nav>
 
                 {/* 메인 컨텐츠 */}
-                <div className="job-detail-content">
+                <main className="job-detail-content">
                     {/* 헤더 섹션 */}
-                    <div className="job-header-section">
+                    <section className="job-header-section">
                         <div className="job-header-main">
-                            <div className="company-avatar-large">
+                            <div
+                                className="company-avatar-large"
+                                aria-label={`${job.companyName} 회사 로고`}
+                            >
                                 {getCompanyInitials(job.companyName)}
                             </div>
                             <div className="job-header-info">
@@ -311,20 +336,27 @@ const JobPostingDetail = () => {
                                     <span className="company-name">{job.companyName}</span>
                                     <div className="job-badges">
                                         {isUrgent && !isDeadlinePassed && (
-                                            <span className="badge badge-urgent">
+                                            <span
+                                                className="badge badge-urgent"
+                                                aria-label={`마감 ${daysRemaining === 0 ? '오늘' : `${daysRemaining}일 전`}`}
+                                            >
                                                 {daysRemaining === 0 ? '오늘 마감' : `D-${daysRemaining}`}
                                             </span>
                                         )}
                                         {isDeadlinePassed && (
-                                            <span className="badge badge-closed">마감됨</span>
+                                            <span className="badge badge-closed" aria-label="마감된 채용공고">
+                                                마감됨
+                                            </span>
                                         )}
                                     </div>
                                 </div>
                                 <h1 className="job-title">{job.title}</h1>
                                 <div className="job-subtitle">
                                     <span className="post-date">
-                                        <IconClock />
-                                        {formatDate(job.createdAt)} 등록
+                                        <IconClock aria-hidden="true" />
+                                        <time dateTime={job.createdAt}>
+                                            {formatDate(job.createdAt)} 등록
+                                        </time>
                                     </span>
                                 </div>
                             </div>
@@ -334,59 +366,82 @@ const JobPostingDetail = () => {
                         <div className="job-actions">
                             {isCompanyOwner && (
                                 <div className="company-actions">
-                                    <button className="btn btn-secondary" onClick={handleEdit}>
-                                        <IconEdit /> 수정
+                                    <button
+                                        className="btn btn-secondary"
+                                        onClick={handleEdit}
+                                        aria-label="채용공고 수정"
+                                    >
+                                        <IconEdit aria-hidden="true" />
+                                        수정
                                     </button>
-                                    <button className="btn btn-danger" onClick={handleDelete}>
-                                        <IconDelete /> 삭제
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={handleDelete}
+                                        aria-label="채용공고 삭제"
+                                    >
+                                        <IconDelete aria-hidden="true" />
+                                        삭제
                                     </button>
                                 </div>
                             )}
 
                             {isIndividual && !isDeadlinePassed && (
-                                <button className="btn btn-primary" onClick={handleApply}>
-                                    <IconApply /> 지원하기
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={handleApply}
+                                    aria-label="이 채용공고에 지원하기"
+                                >
+                                    <IconApply aria-hidden="true" />
+                                    지원하기
                                 </button>
                             )}
 
                             {isIndividual && isDeadlinePassed && (
-                                <button className="btn btn-disabled" disabled>
-                                    <IconWarning /> 마감된 공고
+                                <button
+                                    className="btn btn-disabled"
+                                    disabled
+                                    aria-label="마감된 채용공고 - 지원 불가"
+                                >
+                                    <IconWarning aria-hidden="true" />
+                                    마감된 공고
                                 </button>
                             )}
                         </div>
-                    </div>
+                    </section>
 
                     {/* 상세 정보 그리드 */}
-                    <div className="job-details-grid">
+                    <section className="job-details-grid">
                         {/* 기본 정보 카드 */}
-                        <div className="info-card">
-                            <h3 className="info-card-title">기본 정보</h3>
+                        <article className="info-card">
+                            <h2 className="info-card-title">
+                                <IconPosition aria-hidden="true" />
+                                기본 정보
+                            </h2>
                             <div className="info-grid">
                                 <div className="info-item">
                                     <div className="info-label">
-                                        <IconPosition />
+                                        <IconPosition aria-hidden="true" />
                                         직무
                                     </div>
-                                    <div className="info-value">{job.position}</div>
+                                    <div className="info-value">{job.position || '미지정'}</div>
                                 </div>
                                 <div className="info-item">
                                     <div className="info-label">
-                                        <IconExperience />
+                                        <IconExperience aria-hidden="true" />
                                         경력
                                     </div>
                                     <div className="info-value">{job.experienceLevel || '무관'}</div>
                                 </div>
                                 <div className="info-item">
                                     <div className="info-label">
-                                        <IconLocation />
+                                        <IconLocation aria-hidden="true" />
                                         근무지
                                     </div>
                                     <div className="info-value">{job.location || '미정'}</div>
                                 </div>
                                 <div className="info-item">
                                     <div className="info-label">
-                                        <IconSalary />
+                                        <IconSalary aria-hidden="true" />
                                         급여
                                     </div>
                                     <div className="info-value">{job.salary || '회사 내규에 따름'}</div>
@@ -394,15 +449,17 @@ const JobPostingDetail = () => {
                                 {job.deadline && (
                                     <div className="info-item">
                                         <div className="info-label">
-                                            <IconCalendar />
+                                            <IconCalendar aria-hidden="true" />
                                             마감일
                                         </div>
                                         <div className={`info-value ${isDeadlinePassed ? 'deadline-passed' : ''}`}>
-                                            {new Date(job.deadline).toLocaleDateString('ko-KR', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric'
-                                            })}
+                                            <time dateTime={job.deadline}>
+                                                {new Date(job.deadline).toLocaleDateString('ko-KR', {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric'
+                                                })}
+                                            </time>
                                             {isUrgent && !isDeadlinePassed && (
                                                 <span className="deadline-badge">
                                                     {daysRemaining === 0 ? '오늘 마감' : `D-${daysRemaining}`}
@@ -412,54 +469,62 @@ const JobPostingDetail = () => {
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </article>
 
                         {/* 스킬 요구사항 카드 */}
-                        {job.requiredSkills && (
-                            <div className="info-card">
-                                <h3 className="info-card-title">
-                                    <IconSkill />
+                        {job.requiredSkills && getSkillTags(job.requiredSkills).length > 0 && (
+                            <article className="info-card">
+                                <h2 className="info-card-title">
+                                    <IconSkill aria-hidden="true" />
                                     요구 기술
-                                </h3>
+                                </h2>
                                 <div className="skills-container">
                                     {getSkillTags(job.requiredSkills).map((skill, index) => (
                                         <span className="skill-tag" key={index}>
-                                            <IconHash />
+                                            <IconHash aria-hidden="true" />
                                             {skill}
                                         </span>
                                     ))}
                                 </div>
-                            </div>
+                            </article>
                         )}
-                    </div>
+                    </section>
 
                     {/* 상세 설명 */}
-                    <div className="description-card">
-                        <h3 className="description-title">상세 내용</h3>
+                    <article className="description-card">
+                        <h2 className="description-title">상세 내용</h2>
                         <div className="description-content">
-                            {job.description.split('\n').map((paragraph, index) => (
-                                <p key={index}>{paragraph}</p>
-                            ))}
+                            {job.description && job.description.trim() ? (
+                                job.description.split('\n').map((paragraph, index) => (
+                                    paragraph.trim() && <p key={index}>{paragraph}</p>
+                                ))
+                            ) : (
+                                <p>상세 내용이 제공되지 않았습니다.</p>
+                            )}
                         </div>
-                    </div>
+                    </article>
 
                     {/* 하단 액션 */}
                     {isIndividual && (
-                        <div className="bottom-action">
+                        <section className="bottom-action">
                             {!isDeadlinePassed ? (
-                                <button className="btn btn-primary btn-xl" onClick={handleApply}>
-                                    <IconApply />
+                                <button
+                                    className="btn btn-primary btn-xl"
+                                    onClick={handleApply}
+                                    aria-label="이 채용공고에 지원하기"
+                                >
+                                    <IconApply aria-hidden="true" />
                                     지원하기
                                 </button>
                             ) : (
-                                <div className="deadline-notice">
-                                    <IconWarning />
+                                <div className="deadline-notice" role="alert">
+                                    <IconWarning aria-hidden="true" />
                                     <span>마감된 채용공고입니다</span>
                                 </div>
                             )}
-                        </div>
+                        </section>
                     )}
-                </div>
+                </main>
             </div>
         </div>
     );

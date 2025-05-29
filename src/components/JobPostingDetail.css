@@ -1,4 +1,4 @@
-/* ==================== MODERN JOB POSTING DETAIL STYLES - LIGHT MODE ==================== */
+/* ==================== MODERN JOB POSTING DETAIL STYLES - ENHANCED LIGHT MODE ==================== */
 
 /* 전역 설정 */
 * {
@@ -11,7 +11,7 @@
     color: #2d3748;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    padding: 24px 0;
+    padding: 20px 0;
 }
 
 .container {
@@ -26,14 +26,14 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     font-size: 14px;
     color: #718096;
-    padding: 16px 24px;
+    padding: 14px 20px;
     background: white;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .breadcrumb-link {
@@ -42,15 +42,16 @@
     color: #4299e1;
     font-weight: 600;
     cursor: pointer;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 14px;
     position: relative;
     overflow: hidden;
-    min-width: auto;
-    max-width: 150px;
     white-space: nowrap;
+    min-width: auto;
+    width: auto;
+    flex-shrink: 0;
 }
 
 .breadcrumb-link::before {
@@ -60,8 +61,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.1), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.08), transparent);
+    transition: left 0.4s ease;
 }
 
 .breadcrumb-link:hover::before {
@@ -72,18 +73,21 @@
     background: #eff6ff;
     color: #2563eb;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    box-shadow: 0 3px 8px rgba(66, 153, 225, 0.12);
 }
 
 .breadcrumb-separator {
     color: #cbd5e0;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
 .breadcrumb-current {
     color: #1a202c;
     font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* ==================== 메인 컨텐츠 ==================== */
@@ -91,14 +95,14 @@
 .job-detail-content {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    animation: fadeInUp 0.6s ease-out;
+    gap: 24px;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
     }
     to {
         opacity: 1;
@@ -110,9 +114,9 @@
 
 .job-header-section {
     background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
@@ -120,8 +124,8 @@
 }
 
 .job-header-section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .job-header-section::before {
@@ -130,10 +134,10 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
     background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -144,29 +148,29 @@
 .job-header-main {
     display: flex;
     align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 32px;
+    gap: 20px;
+    margin-bottom: 24px;
 }
 
 .company-avatar-large {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    border-radius: 16px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 24px;
     flex-shrink: 0;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.25);
     transition: all 0.3s ease;
 }
 
 .company-avatar-large:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
 }
 
 .job-header-info {
@@ -178,63 +182,63 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .company-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #4a5568;
 }
 
 .job-badges {
     display: flex;
-    gap: 12px;
+    gap: 8px;
 }
 
 .job-title {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
     color: #1a202c;
-    margin: 0 0 16px 0;
+    margin: 0 0 12px 0;
     line-height: 1.2;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
     position: relative;
 }
 
 .job-title::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -6px;
     left: 0;
-    width: 60px;
-    height: 4px;
+    width: 50px;
+    height: 3px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
     border-radius: 2px;
-    animation: expand 0.8s ease-out 0.3s both;
+    animation: expand 0.7s ease-out 0.2s both;
 }
 
 @keyframes expand {
     from { width: 0; }
-    to { width: 60px; }
+    to { width: 50px; }
 }
 
 .job-subtitle {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     color: #718096;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .post-date {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-weight: 600;
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: #f7fafc;
-    border-radius: 12px;
+    border-radius: 10px;
     border: 1px solid #e2e8f0;
     transition: all 0.2s ease;
 }
@@ -243,18 +247,18 @@
     background: #eff6ff;
     border-color: #4299e1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    box-shadow: 0 3px 8px rgba(66, 153, 225, 0.12);
 }
 
 /* ==================== 배지 스타일 ==================== */
 
 .badge {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     white-space: nowrap;
     transition: all 0.3s ease;
 }
@@ -263,20 +267,20 @@
     background: #fef2f2;
     color: #dc2626;
     border: 2px solid #fecaca;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    box-shadow: 0 3px 8px rgba(220, 38, 38, 0.15);
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.02); }
 }
 
 .badge-closed {
     background: #f8fafc;
     color: #6b7280;
     border: 2px solid #d1d5db;
-    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.1);
+    box-shadow: 0 2px 6px rgba(107, 114, 128, 0.08);
 }
 
 /* ==================== 액션 버튼 ==================== */
@@ -284,16 +288,16 @@
 .job-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    padding-top: 24px;
-    border-top: 2px solid #f1f5f9;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
     flex-wrap: wrap;
     align-items: center;
 }
 
 .company-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -302,11 +306,11 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 10px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
     font-weight: 600;
     font-size: 14px;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     border: none;
     text-decoration: none;
@@ -315,7 +319,7 @@
     position: relative;
     overflow: hidden;
     min-width: auto;
-    max-width: 200px;
+    max-width: 160px;
 }
 
 .btn::before {
@@ -325,8 +329,8 @@
     left: 50%;
     width: 0;
     height: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    transition: all 0.3s ease;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.25s ease;
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
@@ -339,43 +343,43 @@
 .btn-primary {
     background: #4299e1;
     color: white;
-    box-shadow: 0 4px 16px rgba(66, 153, 225, 0.3);
+    box-shadow: 0 3px 12px rgba(66, 153, 225, 0.25);
 }
 
 .btn-primary:hover {
     background: #3182ce;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(66, 153, 225, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(66, 153, 225, 0.35);
 }
 
 .btn-secondary {
     background: white;
     color: #4a5568;
     border: 2px solid #e2e8f0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .btn-secondary:hover {
     background: #f7fafc;
     border-color: #cbd5e0;
     color: #2d3748;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 .btn-danger {
     background: white;
     color: #e53e3e;
     border: 2px solid #fed7d7;
-    box-shadow: 0 2px 8px rgba(229, 62, 62, 0.1);
+    box-shadow: 0 2px 6px rgba(229, 62, 62, 0.08);
 }
 
 .btn-danger:hover {
     background: #e53e3e;
     color: white;
     border-color: #e53e3e;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(229, 62, 62, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(229, 62, 62, 0.35);
 }
 
 .btn-disabled {
@@ -387,10 +391,10 @@
 }
 
 .btn-xl {
-    padding: 14px 24px;
-    font-size: 15px;
+    padding: 14px 32px;
+    font-size: 16px;
     font-weight: 700;
-    border-radius: 10px;
+    border-radius: 12px;
     min-width: 140px;
     max-width: 200px;
 }
@@ -399,281 +403,9 @@
 
 .job-details-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-}
-
-/* ==================== 탭 네비게이션 ==================== */
-
-.job-tabs {
-    background: white;
-    border-radius: 16px;
-    padding: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    margin-bottom: 32px;
-}
-
-.tab-navigation {
-    display: flex;
-    gap: 4px;
-    border-radius: 12px;
-    background: #f8fafc;
-    padding: 4px;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 12px 20px;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #64748b;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    white-space: nowrap;
-}
-
-.tab-button:hover {
-    color: #4299e1;
-    background: rgba(66, 153, 225, 0.05);
-}
-
-.tab-button.active {
-    background: white;
-    color: #4299e1;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-}
-
-.tab-button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 3px;
-    background: linear-gradient(90deg, #4299e1, #38b2ac);
-    border-radius: 2px;
-}
-
-/* ==================== 탭 컨텐츠 ==================== */
-
-.tab-content {
-    display: none;
-    animation: fadeInUp 0.3s ease-out;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeInTab {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.tab-content.active {
-    animation: fadeInTab 0.3s ease-out;
-}
-
-/* ==================== 탭 별 컨텐츠 스타일 ==================== */
-
-/* 기본 정보 탭 */
-.basic-info-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 2fr 1fr;
     gap: 24px;
-}
-
-.info-section {
-    background: white;
-    border-radius: 16px;
-    padding: 28px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
-}
-
-.info-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #4299e1, #38b2ac);
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-}
-
-.info-section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #1a202c;
-    margin: 0 0 20px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.info-section-title svg {
-    width: 20px;
-    height: 20px;
-    color: #4299e1;
-}
-
-/* 요구 기술 탭 */
-.skills-content {
-    background: white;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
-}
-
-.skills-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #4299e1, #38b2ac);
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-}
-
-.skills-header {
-    text-align: center;
-    margin-bottom: 32px;
-}
-
-.skills-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: #1a202c;
-    margin: 0 0 8px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.skills-subtitle {
-    color: #64748b;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.skill-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #f8fafc;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 2px solid #e2e8f0;
-    font-size: 13px;
-    font-weight: 600;
-    color: #374151;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.skill-item:hover {
-    background: #eff6ff;
-    border-color: #4299e1;
-    color: #1e40af;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
-}
-
-.skill-item svg {
-    width: 16px;
-    height: 16px;
-    opacity: 0.7;
-}
-
-/* 상세 내용 탭 개선 */
-.description-content-tab {
-    background: white;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
-}
-
-.description-content-tab::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #4299e1, #38b2ac);
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-}
-
-.description-header {
-    text-align: center;
-    margin-bottom: 32px;
-}
-
-.description-tab-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: #1a202c;
-    margin: 0 0 8px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-.description-tab-subtitle {
-    color: #64748b;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.description-text {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #4a5568;
-    font-weight: 500;
-}
-
-.description-text p {
-    margin-bottom: 20px;
-}
-
-.description-text p:last-child {
-    margin-bottom: 0;
+    align-items: start;
 }
 
 /* ==================== 정보 카드 ==================== */
@@ -681,12 +413,18 @@
 .info-card {
     background: white;
     border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 28px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
     height: fit-content;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .info-card::before {
@@ -698,18 +436,25 @@
     height: 3px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
     background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 .info-card-title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: #1a202c;
     margin: 0 0 24px 0;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     position: relative;
+}
+
+.info-card-title svg {
+    width: 20px;
+    height: 20px;
+    color: #4299e1;
+    flex-shrink: 0;
 }
 
 .info-card-title::after {
@@ -718,24 +463,25 @@
     bottom: -8px;
     left: 0;
     width: 40px;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
-    border-radius: 2px;
+    border-radius: 1px;
 }
 
 .info-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
 }
 
 .info-item {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
     align-items: center;
-    padding: 16px 20px;
+    padding: 16px 18px;
     background: #fafbfc;
-    border-radius: 12px;
+    border-radius: 10px;
     border: 1px solid #f1f5f9;
     transition: all 0.2s ease;
     position: relative;
@@ -749,8 +495,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.05), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(66, 153, 225, 0.03), transparent);
+    transition: left 0.4s ease;
 }
 
 .info-item:hover::before {
@@ -760,33 +506,36 @@
 .info-item:hover {
     background: #eff6ff;
     border-color: #4299e1;
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    transform: translateX(2px);
+    box-shadow: 0 3px 8px rgba(66, 153, 225, 0.12);
 }
 
 .info-label {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    color: #4a5568;
-    font-weight: 700;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .info-label svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     color: #4299e1;
     flex-shrink: 0;
 }
 
 .info-value {
-    font-size: 15px;
+    font-size: 14px;
     color: #1a202c;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    justify-self: start;
+    min-width: 0;
 }
 
 .info-value.deadline-passed {
@@ -794,23 +543,24 @@
 }
 
 .deadline-badge {
-    padding: 6px 12px;
+    padding: 4px 8px;
     background: #fef2f2;
     color: #dc2626;
-    border-radius: 16px;
+    border-radius: 12px;
     font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
     animation: pulse 2s infinite;
+    white-space: nowrap;
 }
 
 /* ==================== 스킬 컨테이너 ==================== */
 
 .skills-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
     margin-top: 8px;
 }
@@ -818,17 +568,20 @@
 .skill-tag {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 6px;
     background: #f1f5f9;
     color: #374151;
-    padding: 10px 16px;
-    border-radius: 20px;
+    padding: 12px 16px;
+    border-radius: 10px;
     font-size: 13px;
     font-weight: 700;
-    border: 2px solid #e5e7eb;
-    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    text-align: center;
+    min-height: 44px;
 }
 
 .skill-tag::before {
@@ -838,8 +591,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(67, 56, 202, 0.1), transparent);
-    transition: left 0.5s ease;
+    background: linear-gradient(90deg, transparent, rgba(67, 56, 202, 0.08), transparent);
+    transition: left 0.4s ease;
 }
 
 .skill-tag:hover::before {
@@ -850,44 +603,77 @@
     background: #e0e7ff;
     color: #3730a3;
     border-color: #a5b4fc;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(67, 56, 202, 0.2);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(67, 56, 202, 0.15);
 }
 
 .skill-tag svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     opacity: 0.8;
+    flex-shrink: 0;
 }
 
 /* ==================== 상세 설명 ==================== */
 
 .description-card {
     background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.description-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.description-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 .description-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: #1a202c;
-    margin: 0 0 24px 0;
-    padding-bottom: 16px;
-    border-bottom: 3px solid #f7fafc;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f7fafc;
+    position: relative;
+}
+
+.description-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    border-radius: 1px;
 }
 
 .description-content {
-    font-size: 16px;
-    line-height: 1.8;
+    font-size: 15px;
+    line-height: 1.7;
     color: #4a5568;
     font-weight: 500;
 }
 
 .description-content p {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .description-content p:last-child {
@@ -900,10 +686,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 32px;
+    padding: 24px;
     background: white;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
@@ -918,19 +704,19 @@
     height: 2px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
     background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 .deadline-notice {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     color: #e53e3e;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    padding: 20px 32px;
-    border: 3px dashed #fed7d7;
-    border-radius: 16px;
+    padding: 16px 24px;
+    border: 2px dashed #fed7d7;
+    border-radius: 12px;
     background: #fef5f5;
     position: relative;
     overflow: hidden;
@@ -944,13 +730,13 @@
     }
     50% {
         background: #fed7d7;
-        transform: scale(1.02);
+        transform: scale(1.01);
     }
 }
 
 .deadline-notice svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
 }
 
@@ -961,11 +747,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 400px;
-    gap: 24px;
+    min-height: 300px;
+    gap: 20px;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
@@ -980,13 +766,13 @@
     height: 3px;
     background: linear-gradient(90deg, #4299e1, #38b2ac);
     background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 .spinner {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #e2e8f0;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e2e8f0;
     border-top-color: #4299e1;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -999,7 +785,7 @@
 }
 
 .loading-text {
-    font-size: 18px;
+    font-size: 16px;
     color: #4299e1;
     font-weight: 700;
     margin: 0;
@@ -1010,14 +796,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 400px;
-    gap: 24px;
+    min-height: 300px;
+    gap: 20px;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid #e2e8f0;
     text-align: center;
-    padding: 48px 40px;
+    padding: 40px 32px;
     position: relative;
     overflow: hidden;
 }
@@ -1031,12 +817,12 @@
     height: 3px;
     background: linear-gradient(90deg, #e53e3e, #dc2626);
     background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
+    animation: shimmer 2.5s ease-in-out infinite;
 }
 
 .error-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
+    font-size: 48px;
+    margin-bottom: 16px;
     animation: bounce 2s infinite;
 }
 
@@ -1045,145 +831,69 @@
         transform: translateY(0);
     }
     40% {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
     }
     60% {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
     }
 }
 
 .error-container h3 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: #1a202c;
-    margin: 0 0 12px 0;
+    margin: 0 0 8px 0;
 }
 
 .error-container p {
     color: #718096;
-    margin: 0 0 32px 0;
+    margin: 0 0 24px 0;
     line-height: 1.6;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    max-width: 400px;
+    max-width: 350px;
 }
 
 .error-actions {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 /* ==================== 반응형 디자인 ==================== */
 
-/* ==================== 반응형 탭 디자인 ==================== */
+/* ==================== 반응형 디자인 ==================== */
 
 @media (max-width: 1024px) {
     .job-details-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .basic-info-content {
-        grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    .skills-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 10px;
-    }
-}
-
-@media (max-width: 768px) {
-    .tab-navigation {
-        flex-direction: column;
-        gap: 2px;
+    .info-item {
+        grid-template-columns: 100px 1fr;
+        gap: 12px;
+        padding: 14px 16px;
     }
 
-    .tab-button {
-        padding: 14px 20px;
-        text-align: center;
-    }
-
-    .tab-button.active::after {
-        display: none;
-    }
-
-    .info-section {
-        padding: 24px 20px;
-    }
-
-    .skills-content,
-    .description-content-tab {
-        padding: 28px 24px;
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        gap: 8px;
-    }
-
-    .skill-item {
-        padding: 10px 12px;
-        font-size: 12px;
-    }
-
-    .description-text p {
-        padding: 12px 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .job-tabs {
-        padding: 6px;
-        margin-bottom: 24px;
-    }
-
-    .tab-navigation {
-        padding: 3px;
-    }
-
-    .tab-button {
-        padding: 12px 16px;
+    .info-label {
         font-size: 13px;
     }
 
-    .info-section {
-        padding: 20px 16px;
+    .info-value {
+        font-size: 13px;
     }
 
-    .info-section-title {
-        font-size: 16px;
+    .skills-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
     }
 
-    .skills-content,
-    .description-content-tab {
-        padding: 24px 20px;
-    }
-
-    .skills-title,
-    .description-tab-title {
-        font-size: 20px;
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-        gap: 6px;
-    }
-
-    .skill-item {
-        padding: 8px 10px;
-        font-size: 11px;
-    }
-
-    .description-text {
-        font-size: 15px;
-    }
-
-    .description-text p {
-        margin-bottom: 16px;
+    .skill-tag {
+        padding: 10px 14px;
+        font-size: 12px;
+        min-height: 40px;
     }
 }
 
@@ -1193,194 +903,124 @@
     }
 
     .job-detail-page {
-        padding: 20px 0;
+        padding: 16px 0;
     }
 
     .breadcrumb {
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         padding: 12px 16px;
         border-radius: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .breadcrumb-link {
+        padding: 4px 8px;
+        font-size: 13px;
+    }
+
+    .breadcrumb-separator {
+        font-size: 13px;
+    }
+
+    .breadcrumb-current {
+        font-size: 13px;
     }
 
     .job-header-section {
-        padding: 28px 24px;
-        border-radius: 16px;
+        padding: 24px 20px;
+        border-radius: 14px;
     }
 
     .job-header-main {
         align-items: center;
         text-align: left;
-        gap: 20px;
+        gap: 16px;
     }
 
     .company-avatar-large {
-        width: 72px;
-        height: 72px;
-        font-size: 24px;
-        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        border-radius: 12px;
     }
 
     .job-title {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .job-meta {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 8px;
     }
 
     .job-actions {
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
     .company-actions {
         justify-content: center;
         width: auto;
-        gap: 12px;
+        gap: 10px;
     }
 
     .company-actions .btn {
         flex: 0 1 auto;
-        min-width: 100px;
-        max-width: 140px;
+        min-width: 80px;
+        max-width: 120px;
     }
 
-    .info-card {
-        padding: 24px 20px;
-        border-radius: 14px;
-    }
-
-    .info-item {
-        padding: 14px 16px;
-        border-radius: 10px;
-    }
-
-    .description-card {
-        padding: 28px 24px;
-        border-radius: 16px;
-    }
-
-    .bottom-action {
-        padding: 24px 20px;
-        border-radius: 14px;
-    }
-
-    .deadline-notice {
-        font-size: 16px;
-        padding: 16px 20px;
-        border-radius: 12px;
-    }
-
-    .error-container {
-        padding: 40px 24px;
-        border-radius: 16px;
-    }
-
-    .error-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .job-header-section {
-        padding: 24px 20px;
-        border-radius: 14px;
-    }
-
-    .job-header-main {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .company-avatar-large {
-        width: 64px;
-        height: 64px;
-        font-size: 20px;
-        border-radius: 12px;
-    }
-
-    .job-title {
-        font-size: 24px;
-        text-align: center;
-    }
-
-    .job-meta {
-        align-items: center;
+    .job-details-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .info-card {
         padding: 20px 16px;
-        border-radius: 12px;
-    }
-
-    .info-card-title {
-        font-size: 18px;
-    }
-
-    .info-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        padding: 12px 14px;
-        border-radius: 8px;
-    }
-
-    .info-label {
-        font-size: 14px;
-    }
-
-    .info-value {
-        font-size: 14px;
-        align-self: flex-end;
-    }
-
-    .description-card {
-        padding: 24px 20px;
         border-radius: 14px;
     }
 
-    .description-title {
-        font-size: 20px;
+    .info-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        text-align: left;
     }
 
-    .description-content {
-        font-size: 15px;
+    .info-label {
+        font-size: 13px;
+        justify-self: start;
+    }
+
+    .info-value {
+        font-size: 13px;
+        justify-self: start;
+        align-self: start;
     }
 
     .skills-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         gap: 8px;
     }
 
     .skill-tag {
         padding: 8px 12px;
-        font-size: 12px;
-        border-radius: 16px;
+        font-size: 11px;
+        min-height: 36px;
     }
 
-    .btn {
-        padding: 10px 16px;
-        font-size: 13px;
-        border-radius: 8px;
-        min-width: auto;
-        max-width: 180px;
-    }
-
-    .btn-xl {
-        padding: 12px 20px;
-        font-size: 14px;
-        border-radius: 8px;
-        min-width: 120px;
-        max-width: 180px;
+    .description-card {
+        padding: 24px 20px;
+        border-radius: 14px;
     }
 
     .bottom-action {
         padding: 20px 16px;
-        border-radius: 12px;
+        border-radius: 14px;
     }
 
     .deadline-notice {
@@ -1394,23 +1034,299 @@
         border-radius: 14px;
     }
 
-    .error-icon {
-        font-size: 48px;
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .breadcrumb {
+        padding: 10px 14px;
+        border-radius: 8px;
+        gap: 6px;
     }
 
-    .error-container h3 {
+    .breadcrumb-link {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
+
+    .breadcrumb-separator {
+        font-size: 12px;
+    }
+
+    .breadcrumb-current {
+        font-size: 12px;
+    }
+
+    .job-header-section {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .job-header-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .company-avatar-large {
+        width: 56px;
+        height: 56px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+
+    .job-title {
         font-size: 20px;
+        text-align: center;
     }
 
-    .error-container h3 {
-        font-size: 20px;
+    .job-meta {
+        align-items: center;
     }
 
-    .error-container p {
+    .info-card {
+        padding: 16px 14px;
+        border-radius: 12px;
+    }
+
+    .info-card-title {
+        font-size: 16px;
+    }
+
+    .info-item {
+        padding: 10px 12px;
+        border-radius: 6px;
+    }
+
+    .info-label {
+        font-size: 12px;
+    }
+
+    .info-value {
+        font-size: 12px;
+    }
+
+    .description-card {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .description-title {
+        font-size: 18px;
+    }
+
+    .description-content {
         font-size: 14px;
     }
 
+    .skills-container {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 6px;
+    }
+
+    .skill-tag {
+        padding: 6px 10px;
+        font-size: 10px;
+        border-radius: 8px;
+        min-height: 32px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+        border-radius: 8px;
+        min-width: 80px;
+        max-width: 140px;
+    }
+
+    .btn-xl {
+        padding: 12px 24px;
+        font-size: 14px;
+        border-radius: 10px;
+        min-width: 120px;
+        max-width: 160px;
+    }
+
+    .bottom-action {
+        padding: 16px 14px;
+        border-radius: 12px;
+    }
+
+    .deadline-notice {
+        font-size: 13px;
+        padding: 12px 14px;
+        border-radius: 8px;
+    }
+
+    .error-container {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
     .error-icon {
-        font-size: 48px;
+        font-size: 40px;
+    }
+
+    .error-container h3 {
+        font-size: 18px;
+    }
+
+    .error-container p {
+        font-size: 13px;
+    }
+} center;
+}
+
+.info-card {
+    padding: 16px 14px;
+    border-radius: 12px;
+}
+
+.info-card-title {
+    font-size: 16px;
+}
+
+.info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 6px;
+}
+
+.info-label {
+    font-size: 13px;
+}
+
+.info-value {
+    font-size: 13px;
+    align-self: flex-end;
+}
+
+.description-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+}
+
+.description-title {
+    font-size: 18px;
+}
+
+.description-content {
+    font-size: 14px;
+}
+
+.skills-container {
+    gap: 6px;
+}
+
+.skill-tag {
+    padding: 6px 10px;
+    font-size: 11px;
+    border-radius: 12px;
+}
+
+.btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 8px;
+    min-width: 80px;
+}
+
+.btn-xl {
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    min-width: 120px;
+}
+
+.bottom-action {
+    padding: 16px 14px;
+    border-radius: 12px;
+}
+
+.deadline-notice {
+    font-size: 13px;
+    padding: 12px 14px;
+    border-radius: 8px;
+}
+
+.error-container {
+    padding: 24px 16px;
+    border-radius: 12px;
+}
+
+.error-icon {
+    font-size: 40px;
+}
+
+.error-container h3 {
+    font-size: 18px;
+}
+
+.error-container p {
+    font-size: 13px;
+}
+
+/* ==================== 접근성 및 성능 최적화 ==================== */
+
+/* 포커스 스타일 */
+.breadcrumb-link:focus,
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+.btn-danger:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.3);
+}
+
+/* 성능 최적화 */
+.job-header-section,
+.info-card,
+.description-card,
+.bottom-action,
+.btn,
+.skill-tag {
+    will-change: transform, box-shadow;
+}
+
+.job-header-section:hover,
+.info-card:hover,
+.description-card:hover,
+.btn:hover,
+.skill-tag:hover {
+    will-change: auto;
+}
+
+/* 프린트 최적화 */
+@media print {
+    .breadcrumb,
+    .job-actions,
+    .bottom-action {
+        display: none;
+    }
+
+    .job-detail-page {
+        background: white;
+        color: black;
+    }
+
+    .job-header-section,
+    .info-card,
+    .description-card {
+        box-shadow: none;
+        border: 1px solid #000;
+        break-inside: avoid;
+        margin-bottom: 16px;
+    }
+
+    .job-header-section::before,
+    .info-card::before,
+    .description-card::before {
+        display: none;
     }
 }
