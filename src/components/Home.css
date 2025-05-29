@@ -182,12 +182,14 @@
     display: flex;
     align-items: center;
     gap: var(--space-3);
+    flex-shrink: 0;
 }
 
 .user-menu {
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    white-space: nowrap;
 }
 
 .welcome-text {
@@ -569,11 +571,14 @@
         flex-direction: column;
         gap: var(--space-2);
         align-items: center;
+        text-align: center;
     }
 
     .welcome-text {
         text-align: center;
         font-size: var(--text-xs);
+        flex-direction: column;
+        gap: 2px;
     }
 
     .nav-actions {
@@ -1113,6 +1118,10 @@
 .welcome-text {
     color: var(--gray-600);
     font-size: var(--text-sm);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .user-name {
@@ -1120,8 +1129,9 @@
     font-weight: var(--font-semibold);
     cursor: pointer;
     transition: var(--transition-all);
-    padding: var(--space-2) var(--space-3);
-    border-radius: var(--radius-lg);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
 }
 
 .user-name:hover {
