@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './JobPostingDetail.css';
 import "../styles/common.css";
+import ApplicantList from '../components/ApplicantList';
 
 // 아이콘 컴포넌트들
 const IconBack = () => (
@@ -503,6 +504,12 @@ const JobPostingDetail = () => {
                             )}
                         </div>
                     </article>
+
+                    {isCompanyOwner && (
+                        <section className="company-applicant-section">
+                            <ApplicantList jobPostingId={id} />
+                        </section>
+                    )}
 
                     {/* 하단 액션 */}
                     {isIndividual && (
